@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keranjang belanja — Morpheme Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Cart layout */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    /* Cart item */
+    .cart-item {
+      display: flex;
+      gap: var(--space-5);
+      padding: var(--space-5);
+      border-bottom: 1px solid var(--color-gray-100);
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item-img {
+      width: 100px;
+      height: 100px;
+      flex-shrink: 0;
+      background: var(--color-gray-100);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gray-300);
+    }
+
+    .cart-item-img svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-item-name {
+      font-size: var(--text-md);
+      font-weight: 500;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-1);
+    }
+
+    .cart-item-name a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .cart-item-name a:hover {
+      color: var(--color-primary);
+    }
+
+    .cart-item-variant {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      margin-bottom: var(--space-2);
+    }
+
+    .cart-item-price {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .cart-item-price-current {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .cart-item-price-original {
+      font-size: var(--text-sm);
+      color: var(--color-gray-400);
+      text-decoration: line-through;
+    }
+
+    .cart-item-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      margin-top: var(--space-3);
+    }
+
+    .cart-item-subtotal {
+      text-align: right;
+      flex-shrink: 0;
+      min-width: 140px;
+    }
+
+    .cart-item-subtotal-value {
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .cart-item-subtotal-label {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    /* Remove button */
+    .remove-btn {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-family);
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .remove-btn:hover {
+      color: var(--color-error);
+    }
+
+    .remove-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Summary */
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-2) 0;
+      font-size: var(--text-sm);
+    }
+
+    .summary-total {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--color-gray-900);
+    }
+
+    /* Promo row */
+    .promo-row {
+      display: flex;
+      gap: var(--space-2);
+      margin: var(--space-4) 0;
+    }
+
+    .promo-row .form-input {
+      flex: 1;
+    }
+
+    /* Trust row */
+    .trust-row {
+      display: flex;
+      gap: var(--space-6);
+      margin-top: var(--space-5);
+      font-size: var(--text-xs);
+      color: var(--color-gray-500);
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .trust-item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--color-gray-400);
+    }
+
+    /* Responsive */
+    @media (max-width: 767px) {
+      .cart-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-item {
+        flex-wrap: wrap;
+      }
+
+      .cart-item-subtotal {
+        text-align: left;
+        min-width: auto;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-top: var(--space-2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ Header ============ -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="header-logo">
+        <span class="header-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+        </span>
+        <span class="header-logo-text">Morpheme Store</span>
+      </a>
+
+      <nav class="header-nav" aria-label="Navigasi utama">
+        <a href="index.html">Beranda</a>
+        <a href="products.html">Produk</a>
+        <a href="#">Kategori</a>
+        <a href="#">Promo</a>
+      </nav>
+
+      <div class="header-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <label for="search-input" class="sr-only">Cari produk</label>
+        <input type="search" id="search-input" class="form-input" placeholder="Cari produk...">
+      </div>
+
+      <div class="header-actions">
+        <button class="header-icon-btn" aria-label="Wishlist">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+          </svg>
+        </button>
+        <a href="cart.html" class="header-icon-btn" aria-label="Keranjang belanja" style="color: var(--color-primary);">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-count">3</span>
+        </a>
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Buka menu navigasi">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ Main ============ -->
+  <main>
+    <div class="container">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Beranda</a>
+        <span class="breadcrumb-separator" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </span>
+        <span class="breadcrumb-current" aria-current="page">Keranjang belanja</span>
+      </nav>
+
+      <!-- Page title -->
+      <div style="margin-bottom: var(--space-8);">
+        <h1 style="font-size: var(--text-2xl); font-weight: 600; color: var(--color-gray-900); line-height: 32px;">Keranjang belanja</h1>
+        <p style="font-size: var(--text-sm); color: var(--color-gray-500); margin-top: var(--space-1);">3 produk</p>
+      </div>
+
+      <!-- Cart layout -->
+      <div class="cart-layout">
+
+        <!-- Left: Cart items -->
+        <div>
+          <!-- Free shipping alert -->
+          <div class="alert alert-info" style="margin-bottom: var(--space-6);">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span>Gratis ongkir untuk pembelian di atas Rp 500.000! Tambah Rp 51.000 lagi untuk mendapatkan gratis ongkir.</span>
+          </div>
+
+          <!-- Cart items card -->
+          <div class="card">
+            <div class="card-body" style="padding: 0;">
+
+              <!-- Cart item 1 -->
+              <div class="cart-item">
+                <div class="cart-item-img">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+                    <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                    <line x1="12" y1="22.08" x2="12" y2="12"/>
+                  </svg>
+                </div>
+                <div class="cart-item-info">
+                  <div class="cart-item-name">
+                    <a href="product-detail.html">MacBook Pro M4 14 inci</a>
+                  </div>
+                  <div class="cart-item-variant">Space Gray / 512GB</div>
+                  <div class="cart-item-price">
+                    <span class="cart-item-price-current">Rp 28.999.000</span>
+                  </div>
+                  <div class="cart-item-actions">
+                    <div class="qty-selector">
+                      <button class="qty-btn" aria-label="Kurangi jumlah" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                      </button>
+                      <span class="qty-value">1</span>
+                      <button class="qty-btn" aria-label="Tambah jumlah">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="12" y1="5" x2="12" y2="19"/>
+                          <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <button class="remove-btn" aria-label="Hapus MacBook Pro M4 14 inci dari keranjang">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                        <line x1="10" y1="11" x2="10" y2="17"/>
+                        <line x1="14" y1="11" x2="14" y2="17"/>
+                      </svg>
+                      Hapus
+                    </button>
+                  </div>
+                </div>
+                <div class="cart-item-subtotal">
+                  <div class="cart-item-subtotal-label">Subtotal</div>
+                  <div class="cart-item-subtotal-value">Rp 28.999.000</div>
+                </div>
+              </div>
+
+              <!-- Cart item 2 -->
+              <div class="cart-item">
+                <div class="cart-item-img">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+                    <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                    <line x1="12" y1="22.08" x2="12" y2="12"/>
+                  </svg>
+                </div>
+                <div class="cart-item-info">
+                  <div class="cart-item-name">
+                    <a href="product-detail.html">AirPods Pro 3</a>
+                  </div>
+                  <div class="cart-item-variant">Putih</div>
+                  <div class="cart-item-price">
+                    <span class="cart-item-price-current">Rp 3.799.000</span>
+                  </div>
+                  <div class="cart-item-actions">
+                    <div class="qty-selector">
+                      <button class="qty-btn" aria-label="Kurangi jumlah" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                      </button>
+                      <span class="qty-value">1</span>
+                      <button class="qty-btn" aria-label="Tambah jumlah">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="12" y1="5" x2="12" y2="19"/>
+                          <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <button class="remove-btn" aria-label="Hapus AirPods Pro 3 dari keranjang">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                        <line x1="10" y1="11" x2="10" y2="17"/>
+                        <line x1="14" y1="11" x2="14" y2="17"/>
+                      </svg>
+                      Hapus
+                    </button>
+                  </div>
+                </div>
+                <div class="cart-item-subtotal">
+                  <div class="cart-item-subtotal-label">Subtotal</div>
+                  <div class="cart-item-subtotal-value">Rp 3.799.000</div>
+                </div>
+              </div>
+
+              <!-- Cart item 3 -->
+              <div class="cart-item">
+                <div class="cart-item-img">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+                    <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                    <line x1="12" y1="22.08" x2="12" y2="12"/>
+                  </svg>
+                </div>
+                <div class="cart-item-info">
+                  <div class="cart-item-name">
+                    <a href="product-detail.html">Logitech MX Master 3S</a>
+                  </div>
+                  <div class="cart-item-variant">Graphite</div>
+                  <div class="cart-item-price">
+                    <span class="cart-item-price-current">Rp 1.549.000</span>
+                    <span class="cart-item-price-original">Rp 1.899.000</span>
+                    <span class="badge badge-error">-18%</span>
+                  </div>
+                  <div class="cart-item-actions">
+                    <div class="qty-selector">
+                      <button class="qty-btn" aria-label="Kurangi jumlah">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                      </button>
+                      <span class="qty-value">2</span>
+                      <button class="qty-btn" aria-label="Tambah jumlah">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="12" y1="5" x2="12" y2="19"/>
+                          <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <button class="remove-btn" aria-label="Hapus Logitech MX Master 3S dari keranjang">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                        <line x1="10" y1="11" x2="10" y2="17"/>
+                        <line x1="14" y1="11" x2="14" y2="17"/>
+                      </svg>
+                      Hapus
+                    </button>
+                  </div>
+                </div>
+                <div class="cart-item-subtotal">
+                  <div class="cart-item-subtotal-label">Subtotal</div>
+                  <div class="cart-item-subtotal-value">Rp 3.098.000</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Continue shopping -->
+          <div style="margin-top: var(--space-5);">
+            <a href="products.html" class="btn btn-ghost">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"/>
+                <polyline points="12 19 5 12 12 5"/>
+              </svg>
+              Lanjut belanja
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Order summary sidebar -->
+        <div class="card" style="position: sticky; top: 84px;">
+          <div class="card-body">
+            <h2 style="font-size: var(--text-lg); font-weight: 600; color: var(--color-gray-900); margin-bottom: var(--space-5);">Ringkasan pesanan</h2>
+
+            <!-- Summary rows -->
+            <div class="summary-row">
+              <span style="color: var(--color-gray-600);">Subtotal (3 produk)</span>
+              <span style="color: var(--color-gray-900);">Rp 35.896.000</span>
+            </div>
+            <div class="summary-row">
+              <span style="color: var(--color-gray-600);">Diskon</span>
+              <span style="color: var(--color-success); font-weight: 500;">-Rp 700.000</span>
+            </div>
+            <div class="summary-row">
+              <span style="color: var(--color-gray-600);">Estimasi ongkir</span>
+              <span style="display: flex; align-items: center; gap: var(--space-2);">
+                <span style="color: var(--color-gray-900);">Rp 0</span>
+                <span class="badge badge-success">Gratis</span>
+              </span>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Total -->
+            <div class="summary-row" style="padding: var(--space-1) 0;">
+              <span style="font-weight: 600; color: var(--color-gray-900);">Total</span>
+              <span class="summary-total">Rp 35.196.000</span>
+            </div>
+
+            <!-- Promo code -->
+            <div class="promo-row">
+              <label for="promo-code" class="sr-only">Kode promo</label>
+              <input type="text" id="promo-code" class="form-input" placeholder="Masukkan kode promo">
+              <button class="btn btn-sm btn-secondary">Terapkan</button>
+            </div>
+
+            <!-- Checkout button -->
+            <a href="checkout.html" class="btn btn-primary btn-lg btn-block" style="margin-top: var(--space-2);">
+              Lanjut ke pembayaran
+            </a>
+
+            <!-- Trust badges -->
+            <div class="trust-row">
+              <div class="trust-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span>Pembayaran aman</span>
+              </div>
+              <div class="trust-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="3" width="15" height="13"/>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                  <circle cx="5.5" cy="18.5" r="2.5"/>
+                  <circle cx="18.5" cy="18.5" r="2.5"/>
+                </svg>
+                <span>Pengiriman terpercaya</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ============ Footer ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="header-logo" style="margin-bottom: var(--space-2); display: inline-flex;">
+            <span class="header-logo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
+                <line x1="7" y1="7" x2="7.01" y2="7"/>
+              </svg>
+            </span>
+            <span class="header-logo-text" style="color: var(--color-white);">Morpheme Store</span>
+          </a>
+          <p class="footer-brand-text">Platform belanja online terpercaya dengan produk berkualitas dan pengiriman cepat ke seluruh Indonesia.</p>
+        </div>
+        <div>
+          <h3 class="footer-heading">Produk</h3>
+          <ul class="footer-links">
+            <li><a href="#">Elektronik</a></li>
+            <li><a href="#">Fashion</a></li>
+            <li><a href="#">Rumah tangga</a></li>
+            <li><a href="#">Olahraga</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Perusahaan</h3>
+          <ul class="footer-links">
+            <li><a href="#">Tentang kami</a></li>
+            <li><a href="#">Karir</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Hubungi kami</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Bantuan</h3>
+          <ul class="footer-links">
+            <li><a href="#">Pusat bantuan</a></li>
+            <li><a href="#">Kebijakan privasi</a></li>
+            <li><a href="#">Syarat & ketentuan</a></li>
+            <li><a href="#">Pengembalian</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Morpheme Store. Semua hak dilindungi.</span>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="YouTube">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.43z"/>
+              <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

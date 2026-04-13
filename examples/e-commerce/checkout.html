@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Morpheme Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ================================================
+       Checkout — Page-specific styles
+       ================================================ */
+
+    /* Simplified checkout header */
+    .checkout-header .header-inner {
+      justify-content: space-between;
+    }
+
+    .checkout-header-center {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-500);
+    }
+
+    .checkout-header-center svg {
+      width: 16px;
+      height: 16px;
+      color: var(--color-success);
+    }
+
+    /* Checkout layout */
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    /* Checkout sections */
+    .checkout-section {
+      margin-bottom: var(--space-8);
+    }
+
+    .checkout-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .checkout-section-title {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-5);
+      letter-spacing: -0.02em;
+    }
+
+    /* Shipping & payment options */
+    .shipping-options,
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    /* Radio card inner layout */
+    .radio-card-inner {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .radio-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      background: var(--color-gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gray-500);
+      flex-shrink: 0;
+    }
+
+    .radio-card-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .radio-card-content {
+      flex: 1;
+    }
+
+    .radio-card-title {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-900);
+    }
+
+    .radio-card-desc {
+      font-size: var(--text-xs);
+      color: var(--color-gray-500);
+    }
+
+    .radio-card-price {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .radio-card-price .badge {
+      margin-left: var(--space-2);
+    }
+
+    /* Order summary sidebar */
+    .order-summary {
+      position: sticky;
+      top: calc(68px + var(--space-6));
+    }
+
+    .order-summary-title {
+      font-weight: 600;
+      margin-bottom: var(--space-4);
+    }
+
+    /* Order items */
+    .order-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+    }
+
+    .order-item-img {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      background: var(--color-gray-100);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gray-300);
+    }
+
+    .order-item-img svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .order-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .order-item-name {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-900);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .order-item-qty {
+      font-size: var(--text-xs);
+      color: var(--color-gray-500);
+    }
+
+    .order-item-price {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-900);
+      flex-shrink: 0;
+    }
+
+    /* Summary rows */
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--space-2) 0;
+      font-size: var(--text-sm);
+    }
+
+    .summary-row-label {
+      color: var(--color-gray-500);
+    }
+
+    .summary-row-value {
+      font-weight: 500;
+      color: var(--color-gray-900);
+    }
+
+    .summary-row-discount {
+      color: var(--color-success);
+      font-weight: 500;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: var(--space-2) 0;
+    }
+
+    .summary-total-label {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .summary-total-value {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--color-gray-900);
+    }
+
+    /* Mobile submit button */
+    .mobile-submit {
+      display: none;
+      margin-top: var(--space-8);
+    }
+
+    /* Simplified footer */
+    .footer-simple {
+      background: var(--color-gray-900);
+      color: var(--color-gray-400);
+      padding: var(--space-6) 0;
+      margin-top: var(--space-16);
+    }
+
+    .footer-simple-inner {
+      text-align: center;
+      font-size: var(--text-sm);
+    }
+
+    /* ================================================
+       Responsive — Checkout
+       ================================================ */
+    @media (max-width: 767px) {
+      .checkout-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .checkout-header-center {
+        display: none;
+      }
+
+      .mobile-submit {
+        display: block;
+      }
+
+      .sidebar-submit {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================
+       Header — Simplified checkout
+       ================================================ -->
+  <header class="header checkout-header">
+    <div class="container header-inner">
+      <a href="index.html" class="header-logo">
+        <span class="header-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z" />
+          </svg>
+        </span>
+        <span class="header-logo-text">Morpheme Store</span>
+      </a>
+
+      <div class="checkout-header-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+        </svg>
+        <span>Checkout aman</span>
+      </div>
+
+      <a href="cart.html" class="btn btn-ghost btn-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+        Kembali ke keranjang
+      </a>
+    </div>
+  </header>
+
+  <!-- ================================================
+       Main content
+       ================================================ -->
+  <main class="container" style="padding-top: var(--space-8); padding-bottom: var(--space-8);">
+
+    <!-- Steps indicator -->
+    <div class="steps">
+      <div class="step active">
+        <span class="step-number">1</span>
+        <span class="step-label">Pengiriman</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <span class="step-number">2</span>
+        <span class="step-label">Pembayaran</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step">
+        <span class="step-number">3</span>
+        <span class="step-label">Konfirmasi</span>
+      </div>
+    </div>
+
+    <!-- Checkout layout -->
+    <div class="checkout-layout">
+
+      <!-- ============================================
+           Left column: Checkout form
+           ============================================ -->
+      <div class="checkout-form">
+
+        <!-- Section 1: Informasi kontak -->
+        <div class="checkout-section">
+          <h2 class="checkout-section-title">Informasi kontak</h2>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name" class="form-label">Nama depan</label>
+              <input type="text" id="first-name" class="form-input" placeholder="Ahmad">
+            </div>
+            <div class="form-group">
+              <label for="last-name" class="form-label">Nama belakang</label>
+              <input type="text" id="last-name" class="form-input" placeholder="Hidayat">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" class="form-input" placeholder="nama@email.com">
+          </div>
+
+          <div class="form-group">
+            <label for="phone" class="form-label">Nomor telepon</label>
+            <input type="tel" id="phone" class="form-input" placeholder="08123456789">
+          </div>
+        </div>
+
+        <!-- Section 2: Alamat pengiriman -->
+        <div class="checkout-section">
+          <h2 class="checkout-section-title">Alamat pengiriman</h2>
+
+          <div class="form-group">
+            <label for="address" class="form-label">Alamat lengkap</label>
+            <textarea id="address" class="form-textarea" placeholder="Jl. Contoh No. 123, RT/RW 01/02"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="city" class="form-label">Kota</label>
+              <input type="text" id="city" class="form-input" placeholder="Jakarta Selatan">
+            </div>
+            <div class="form-group">
+              <label for="province" class="form-label">Provinsi</label>
+              <select id="province" class="form-select">
+                <option value="">Pilih provinsi</option>
+                <option value="dki-jakarta">DKI Jakarta</option>
+                <option value="jawa-barat">Jawa Barat</option>
+                <option value="jawa-tengah">Jawa Tengah</option>
+                <option value="jawa-timur">Jawa Timur</option>
+                <option value="bali">Bali</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="postal-code" class="form-label">Kode pos</label>
+              <input type="text" id="postal-code" class="form-input" placeholder="12345">
+            </div>
+            <div class="form-group">
+              <label for="district" class="form-label">Kecamatan</label>
+              <input type="text" id="district" class="form-input" placeholder="Kebayoran Baru">
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Metode pengiriman -->
+        <div class="checkout-section">
+          <h2 class="checkout-section-title">Metode pengiriman</h2>
+
+          <div class="shipping-options">
+            <!-- Reguler (selected) -->
+            <label class="radio-card selected">
+              <input type="radio" name="shipping" value="regular" checked>
+              <div class="radio-card-inner">
+                <div class="radio-card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                  </svg>
+                </div>
+                <div class="radio-card-content">
+                  <div class="radio-card-title">Reguler</div>
+                  <div class="radio-card-desc">JNE Reguler (3-5 hari kerja)</div>
+                </div>
+                <div class="radio-card-price">
+                  Rp 0 <span class="badge badge-success">Gratis</span>
+                </div>
+              </div>
+            </label>
+
+            <!-- Express -->
+            <label class="radio-card">
+              <input type="radio" name="shipping" value="express">
+              <div class="radio-card-inner">
+                <div class="radio-card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                  </svg>
+                </div>
+                <div class="radio-card-content">
+                  <div class="radio-card-title">Express</div>
+                  <div class="radio-card-desc">JNE Express (1-2 hari kerja)</div>
+                </div>
+                <div class="radio-card-price">
+                  Rp 25.000
+                </div>
+              </div>
+            </label>
+
+            <!-- Same day -->
+            <label class="radio-card">
+              <input type="radio" name="shipping" value="sameday">
+              <div class="radio-card-inner">
+                <div class="radio-card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                  </svg>
+                </div>
+                <div class="radio-card-content">
+                  <div class="radio-card-title">Same day</div>
+                  <div class="radio-card-desc">GoSend Instant (hari ini)</div>
+                </div>
+                <div class="radio-card-price">
+                  Rp 45.000
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section 4: Metode pembayaran -->
+        <div class="checkout-section">
+          <h2 class="checkout-section-title">Metode pembayaran</h2>
+
+          <div class="payment-options">
+            <!-- Transfer bank (selected) -->
+            <label class="radio-card selected">
+              <input type="radio" name="payment" value="bank-transfer" checked>
+              <div class="radio-card-inner">
+                <div class="radio-card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
+                  </svg>
+                </div>
+                <div class="radio-card-content">
+                  <div class="radio-card-title">Transfer bank</div>
+                  <div class="radio-card-desc">Transfer bank (BCA, Mandiri, BNI, BRI)</div>
+                </div>
+              </div>
+            </label>
+
+            <!-- E-wallet -->
+            <label class="radio-card">
+              <input type="radio" name="payment" value="e-wallet">
+              <div class="radio-card-inner">
+                <div class="radio-card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 0 0-2.25-2.25H15a3 3 0 1 1-6 0H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 9m18 0V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v3" />
+                  </svg>
+                </div>
+                <div class="radio-card-content">
+                  <div class="radio-card-title">E-wallet</div>
+                  <div class="radio-card-desc">GoPay, OVO, DANA, ShopeePay</div>
+                </div>
+              </div>
+            </label>
+
+            <!-- Kartu kredit -->
+            <label class="radio-card">
+              <input type="radio" name="payment" value="credit-card">
+              <div class="radio-card-inner">
+                <div class="radio-card-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                  </svg>
+                </div>
+                <div class="radio-card-content">
+                  <div class="radio-card-title">Kartu kredit</div>
+                  <div class="radio-card-desc">Visa, Mastercard, JCB</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section 5: Catatan -->
+        <div class="checkout-section">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label for="notes" class="form-label">Catatan pesanan (opsional)</label>
+            <textarea id="notes" class="form-textarea" placeholder="Tulis catatan untuk penjual..."></textarea>
+          </div>
+        </div>
+
+        <!-- Mobile submit button -->
+        <div class="mobile-submit">
+          <button type="button" class="btn btn-primary btn-lg btn-block">Buat pesanan &mdash; Rp 35.196.000</button>
+        </div>
+
+      </div>
+
+      <!-- ============================================
+           Right column: Order summary
+           ============================================ -->
+      <aside class="order-summary">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="order-summary-title">Ringkasan pesanan</h3>
+
+            <!-- Order items -->
+            <div class="order-item">
+              <div class="order-item-img">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25Z" />
+                </svg>
+              </div>
+              <div class="order-item-info">
+                <div class="order-item-name">MacBook Pro M4 14 inci</div>
+                <div class="order-item-qty">x1</div>
+              </div>
+              <div class="order-item-price">Rp 28.999.000</div>
+            </div>
+
+            <div class="order-item">
+              <div class="order-item-img">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z" />
+                </svg>
+              </div>
+              <div class="order-item-info">
+                <div class="order-item-name">AirPods Pro 3</div>
+                <div class="order-item-qty">x1</div>
+              </div>
+              <div class="order-item-price">Rp 3.799.000</div>
+            </div>
+
+            <div class="order-item">
+              <div class="order-item-img">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672ZM12 2.25V4.5m5.834.166-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.591M6 10.5H3.75m4.007-4.243-1.59-1.591" />
+                </svg>
+              </div>
+              <div class="order-item-info">
+                <div class="order-item-name">Logitech MX Master 3S</div>
+                <div class="order-item-qty">x2</div>
+              </div>
+              <div class="order-item-price">Rp 3.098.000</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Summary rows -->
+            <div class="summary-row">
+              <span class="summary-row-label">Subtotal</span>
+              <span class="summary-row-value">Rp 35.896.000</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-row-label">Diskon</span>
+              <span class="summary-row-discount">-Rp 700.000</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-row-label">Ongkir</span>
+              <span class="summary-row-value">Rp 0 <span class="badge badge-success">Gratis</span></span>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Total -->
+            <div class="summary-total">
+              <span class="summary-total-label">Total</span>
+              <span class="summary-total-value">Rp 35.196.000</span>
+            </div>
+
+            <!-- Submit button (desktop) -->
+            <button type="button" class="btn btn-primary btn-lg btn-block sidebar-submit" style="margin-top: var(--space-5);">Buat pesanan</button>
+
+            <!-- Security notice -->
+            <div class="alert alert-info" style="margin-top: var(--space-4);">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>
+              <span>Data pembayaranmu dienkripsi dan aman</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ================================================
+       Footer — Simplified
+       ================================================ -->
+  <footer class="footer-simple">
+    <div class="container footer-simple-inner">
+      &copy; 2026 Morpheme Store. Hak cipta dilindungi.
+    </div>
+  </footer>
+
+  <!-- ================================================
+       Radio card selection JS
+       ================================================ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener('click', function (e) {
+        var card = e.target.closest('.radio-card');
+        if (!card) return;
+
+        var radio = card.querySelector('input[type="radio"]');
+        if (!radio) return;
+
+        // Find all sibling radio-cards in the same group
+        var groupName = radio.getAttribute('name');
+        var allCards = document.querySelectorAll('input[type="radio"][name="' + groupName + '"]');
+        allCards.forEach(function (input) {
+          input.closest('.radio-card').classList.remove('selected');
+        });
+
+        radio.checked = true;
+        card.classList.add('selected');
+      });
+    });
+  </script>
+
+</body>
+</html>

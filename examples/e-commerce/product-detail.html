@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MacBook Pro M4 14 inci — Morpheme Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Product detail layout */
+    .product-detail-layout {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      gap: var(--space-12);
+      padding: var(--space-8) 0 var(--space-16);
+    }
+
+    /* Main product image */
+    .product-main-img {
+      aspect-ratio: 4 / 3;
+      background: var(--color-gray-100);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gray-300);
+    }
+
+    .product-main-img svg {
+      width: 80px;
+      height: 80px;
+    }
+
+    /* Thumbnails */
+    .product-thumbnails {
+      display: flex;
+      gap: var(--space-3);
+      margin-top: var(--space-3);
+    }
+
+    .product-thumbnail {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-lg);
+      background: var(--color-gray-100);
+      border: 2px solid var(--color-gray-200);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color var(--duration-fast) var(--ease-out);
+    }
+
+    .product-thumbnail.active {
+      border-color: var(--color-primary);
+    }
+
+    .product-thumbnail:hover {
+      border-color: var(--color-gray-400);
+    }
+
+    .product-thumbnail svg {
+      width: 24px;
+      height: 24px;
+      color: var(--color-gray-400);
+    }
+
+    /* Product info */
+    .product-info .badge {
+      margin-bottom: var(--space-3);
+    }
+
+    .product-name {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-3);
+    }
+
+    /* Rating */
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      margin-bottom: var(--space-5);
+    }
+
+    .product-rating-stars {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      color: var(--color-warning);
+    }
+
+    .product-rating-stars svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .product-rating-score {
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .product-rating-divider {
+      width: 1px;
+      height: 16px;
+      background: var(--color-gray-300);
+    }
+
+    .product-rating a {
+      color: var(--color-primary);
+      font-weight: 500;
+    }
+
+    /* Price */
+    .product-price-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-6);
+    }
+
+    .product-price-current {
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--color-gray-900);
+      line-height: 1.25;
+    }
+
+    .product-price-original {
+      font-size: var(--text-md);
+      color: var(--color-gray-400);
+      text-decoration: line-through;
+    }
+
+    .product-price-discount {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 2px var(--space-2);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      background: var(--color-error);
+      color: var(--color-white);
+    }
+
+    /* Variant selectors */
+    .variant-group {
+      margin-bottom: var(--space-5);
+    }
+
+    .variant-label {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-700);
+      margin-bottom: var(--space-3);
+    }
+
+    .variant-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+
+    .variant-btn {
+      min-height: 40px;
+      padding: var(--space-2) var(--space-5);
+      border: 1.5px solid var(--color-gray-300);
+      border-radius: var(--radius-lg);
+      font-family: var(--font-family);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-700);
+      background: var(--color-white);
+      cursor: pointer;
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .variant-btn.active {
+      border-color: var(--color-primary);
+      background: var(--color-primary-25);
+      color: var(--color-primary);
+    }
+
+    .variant-btn:hover {
+      border-color: var(--color-gray-400);
+    }
+
+    .variant-btn-sub {
+      display: block;
+      font-size: var(--text-xs);
+      font-weight: 400;
+      color: var(--color-gray-500);
+      margin-top: 2px;
+    }
+
+    .variant-btn.active .variant-btn-sub {
+      color: var(--color-primary-600);
+    }
+
+    /* Quantity row */
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    .qty-stock {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+    }
+
+    /* Action buttons */
+    .product-actions {
+      display: flex;
+      gap: var(--space-3);
+      margin-bottom: var(--space-6);
+    }
+
+    .product-actions .btn-block {
+      flex: 1;
+    }
+
+    .product-actions .btn-wishlist {
+      width: 52px;
+      height: 52px;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .product-actions .btn-wishlist svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* Guarantee items */
+    .product-guarantee {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .guarantee-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--color-gray-600);
+    }
+
+    .guarantee-item svg {
+      width: 20px;
+      height: 20px;
+      color: var(--color-success);
+      flex-shrink: 0;
+    }
+
+    /* Tabs section */
+    .product-tabs-section {
+      padding-bottom: var(--space-16);
+    }
+
+    .tab-panel p {
+      font-size: var(--text-md);
+      line-height: 1.7;
+      color: var(--color-gray-600);
+      margin-bottom: var(--space-4);
+    }
+
+    .tab-panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Spec table */
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .spec-table tr {
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .spec-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .spec-table td {
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm);
+      vertical-align: top;
+    }
+
+    .spec-table td:first-child {
+      font-weight: 500;
+      color: var(--color-gray-500);
+      width: 180px;
+      white-space: nowrap;
+    }
+
+    .spec-table td:last-child {
+      color: var(--color-gray-900);
+    }
+
+    /* Review items */
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .review-item {
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .review-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary-100);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .review-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .review-name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .review-date {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    .review-stars {
+      display: flex;
+      gap: 2px;
+      color: var(--color-warning);
+      margin-bottom: var(--space-2);
+    }
+
+    .review-stars svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .review-text {
+      font-size: var(--text-sm);
+      line-height: 1.6;
+      color: var(--color-gray-600);
+    }
+
+    /* Responsive */
+    @media (max-width: 767px) {
+      .product-detail-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+        padding: var(--space-4) 0 var(--space-8);
+      }
+
+      .product-name {
+        font-size: var(--text-xl);
+      }
+
+      .product-price-current {
+        font-size: var(--text-2xl);
+      }
+
+      .product-actions {
+        flex-direction: column;
+      }
+
+      .product-actions .btn-wishlist {
+        width: 100%;
+      }
+
+      .spec-table td:first-child {
+        width: 120px;
+      }
+
+      .variant-options {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="header-logo">
+        <div class="header-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <span class="header-logo-text">Morpheme Store</span>
+      </a>
+
+      <nav class="header-nav">
+        <a href="index.html">Beranda</a>
+        <a href="products.html" class="active">Produk</a>
+        <a href="#">Kategori</a>
+        <a href="#">Promo</a>
+      </nav>
+
+      <div class="header-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" placeholder="Cari produk, kategori, atau merek..." aria-label="Cari produk">
+      </div>
+
+      <div class="header-actions">
+        <button class="header-icon-btn" aria-label="Wishlist">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </button>
+        <a href="cart.html" class="header-icon-btn" aria-label="Keranjang, 3 item">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+          <span class="cart-count">3</span>
+        </a>
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Buka menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Beranda</a>
+      <span class="breadcrumb-separator" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </span>
+      <a href="products.html">Produk</a>
+      <span class="breadcrumb-separator" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </span>
+      <a href="#">Elektronik</a>
+      <span class="breadcrumb-separator" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </span>
+      <span class="breadcrumb-current">MacBook Pro M4 14 inci</span>
+    </nav>
+  </div>
+
+  <!-- Product Detail -->
+  <main class="container">
+    <div class="product-detail-layout">
+
+      <!-- Left: Product Images -->
+      <div class="product-images">
+        <div class="product-main-img">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+        </div>
+        <div class="product-thumbnails">
+          <button class="product-thumbnail active" aria-label="Gambar produk 1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </button>
+          <button class="product-thumbnail" aria-label="Gambar produk 2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </button>
+          <button class="product-thumbnail" aria-label="Gambar produk 3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </button>
+          <button class="product-thumbnail" aria-label="Gambar produk 4">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="product-info">
+        <span class="badge badge-new">Baru</span>
+
+        <h1 class="product-name">MacBook Pro M4 14 inci — 16GB RAM, 512GB SSD</h1>
+
+        <!-- Rating -->
+        <div class="product-rating">
+          <div class="product-rating-stars">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="product-rating-score">4.8</span>
+          <span class="product-rating-divider"></span>
+          <a href="#ulasan">128 ulasan</a>
+          <span class="product-rating-divider"></span>
+          <span>842 terjual</span>
+        </div>
+
+        <!-- Price -->
+        <div class="product-price-row">
+          <span class="product-price-current">Rp 28.999.000</span>
+          <span class="product-price-original">Rp 32.499.000</span>
+          <span class="product-price-discount">-10%</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Warna -->
+        <div class="variant-group">
+          <div class="variant-label">Warna</div>
+          <div class="variant-options">
+            <button class="variant-btn active">Space Gray</button>
+            <button class="variant-btn">Silver</button>
+            <button class="variant-btn">Midnight</button>
+          </div>
+        </div>
+
+        <!-- Penyimpanan -->
+        <div class="variant-group">
+          <div class="variant-label">Penyimpanan</div>
+          <div class="variant-options">
+            <button class="variant-btn active">
+              512GB
+              <span class="variant-btn-sub">Rp 28.999.000</span>
+            </button>
+            <button class="variant-btn">
+              1TB
+              <span class="variant-btn-sub">Rp 34.499.000</span>
+            </button>
+            <button class="variant-btn">
+              2TB
+              <span class="variant-btn-sub">Rp 42.999.000</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Quantity -->
+        <div class="variant-group">
+          <div class="variant-label">Jumlah</div>
+          <div class="qty-row">
+            <div class="qty-selector">
+              <button class="qty-btn" aria-label="Kurangi jumlah">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="qty-value">1</div>
+              <button class="qty-btn" aria-label="Tambah jumlah">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              </button>
+            </div>
+            <span class="qty-stock">Stok: 24 unit</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="product-actions">
+          <button class="btn btn-primary btn-lg btn-block">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+            Tambahkan ke keranjang
+          </button>
+          <button class="btn btn-outline-primary btn-lg btn-wishlist" aria-label="Tambahkan ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+        </div>
+
+        <!-- Guarantees -->
+        <div class="product-guarantee">
+          <div class="guarantee-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg>
+            <span>Gratis ongkir untuk pembelian di atas Rp 500.000</span>
+          </div>
+          <div class="guarantee-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+            <span>Garansi resmi Apple 1 tahun</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Product Tabs -->
+  <section class="product-tabs-section">
+    <div class="container">
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-deskripsi" id="tab-deskripsi">Deskripsi</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-spesifikasi" id="tab-spesifikasi">Spesifikasi</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-ulasan" id="tab-ulasan">Ulasan (128)</button>
+      </div>
+
+      <!-- Deskripsi -->
+      <div class="tab-panel active" id="panel-deskripsi" role="tabpanel" aria-labelledby="tab-deskripsi">
+        <p>MacBook Pro 14 inci dengan chip Apple M4 menghadirkan performa luar biasa untuk profesional kreatif dan developer. Dilengkapi CPU 10-core dan GPU 10-core, laptop ini mampu menangani workflow intensif seperti rendering video 4K, kompilasi kode besar, hingga machine learning — semuanya dengan efisiensi daya yang jauh lebih baik dibanding generasi sebelumnya.</p>
+        <p>Layar Liquid Retina XDR berukuran 14,2 inci menawarkan kecerahan hingga 1.600 nits untuk konten HDR, dengan dukungan wide color gamut P3 dan ProMotion adaptive refresh rate hingga 120Hz. Setiap detail tampil tajam dan akurat, menjadikannya pilihan ideal untuk color grading, desain grafis, dan pengeditan foto profesional.</p>
+        <p>Dengan RAM 16GB unified memory dan penyimpanan SSD 512GB yang super cepat, MacBook Pro M4 siap mendukung multitasking berat tanpa hambatan. Baterai tahan hingga 18 jam memungkinkan Anda bekerja seharian tanpa perlu mencari colokan. Dilengkapi tiga port Thunderbolt 4, HDMI, slot kartu SD, dan MagSafe charging untuk konektivitas lengkap.</p>
+      </div>
+
+      <!-- Spesifikasi -->
+      <div class="tab-panel" id="panel-spesifikasi" role="tabpanel" aria-labelledby="tab-spesifikasi">
+        <table class="spec-table">
+          <tbody>
+            <tr>
+              <td>Prosesor</td>
+              <td>Apple M4 (CPU 10-core, GPU 10-core)</td>
+            </tr>
+            <tr>
+              <td>RAM</td>
+              <td>16GB unified memory</td>
+            </tr>
+            <tr>
+              <td>Penyimpanan</td>
+              <td>512GB SSD</td>
+            </tr>
+            <tr>
+              <td>Layar</td>
+              <td>14,2" Liquid Retina XDR, 3024 x 1964 piksel, ProMotion 120Hz</td>
+            </tr>
+            <tr>
+              <td>Baterai</td>
+              <td>Hingga 18 jam pemutaran video</td>
+            </tr>
+            <tr>
+              <td>Berat</td>
+              <td>1,55 kg</td>
+            </tr>
+            <tr>
+              <td>Port</td>
+              <td>3x Thunderbolt 4, HDMI, SDXC card slot, MagSafe 3</td>
+            </tr>
+            <tr>
+              <td>OS</td>
+              <td>macOS Sequoia</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Ulasan -->
+      <div class="tab-panel" id="panel-ulasan" role="tabpanel" aria-labelledby="tab-ulasan">
+        <div class="review-list">
+
+          <!-- Review 1 -->
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-avatar">AR</div>
+              <div class="review-meta">
+                <span class="review-name">Andi Rahmawan</span>
+                <span class="review-date">28 Maret 2026</span>
+              </div>
+            </div>
+            <div class="review-stars">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <p class="review-text">Performa M4 benar-benar gila. Saya pakai untuk editing video 4K di DaVinci Resolve dan rendering-nya jauh lebih cepat dari MacBook Pro M1 Pro yang sebelumnya saya pakai. Layarnya juga sangat tajam dan akurat warnanya. Worth every penny.</p>
+          </div>
+
+          <!-- Review 2 -->
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-avatar">SP</div>
+              <div class="review-meta">
+                <span class="review-name">Sari Purnama</span>
+                <span class="review-date">15 Maret 2026</span>
+              </div>
+            </div>
+            <div class="review-stars">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none" opacity="0.3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <p class="review-text">Sebagai software developer, saya sangat puas dengan MacBook Pro ini. Compile time untuk project besar berkurang drastis, dan baterai tahan seharian coding di kafe tanpa charger. Keyboard-nya juga nyaman untuk mengetik lama. Satu-satunya kekurangan, 512GB agak kurang untuk kebutuhan saya — sebaiknya langsung ambil varian 1TB.</p>
+          </div>
+
+          <!-- Review 3 -->
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-avatar">DW</div>
+              <div class="review-meta">
+                <span class="review-name">Dimas Wicaksono</span>
+                <span class="review-date">2 Maret 2026</span>
+              </div>
+            </div>
+            <div class="review-stars">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <p class="review-text">Upgrade dari MacBook Air M2 ke MacBook Pro M4 ini terasa signifikan. Layar XDR-nya bikin konten HDR terlihat luar biasa, speaker-nya juga jauh lebih powerful. Build quality-nya solid dan premium. Pengiriman dari toko ini juga cepat, sampai dalam 2 hari dengan packing sangat aman.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Produk terkait</h2>
+        </div>
+        <a href="products.html" class="btn btn-ghost btn-sm">
+          Lihat semua
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="grid grid-4">
+        <!-- Product Card 1 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </div>
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-15%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+          <div class="card-body-sm">
+            <div class="product-card-category">Laptop</div>
+            <div class="product-card-name"><a href="#">MacBook Air M3 13 inci — 8GB RAM, 256GB SSD</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 17.499.000</span>
+              <span class="product-card-price-original">Rp 20.599.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none" opacity="0.3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <span>4.6</span>
+              <span>(94)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+          <div class="card-body-sm">
+            <div class="product-card-category">Monitor</div>
+            <div class="product-card-name"><a href="#">Apple Studio Display 27 inci — 5K Retina</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 25.999.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <span>4.9</span>
+              <span>(67)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 3 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </div>
+          <div class="product-card-badge">
+            <span class="badge badge-new">Baru</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+          <div class="card-body-sm">
+            <div class="product-card-category">Aksesoris</div>
+            <div class="product-card-name"><a href="#">Apple Magic Keyboard dengan Touch ID dan Numeric Keypad</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 2.899.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none" opacity="0.3"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <span>4.5</span>
+              <span>(213)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Card 4 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </div>
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-20%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </button>
+          <div class="card-body-sm">
+            <div class="product-card-category">Laptop</div>
+            <div class="product-card-name"><a href="#">MacBook Pro M4 Pro 16 inci — 24GB RAM, 512GB SSD</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 39.999.000</span>
+              <span class="product-card-price-original">Rp 49.999.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <span>4.9</span>
+              <span>(56)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="header-logo" style="margin-bottom: var(--space-2); display: inline-flex;">
+            <div class="header-logo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            <span class="header-logo-text" style="color: var(--color-white);">Morpheme Store</span>
+          </a>
+          <p class="footer-brand-text">Platform belanja online terpercaya dengan produk berkualitas dan pengiriman cepat ke seluruh Indonesia.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Belanja</h4>
+          <div class="footer-links">
+            <a href="#">Semua produk</a>
+            <a href="#">Kategori</a>
+            <a href="#">Promo</a>
+            <a href="#">Produk baru</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Layanan</h4>
+          <div class="footer-links">
+            <a href="#">Bantuan</a>
+            <a href="#">Pengiriman</a>
+            <a href="#">Pengembalian</a>
+            <a href="#">Pembayaran</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Perusahaan</h4>
+          <div class="footer-links">
+            <a href="#">Tentang kami</a>
+            <a href="#">Karir</a>
+            <a href="#">Blog</a>
+            <a href="#">Kontak</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Morpheme Store. Hak cipta dilindungi.</span>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </a>
+          <a href="#" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+          </a>
+          <a href="#" aria-label="YouTube">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Tab Switching Script -->
+  <script>
+    (function () {
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+
+      tabBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          // Remove active from all tabs and panels
+          tabBtns.forEach(function (b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          tabPanels.forEach(function (p) {
+            p.classList.remove('active');
+          });
+
+          // Activate clicked tab and its panel
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          var panelId = btn.getAttribute('aria-controls');
+          var panel = document.getElementById(panelId);
+          if (panel) {
+            panel.classList.add('active');
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
