@@ -1,0 +1,78 @@
+# Morpheme Design System Reference
+
+Design token reference and example implementations for the **Morpheme UI Design System** by [gits.id](https://gits.id).
+
+## What's inside
+
+```
+DESIGN.md                  # Full design system specification
+CLAUDE.md                  # Claude Code project instructions
+.claude/skills/            # Morpheme design skill for Claude Code
+examples/
+  saas-landing-page/       # SaaS landing page example
+  dashboard/               # E-commerce admin dashboard
+  e-commerce/              # Multi-page e-commerce storefront
+    index.html             #   Homepage
+    products.html          #   Product listing with filters
+    product-detail.html    #   Product detail with variants
+    cart.html              #   Shopping cart
+    checkout.html          #   Checkout flow
+    styles.css             #   Shared design tokens & components
+```
+
+## Design system overview
+
+Morpheme UI uses a **3-layer token architecture**:
+
+```
+Foundation Colors  →  Brand Colors  →  Semantic Colors
+(primitives)          (product)        (contextual UI)
+```
+
+### Key tokens
+
+| Category | Default |
+|----------|---------|
+| Primary color | `#1D6EEB` (blue) |
+| Secondary color | `#E55B05` (orange) |
+| Font family | Poppins |
+| Spacing base | 4px grid |
+| Border radius | 4px – 16px scale |
+| Shadows | 6-level elevation scale |
+
+### What's documented in DESIGN.md
+
+- Color system (foundation, brand, semantic scales)
+- Typography (type scale, weight usage)
+- Spacing system (4px base unit)
+- Border radius, shadows, blur & opacity
+- Component specs (buttons, inputs, cards, badges, alerts, modals, navigation)
+- Layout & grid (12-column, breakpoints)
+- Motion & animation tokens
+- Accessibility guidelines
+- CSS custom properties reference
+
+## Using with Claude Code
+
+This repo includes a `/morpheme-design` skill that automatically enforces the design system when building UI:
+
+```bash
+# In Claude Code, use the skill when creating any UI
+/morpheme-design build a pricing page in HTML
+```
+
+The skill ensures all generated code follows Morpheme tokens, component specs, and accessibility requirements.
+
+## Running examples
+
+All examples are static HTML — open any `index.html` directly in a browser:
+
+```bash
+open examples/e-commerce/index.html
+open examples/dashboard/index.html
+open examples/saas-landing-page/index.html
+```
+
+## License
+
+Design system based on Morpheme UI by gits.id.
