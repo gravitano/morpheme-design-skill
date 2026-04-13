@@ -52,13 +52,59 @@ Foundation Colors  →  Brand Colors  →  Semantic Colors
 - Accessibility guidelines
 - CSS custom properties reference
 
-## Using with Claude Code
+## Installing the skill
 
-This repo includes a `/morpheme-design` skill that automatically enforces the design system when building UI:
+### Option 1: Clone this repo
+
+Clone the repo into your project or a shared location — the skill is ready to use:
 
 ```bash
-# In Claude Code, use the skill when creating any UI
+git clone https://github.com/gravitano/morpheme-design-md.git
+cd morpheme-design-md
+claude  # start Claude Code — the skill is auto-discovered
+```
+
+### Option 2: Copy into an existing project
+
+Copy the `.claude/skills/morpheme-design/` directory and `DESIGN.md` into your project:
+
+```bash
+# From your project root
+mkdir -p .claude/skills/morpheme-design
+
+# Copy the skill and design reference
+cp /path/to/morpheme-design-md/.claude/skills/morpheme-design/SKILL.md .claude/skills/morpheme-design/
+cp /path/to/morpheme-design-md/DESIGN.md .
+
+# Optionally copy the CLAUDE.md for project-level instructions
+cp /path/to/morpheme-design-md/CLAUDE.md .
+```
+
+### Option 3: Install via Claude Code `/install-skill`
+
+```bash
+# Inside Claude Code
+/install-skill https://github.com/gravitano/morpheme-design-md
+```
+
+### Verify installation
+
+After installing, start Claude Code and check that the skill is available:
+
+```
+/skills  # should list "morpheme-design"
+```
+
+## Using the skill
+
+Once installed, the `/morpheme-design` skill automatically enforces the design system when building UI:
+
+```bash
+# Invoke manually with a prompt
 /morpheme-design build a pricing page in HTML
+
+# The skill also auto-triggers when you ask Claude to build any UI
+# e.g. "buat halaman login" will activate the skill automatically
 ```
 
 The skill ensures all generated code follows Morpheme tokens, component specs, and accessibility requirements.
