@@ -187,7 +187,9 @@ Never default to plain HTML when a framework is present in the project and the u
 | Next.js | `next` in deps, `next.config.*` |
 | React (Vite/CRA) | `react` in deps, `vite.config.*`, no `next` |
 | TanStack Start | `@tanstack/start` or `@tanstack/react-router` + `app/routes/` |
-| Vue / Nuxt | `vue` in deps, `nuxt.config.*`, `.vue` files |
+| Nuxt 4 | `nuxt` in deps, `nuxt.config.*`, `app/` dir with `components/`/`pages/` inside |
+| Nuxt 3 | `nuxt` in deps, `nuxt.config.*`, no `app/` source dir |
+| Vue (Vite) | `vue` in deps, `vite.config.*`, no `nuxt.config.*` |
 | Svelte / SvelteKit | `svelte` in deps, `svelte.config.*`, `.svelte` files |
 | Analog.js | `@analogjs/platform` in deps, `vite.config.ts` with analog plugin |
 | Solid.js | `solid-js` in deps, `.tsx` with `solid` imports |
@@ -324,9 +326,29 @@ Generate `.vue` single-file components:
 </style>
 ```
 
-- CSS variables go in `assets/css/tokens.css` (Nuxt) or `src/assets/main.css` (Vue)
-- Load Poppins via `@import url(...)` in global CSS
-- File placement: `components/ComponentName.vue` (Nuxt auto-import) or `src/components/ComponentName.vue` (Vue)
+Detect Nuxt version before placing files:
+
+| Signal | Version | Structure |
+|--------|---------|-----------|
+| `app/` directory exists with `components/`, `pages/` inside | Nuxt 4 | Source root is `app/` |
+| `compatibilityVersion: 4` in `nuxt.config.ts` | Nuxt 4 | Source root is `app/` |
+| No `app/` source directory | Nuxt 3 | Source root is project root |
+
+**Nuxt 4** file placement:
+- Components: `app/components/ComponentName.vue`
+- Pages: `app/pages/page-name.vue`
+- Composables: `app/composables/useHook.ts`
+- Global CSS: `app/assets/css/tokens.css`
+- Load Poppins via `@import url(...)` in `app/assets/css/main.css`
+
+**Nuxt 3** file placement:
+- Components: `components/ComponentName.vue` (auto-imported)
+- Pages: `pages/page-name.vue`
+- Composables: `composables/useHook.ts`
+- Global CSS: `assets/css/tokens.css`
+- Load Poppins via `@import url(...)` in `assets/css/main.css`
+
+**Vue (Vite)** file placement: `src/components/ComponentName.vue`
 
 ### SvelteKit / Svelte
 
