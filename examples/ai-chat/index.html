@@ -102,6 +102,8 @@
     /* 3. Base */
     html, body {
       height: 100%;
+      display: flex;
+      flex-direction: column;
       font-family: var(--font-family);
       font-size: var(--text-md);
       color: var(--color-gray-900);
@@ -120,8 +122,9 @@
     ===================== */
     .app {
       display: flex;
-      height: 100vh;
+      flex: 1;
       overflow: hidden;
+      min-height: 0;
     }
 
     /* =====================
@@ -132,7 +135,7 @@
       flex-shrink: 0;
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: 100%;
       background: var(--color-white);
       border-right: 1px solid var(--color-gray-200);
       transition: transform var(--duration-slow) var(--ease-out);
@@ -335,7 +338,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: 100%;
       overflow: hidden;
       background: var(--color-white);
       min-width: 0;
@@ -934,6 +937,11 @@
   </style>
 </head>
 <body>
+
+<!-- Demo disclaimer -->
+<div style="background:#FFFAEB;border-bottom:2px solid #F79009;padding:6px 16px;text-align:center;font-family:sans-serif;font-size:13px;color:#B54708;flex-shrink:0;">
+  ⚠️ UI demo only — no real AI is connected. No data is collected, stored, or transmitted.
+</div>
 
 <!-- Mobile overlay -->
 <div class="sidebar-overlay" id="overlay" aria-hidden="true"></div>
