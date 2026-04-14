@@ -17,7 +17,7 @@ You are building UI that **must** follow the Morpheme UI Design System. Read `@D
 
 Before generating any UI code:
 
-1. Review all specifications in this skill document — tokens, component specs, and rules are defined below.
+1. Review all specifications in this skill document — tokens, component specs, and rules are defined below. For the full authoritative reference, see [DESIGN.md](references/DESIGN.md).
 2. Identify which components are needed (see Component specifications section).
 3. Plan the layout using the 12-column grid system (see Layout & grid section).
 4. Choose the correct typography and spacing tokens (see Typography and Spacing sections below).

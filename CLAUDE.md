@@ -8,7 +8,7 @@ This repository contains the **Morpheme UI Design System** reference documentati
 
 ## Design System Reference
 
-All design decisions should follow **@DESIGN.md**, which documents:
+All design decisions should follow **@.claude/skills/morpheme-design/references/DESIGN.md**, which documents:
 
 - **Color system** — 3-layer token architecture: Foundation → Brand → Semantic
 - **Typography** — Poppins font family, type scale (12px–72px), weight usage rules
@@ -31,7 +31,7 @@ All design decisions should follow **@DESIGN.md**, which documents:
 
 ## CSS Variables
 
-The full CSS custom property definitions are in `DESIGN.md § 14`. Always prefer these variables over hardcoded values:
+The full CSS custom property definitions are in `DESIGN.md §14` (in `.claude/skills/morpheme-design/references/DESIGN.md`). Always prefer these variables over hardcoded values:
 
 ```css
 /* Primary entry points */
