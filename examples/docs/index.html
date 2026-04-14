@@ -1,0 +1,3155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morpheme UI design system</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       CSS Reset
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ============================================
+       Design Tokens — DESIGN.md section 14 (extended)
+       ============================================ */
+    :root {
+      /* Brand — Primary (Blue Scale) */
+      --color-primary-25:  #F5F8FF;
+      --color-primary-50:  #EBF3FF;
+      --color-primary-100: #BFDBFE;
+      --color-primary-200: #93C5FD;
+      --color-primary-300: #60A5FA;
+      --color-primary-400: #3B82F6;
+      --color-primary:     #1D6EEB;
+      --color-primary-600: #1B69C2;
+      --color-primary-700: #1554A1;
+      --color-primary-800: #0D4487;
+      --color-primary-900: #072D60;
+      --color-primary-light: #EFF8FF;
+
+      /* Brand — Secondary (Orange Scale) */
+      --color-secondary-25:  #FFF9F5;
+      --color-secondary-50:  #FFF3EB;
+      --color-secondary-100: #FFE0C2;
+      --color-secondary-200: #FFBC87;
+      --color-secondary-300: #FF9855;
+      --color-secondary-400: #FF7320;
+      --color-secondary:     #E55B05;
+      --color-secondary-600: #CC4E00;
+      --color-secondary-700: #A33E00;
+      --color-secondary-800: #7A2E00;
+      --color-secondary-900: #4A1C00;
+      --color-secondary-light: #FFF3EB;
+
+      /* Foundation */
+      --color-white:   #FFFFFF;
+      --color-black:   #000000;
+      --color-info:    #28A0F8;
+      --color-warning: #F79009;
+      --color-success: #12B76A;
+      --color-error:   #F04438;
+
+      /* Semantic scales */
+      --color-info-25:  #F0F9FF;
+      --color-info-100: #EFF8FF;
+      --color-info-300: #7CC8FC;
+      --color-info-500: #28A0F8;
+      --color-info-700: #1570B8;
+      --color-info-900: #0A3A6B;
+
+      --color-warning-25:  #FFFCF5;
+      --color-warning-100: #FFFAEB;
+      --color-warning-300: #FBC04D;
+      --color-warning-500: #F79009;
+      --color-warning-700: #B54708;
+      --color-warning-900: #6B2E04;
+
+      --color-success-25:  #F6FEF9;
+      --color-success-100: #ECFDF3;
+      --color-success-300: #6CE9A6;
+      --color-success-500: #12B76A;
+      --color-success-700: #027A48;
+      --color-success-900: #054F31;
+
+      --color-error-25:  #FFFBFA;
+      --color-error-100: #FEF3F2;
+      --color-error-300: #FDA29B;
+      --color-error-500: #F04438;
+      --color-error-700: #B42318;
+      --color-error-900: #7A271A;
+
+      /* Neutral */
+      --color-gray-25:  #FCFCFD;
+      --color-gray-50:  #F9FAFB;
+      --color-gray-100: #F2F4F7;
+      --color-gray-200: #EAECF0;
+      --color-gray-300: #D0D5DD;
+      --color-gray-400: #98A2B3;
+      --color-gray-500: #667085;
+      --color-gray-600: #475467;
+      --color-gray-700: #344054;
+      --color-gray-800: #1D2939;
+      --color-gray-900: #101828;
+
+      /* Typography */
+      --font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono:   "SF Mono", "Fira Code", "Cascadia Code", monospace;
+      --text-xs:   12px;
+      --text-sm:   14px;
+      --text-md:   16px;
+      --text-lg:   18px;
+      --text-xl:   20px;
+      --text-2xl:  24px;
+      --text-3xl:  30px;
+      --text-4xl:  36px;
+      --text-5xl:  48px;
+      --text-6xl:  60px;
+      --text-7xl:  72px;
+
+      /* Spacing (4px base) */
+      --space-1:  4px;
+      --space-2:  8px;
+      --space-3:  12px;
+      --space-4:  16px;
+      --space-5:  20px;
+      --space-6:  24px;
+      --space-8:  32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+      --space-24: 96px;
+
+      /* Border Radius */
+      --radius-none: 0px;
+      --radius-xs:   2px;
+      --radius-sm:   4px;
+      --radius-md:   6px;
+      --radius-lg:   8px;
+      --radius-xl:   12px;
+      --radius-2xl:  16px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.06);
+      --shadow-none:  none;
+      --shadow-sm:    0 1px 2px rgba(16,24,40,0.05);
+      --shadow:       0 1px 3px rgba(16,24,40,0.10), 0 1px 2px rgba(16,24,40,0.06);
+      --shadow-md:    0 4px 8px -2px rgba(16,24,40,0.10), 0 2px 4px -2px rgba(16,24,40,0.06);
+      --shadow-lg:    0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03);
+      --shadow-xl:    0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03);
+      --shadow-2xl:   0 24px 48px -12px rgba(16,24,40,0.18);
+
+      /* Motion */
+      --duration-fast:   100ms;
+      --duration-base:   150ms;
+      --duration-slow:   200ms;
+      --duration-slower: 300ms;
+      --ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
+      --ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+
+      /* Layout */
+      --sidebar-width: 260px;
+      --topbar-height: 64px;
+    }
+
+    /* ============================================
+       Base styles
+       ============================================ */
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--topbar-height) + var(--space-6));
+    }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      line-height: 1.5;
+      color: var(--color-gray-900);
+      background: var(--color-gray-50);
+    }
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+    a:hover { color: var(--color-primary-700); }
+
+    ul, ol { list-style: none; }
+    img { display: block; max-width: 100%; }
+
+    button {
+      font-family: var(--font-family);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* Focus ring — accessibility */
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); border: 0;
+    }
+
+    /* ============================================
+       Layout: sidebar + main
+       ============================================ */
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ============================================
+       Sidebar (DESIGN.md section 8.7)
+       ============================================ */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: var(--sidebar-width);
+      background: var(--color-white);
+      border-right: 1px solid var(--color-gray-200);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      overflow-y: auto;
+      transition: transform var(--duration-slower) var(--ease-in-out);
+    }
+
+    .sidebar-header {
+      padding: var(--space-5) var(--space-5);
+      border-bottom: 1px solid var(--color-gray-200);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--color-primary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo-icon svg { width: 20px; height: 20px; }
+
+    .sidebar-logo-text {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      letter-spacing: -0.02em;
+    }
+
+    .sidebar-version {
+      display: inline-flex;
+      align-items: center;
+      height: 20px;
+      padding: 0 var(--space-2);
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      margin-left: var(--space-1);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: var(--space-4) var(--space-3);
+      overflow-y: auto;
+    }
+
+    .nav-section-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-gray-400);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: var(--space-4) var(--space-3) var(--space-2);
+    }
+
+    .nav-section-label:first-child {
+      padding-top: 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      padding: 0 var(--space-3);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-500);
+      border-radius: var(--radius-md);
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+      gap: var(--space-2);
+    }
+
+    .nav-item:hover {
+      background: var(--color-gray-50);
+      color: var(--color-gray-700);
+    }
+
+    .nav-item.active {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      padding: var(--space-4) var(--space-5);
+      border-top: 1px solid var(--color-gray-200);
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer a {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-500);
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .sidebar-footer a:hover { color: var(--color-gray-700); }
+    .sidebar-footer svg { width: 18px; height: 18px; }
+
+    /* ============================================
+       Main content area
+       ============================================ */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      height: var(--topbar-height);
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-8);
+      z-index: 50;
+    }
+
+    .topbar-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      color: var(--color-gray-400);
+    }
+
+    .topbar-breadcrumb-current {
+      color: var(--color-gray-900);
+      font-weight: 500;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .hamburger-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      color: var(--color-gray-500);
+      margin-right: var(--space-3);
+    }
+
+    .hamburger-btn:hover {
+      background: var(--color-gray-50);
+      color: var(--color-gray-700);
+    }
+
+    .hamburger-btn svg { width: 24px; height: 24px; }
+
+    /* Content */
+    .content {
+      padding: var(--space-10) var(--space-8) var(--space-24);
+      max-width: 960px;
+    }
+
+    /* ============================================
+       Section styles
+       ============================================ */
+    .doc-section {
+      margin-bottom: var(--space-20);
+    }
+
+    .doc-section-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      line-height: 32px;
+      margin-bottom: var(--space-2);
+    }
+
+    .doc-section-desc {
+      font-size: var(--text-md);
+      color: var(--color-gray-500);
+      line-height: 24px;
+      margin-bottom: var(--space-8);
+    }
+
+    .doc-subsection {
+      margin-bottom: var(--space-10);
+    }
+
+    .doc-subsection-title {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-4);
+    }
+
+    .doc-subsection-desc {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      margin-bottom: var(--space-6);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--color-gray-200);
+      margin: var(--space-16) 0;
+    }
+
+    /* ============================================
+       Code tag
+       ============================================ */
+    .code-tag {
+      display: inline-block;
+      padding: 2px var(--space-2);
+      background: var(--color-gray-100);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-gray-600);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out);
+      user-select: all;
+    }
+
+    .code-tag:hover {
+      background: var(--color-gray-200);
+    }
+
+    .code-tag.copied {
+      background: var(--color-success-100);
+      color: var(--color-success-700);
+    }
+
+    /* ============================================
+       Showcase containers
+       ============================================ */
+    .showcase {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      margin-bottom: var(--space-4);
+    }
+
+    .showcase-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .showcase-row + .showcase-row {
+      margin-top: var(--space-4);
+    }
+
+    .showcase-label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-gray-400);
+      margin-bottom: var(--space-3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .showcase-grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    /* ============================================
+       1. Hero / Overview
+       ============================================ */
+    .hero {
+      margin-bottom: var(--space-16);
+    }
+
+    .hero-title {
+      font-size: var(--text-5xl);
+      font-weight: 700;
+      color: var(--color-gray-900);
+      line-height: 60px;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-xl);
+      color: var(--color-gray-500);
+      line-height: 30px;
+      max-width: 640px;
+      margin-bottom: var(--space-10);
+    }
+
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+      margin-bottom: var(--space-10);
+    }
+
+    .feature-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      transition: box-shadow var(--duration-base) var(--ease-out),
+                  transform var(--duration-base) var(--ease-out);
+    }
+
+    .feature-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .feature-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-4);
+    }
+
+    .feature-card-icon svg { width: 22px; height: 22px; }
+
+    .feature-card-icon.blue {
+      background: var(--color-primary-100);
+      color: var(--color-primary);
+    }
+
+    .feature-card-icon.green {
+      background: var(--color-success-100);
+      color: var(--color-success);
+    }
+
+    .feature-card-icon.purple {
+      background: #F0EAFF;
+      color: #7C3AED;
+    }
+
+    .feature-card-icon.orange {
+      background: var(--color-secondary-100);
+      color: var(--color-secondary);
+    }
+
+    .feature-card-title {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-2);
+    }
+
+    .feature-card-desc {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      line-height: 20px;
+    }
+
+    /* Token architecture diagram */
+    .token-diagram {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+    }
+
+    .token-box {
+      flex: 1;
+      text-align: center;
+      padding: var(--space-5) var(--space-4);
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--color-gray-200);
+    }
+
+    .token-box-title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-1);
+    }
+
+    .token-box-desc {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    .token-box.foundation { border-color: var(--color-gray-300); background: var(--color-gray-25); }
+    .token-box.brand { border-color: var(--color-primary-300); background: var(--color-primary-25); }
+    .token-box.semantic { border-color: var(--color-success-300); background: var(--color-success-25); }
+
+    .token-arrow {
+      color: var(--color-gray-300);
+      flex-shrink: 0;
+    }
+
+    .token-arrow svg { width: 24px; height: 24px; }
+
+    /* ============================================
+       2. Color swatches
+       ============================================ */
+    .swatch-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .swatch {
+      min-width: 80px;
+      height: 60px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 500;
+      flex: 1;
+      border: 1px solid transparent;
+      position: relative;
+    }
+
+    .swatch-light {
+      color: var(--color-gray-900);
+      border-color: var(--color-gray-200);
+    }
+
+    .swatch-dark { color: var(--color-white); }
+
+    .swatch-label {
+      font-size: 10px;
+      opacity: 0.7;
+      margin-top: 2px;
+    }
+
+    .swatch-wide {
+      min-width: 100px;
+      flex: 1.5;
+      border-width: 2px;
+    }
+
+    .swatch-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius-full);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 500;
+      flex: none;
+    }
+
+    .swatch-group {
+      margin-bottom: var(--space-8);
+    }
+
+    .swatch-group-title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-700);
+      margin-bottom: var(--space-3);
+    }
+
+    /* Semantic 4-row grid */
+    .semantic-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .semantic-label {
+      width: 70px;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-gray-700);
+      flex-shrink: 0;
+    }
+
+    .semantic-swatches {
+      display: flex;
+      flex: 1;
+      gap: var(--space-2);
+    }
+
+    .semantic-swatch {
+      flex: 1;
+      height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 500;
+    }
+
+    /* ============================================
+       3. Typography
+       ============================================ */
+    .type-specimen {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-6);
+      padding: var(--space-4) 0;
+      border-bottom: 1px solid var(--color-gray-100);
+    }
+
+    .type-row:last-child { border-bottom: none; }
+
+    .type-meta {
+      width: 180px;
+      flex-shrink: 0;
+    }
+
+    .type-meta-name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .type-meta-details {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+      margin-top: 2px;
+    }
+
+    .type-sample {
+      flex: 1;
+      min-width: 0;
+      color: var(--color-gray-900);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .weight-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    .weight-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+    }
+
+    .weight-card-sample {
+      font-size: var(--text-2xl);
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-3);
+    }
+
+    .weight-card-name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-700);
+    }
+
+    .weight-card-use {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+      margin-top: var(--space-1);
+    }
+
+    /* ============================================
+       4. Spacing
+       ============================================ */
+    .spacing-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .spacing-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .spacing-item-label {
+      width: 100px;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-700);
+      flex-shrink: 0;
+    }
+
+    .spacing-item-value {
+      width: 50px;
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .spacing-item-bar {
+      height: 24px;
+      background: var(--color-primary-100);
+      border: 1px solid var(--color-primary-200);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ============================================
+       5. Border radius
+       ============================================ */
+    .radius-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-6);
+    }
+
+    .radius-demo {
+      text-align: center;
+    }
+
+    .radius-box {
+      width: 80px;
+      height: 80px;
+      background: var(--color-primary-100);
+      border: 2px solid var(--color-primary-300);
+      margin-bottom: var(--space-2);
+    }
+
+    .radius-demo-label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-gray-700);
+    }
+
+    .radius-demo-value {
+      font-size: 10px;
+      color: var(--color-gray-400);
+      margin-top: 2px;
+    }
+
+    /* ============================================
+       6. Shadow
+       ============================================ */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+    }
+
+    .shadow-demo {
+      text-align: center;
+    }
+
+    .shadow-box {
+      width: 100%;
+      height: 80px;
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-3);
+    }
+
+    .shadow-demo-label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-gray-700);
+    }
+
+    /* ============================================
+       7. Buttons
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-family);
+      font-weight: 500;
+      border-radius: var(--radius-lg);
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out),
+                  opacity var(--duration-fast) var(--ease-out);
+      text-decoration: none;
+    }
+
+    .btn svg { flex-shrink: 0; }
+
+    /* Sizes */
+    .btn-lg { height: 52px; padding: 0 24px; font-size: var(--text-lg); }
+    .btn-lg svg { width: 24px; height: 24px; }
+    .btn-md { height: 44px; padding: 0 18px; font-size: var(--text-md); }
+    .btn-md svg { width: 20px; height: 20px; }
+    .btn-sm { height: 36px; padding: 0 14px; font-size: var(--text-sm); }
+    .btn-sm svg { width: 16px; height: 16px; }
+    .btn-xs { height: 28px; padding: 0 10px; font-size: var(--text-xs); }
+    .btn-xs svg { width: 14px; height: 14px; }
+
+    /* Icon-only sizes */
+    .btn-icon-only.btn-lg { width: 52px; padding: 0; }
+    .btn-icon-only.btn-md { width: 44px; padding: 0; }
+    .btn-icon-only.btn-sm { width: 36px; padding: 0; }
+    .btn-icon-only.btn-xs { width: 28px; padding: 0; }
+    .btn-icon-only.btn-rounded { border-radius: var(--radius-full); }
+
+    /* Primary filled */
+    .btn-primary-filled {
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+    .btn-primary-filled:hover { background: var(--color-primary-600); }
+    .btn-primary-filled:active { background: var(--color-primary-700); }
+
+    /* Primary outlined */
+    .btn-primary-outlined {
+      background: transparent;
+      border: 1.5px solid var(--color-primary);
+      color: var(--color-primary);
+    }
+    .btn-primary-outlined:hover { background: var(--color-primary-25); }
+    .btn-primary-outlined:active { background: var(--color-primary-50); }
+
+    /* Primary text */
+    .btn-primary-text {
+      background: transparent;
+      color: var(--color-primary);
+    }
+    .btn-primary-text:hover { background: var(--color-primary-25); }
+    .btn-primary-text:active { background: var(--color-primary-50); }
+
+    /* Destructive filled */
+    .btn-destructive-filled {
+      background: var(--color-error);
+      color: var(--color-white);
+    }
+    .btn-destructive-filled:hover { background: #D92D20; }
+    .btn-destructive-filled:active { background: #B42318; }
+
+    /* Destructive outlined */
+    .btn-destructive-outlined {
+      background: transparent;
+      border: 1.5px solid var(--color-error);
+      color: var(--color-error);
+    }
+    .btn-destructive-outlined:hover { background: var(--color-error-100); }
+    .btn-destructive-outlined:active { background: #FEE4E2; }
+
+    /* Destructive text */
+    .btn-destructive-text {
+      background: transparent;
+      color: var(--color-error);
+    }
+    .btn-destructive-text:hover { background: var(--color-error-100); }
+    .btn-destructive-text:active { background: #FEE4E2; }
+
+    /* States */
+    .btn:disabled, .btn.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .btn.btn-focus-demo {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .btn.btn-focus-demo.btn-destructive-filled,
+    .btn.btn-focus-demo.btn-destructive-outlined,
+    .btn.btn-focus-demo.btn-destructive-text {
+      outline-color: var(--color-error);
+    }
+
+    .btn.btn-hover-demo.btn-primary-filled { background: var(--color-primary-600); }
+    .btn.btn-hover-demo.btn-primary-outlined { background: var(--color-primary-25); }
+    .btn.btn-hover-demo.btn-primary-text { background: var(--color-primary-25); }
+    .btn.btn-hover-demo.btn-destructive-filled { background: #D92D20; }
+
+    .btn.btn-active-demo.btn-primary-filled { background: var(--color-primary-700); }
+
+    /* Loading button */
+    .btn-loading {
+      pointer-events: none;
+      position: relative;
+    }
+
+    .btn-loading .btn-label { visibility: hidden; }
+
+    .btn-loading .loading-dots {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .loading-dots span {
+      width: 6px;
+      height: 6px;
+      border-radius: var(--radius-full);
+      background: currentColor;
+      animation: loadingPulse 1.4s infinite ease-in-out both;
+    }
+
+    .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes loadingPulse {
+      0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+      40% { opacity: 1; transform: scale(1); }
+    }
+
+    /* ============================================
+       8. Form inputs
+       ============================================ */
+    .form-group { margin-bottom: var(--space-5); }
+
+    .form-label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-700);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      height: 44px;
+      padding: 0 var(--space-4);
+      border: 1.5px solid var(--color-gray-300);
+      border-radius: var(--radius-lg);
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      color: var(--color-gray-900);
+      background: var(--color-white);
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--color-gray-500); }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(29,110,235,0.12);
+    }
+
+    .form-input.error {
+      border-color: var(--color-error);
+      box-shadow: 0 0 0 4px rgba(240,68,56,0.12);
+    }
+
+    .form-input:disabled {
+      background: var(--color-gray-50);
+      color: var(--color-gray-400);
+      cursor: not-allowed;
+    }
+
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2398A2B3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right var(--space-3) center;
+      padding-right: var(--space-10);
+    }
+
+    .form-textarea {
+      height: auto;
+      min-height: 100px;
+      padding: var(--space-3) var(--space-4);
+      resize: vertical;
+    }
+
+    .form-helper {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      margin-top: var(--space-1);
+    }
+
+    .form-error-text {
+      font-size: var(--text-sm);
+      color: var(--color-error);
+      margin-top: var(--space-1);
+    }
+
+    .input-prefix-group {
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix {
+      height: 44px;
+      padding: 0 var(--space-3);
+      display: flex;
+      align-items: center;
+      background: var(--color-gray-50);
+      border: 1.5px solid var(--color-gray-300);
+      border-right: none;
+      border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      white-space: nowrap;
+    }
+
+    .input-prefix + .form-input {
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    }
+
+    /* Custom checkbox */
+    .custom-checkbox {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      cursor: pointer;
+      font-size: var(--text-sm);
+      color: var(--color-gray-700);
+    }
+
+    .custom-checkbox input { display: none; }
+
+    .checkbox-mark {
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid var(--color-gray-300);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--duration-fast) var(--ease-out),
+                  border-color var(--duration-fast) var(--ease-out);
+      flex-shrink: 0;
+    }
+
+    .checkbox-mark svg { width: 14px; height: 14px; color: var(--color-white); opacity: 0; }
+
+    .custom-checkbox input:checked + .checkbox-mark {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+
+    .custom-checkbox input:checked + .checkbox-mark svg { opacity: 1; }
+
+    /* Custom radio */
+    .custom-radio {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      cursor: pointer;
+      font-size: var(--text-sm);
+      color: var(--color-gray-700);
+    }
+
+    .custom-radio input { display: none; }
+
+    .radio-mark {
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid var(--color-gray-300);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color var(--duration-fast) var(--ease-out);
+      flex-shrink: 0;
+    }
+
+    .radio-mark::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      transform: scale(0);
+      transition: transform var(--duration-fast) var(--ease-out);
+    }
+
+    .custom-radio input:checked + .radio-mark {
+      border-color: var(--color-primary);
+    }
+
+    .custom-radio input:checked + .radio-mark::after {
+      transform: scale(1);
+    }
+
+    /* ============================================
+       9. Cards
+       ============================================ */
+    .card {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-interactive {
+      transition: box-shadow var(--duration-base) var(--ease-out),
+                  transform var(--duration-base) var(--ease-out);
+      cursor: pointer;
+    }
+
+    .card-interactive:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .card-body { padding: var(--space-6); }
+
+    .card-img-placeholder {
+      width: 100%;
+      height: 160px;
+      background: var(--color-gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gray-300);
+    }
+
+    .card-img-placeholder svg { width: 48px; height: 48px; }
+
+    .card-title {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-2);
+    }
+
+    .card-text {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      line-height: 20px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    /* ============================================
+       10. Badges
+       ============================================ */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 2px var(--space-2);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    .badge-info    { background: #EFF8FF; color: #175CD3; }
+    .badge-success { background: #ECFDF3; color: #027A48; }
+    .badge-warning { background: #FFFAEB; color: #B54708; }
+    .badge-error   { background: #FEF3F2; color: #B42318; }
+    .badge-sale    { background: var(--color-error); color: var(--color-white); font-weight: 600; }
+    .badge-new     { background: var(--color-primary); color: var(--color-white); font-weight: 600; }
+
+    /* ============================================
+       11. Alerts
+       ============================================ */
+    .alert {
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      border-left: 4px solid;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      font-size: var(--text-sm);
+    }
+
+    .alert svg { width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px; }
+
+    .alert-info    { background: #EFF8FF; border-color: var(--color-primary); color: var(--color-gray-700); }
+    .alert-success { background: #ECFDF3; border-color: var(--color-success); color: var(--color-gray-700); }
+    .alert-warning { background: #FFFAEB; border-color: var(--color-warning); color: var(--color-gray-700); }
+    .alert-error   { background: #FEF3F2; border-color: var(--color-error);   color: var(--color-gray-700); }
+
+    .alert-info svg    { color: var(--color-primary); }
+    .alert-success svg { color: var(--color-success); }
+    .alert-warning svg { color: var(--color-warning); }
+    .alert-error svg   { color: var(--color-error); }
+
+    .alert-content-title {
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: 2px;
+    }
+
+    .alert + .alert { margin-top: var(--space-3); }
+
+    /* ============================================
+       12. Modal
+       ============================================ */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 24, 40, 0.6);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--duration-slow) var(--ease-out),
+                  visibility var(--duration-slow) var(--ease-out);
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--color-white);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-2xl);
+      max-width: 560px;
+      width: 90%;
+      transform: scale(0.95);
+      transition: transform var(--duration-slow) var(--ease-out);
+    }
+
+    .modal-backdrop.open .modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--color-gray-200);
+      margin-bottom: var(--space-4);
+    }
+
+    .modal-title {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      color: var(--color-gray-400);
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .modal-close:hover {
+      background: var(--color-gray-50);
+      color: var(--color-gray-700);
+    }
+
+    .modal-close svg { width: 20px; height: 20px; }
+
+    .modal-body {
+      font-size: var(--text-sm);
+      color: var(--color-gray-600);
+      line-height: 20px;
+      margin-bottom: var(--space-4);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-3);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-gray-200);
+    }
+
+    /* ============================================
+       Blur & opacity section
+       ============================================ */
+    .blur-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    .blur-demo {
+      position: relative;
+      height: 120px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--color-primary-400), var(--color-secondary-400));
+    }
+
+    .blur-overlay {
+      position: absolute;
+      inset: 12px;
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xs);
+      font-weight: 500;
+    }
+
+    .blur-overlay.light {
+      color: var(--color-gray-900);
+    }
+
+    .blur-demo-label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-gray-700);
+      margin-top: var(--space-2);
+      text-align: center;
+    }
+
+    .opacity-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    .opacity-demo {
+      height: 80px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      border: 1px solid var(--color-gray-200);
+    }
+
+    /* Copy CSS button */
+    .btn-copy-css {
+      height: 36px;
+      padding: 0 var(--space-4);
+      background: var(--color-white);
+      border: 1.5px solid var(--color-gray-300);
+      border-radius: var(--radius-lg);
+      font-family: var(--font-family);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-700);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      transition: background var(--duration-fast) var(--ease-out),
+                  border-color var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-copy-css:hover {
+      background: var(--color-gray-50);
+      border-color: var(--color-gray-400);
+    }
+
+    .btn-copy-css svg { width: 16px; height: 16px; }
+
+    /* ============================================
+       Sidebar mobile overlay
+       ============================================ */
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 24, 40, 0.5);
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--duration-slow) var(--ease-out),
+                  visibility var(--duration-slow) var(--ease-out);
+    }
+
+    .sidebar-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ============================================
+       Responsive
+       ============================================ */
+    @media (max-width: 1023px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .hamburger-btn {
+        display: flex;
+      }
+
+      .feature-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .shadow-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .blur-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .opacity-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .weight-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .content {
+        padding: var(--space-6) var(--space-4) var(--space-16);
+      }
+
+      .topbar {
+        padding: 0 var(--space-4);
+      }
+
+      .token-diagram {
+        flex-direction: column;
+      }
+
+      .token-arrow {
+        transform: rotate(90deg);
+      }
+    }
+
+    @media (max-width: 639px) {
+      .feature-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .shadow-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .blur-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-title {
+        font-size: var(--text-4xl);
+        line-height: 44px;
+      }
+
+      .type-row {
+        flex-direction: column;
+        gap: var(--space-2);
+      }
+
+      .type-meta { width: auto; }
+
+      .swatch-row {
+        gap: var(--space-2);
+      }
+
+      .swatch {
+        min-width: 60px;
+        height: 50px;
+        font-size: 9px;
+      }
+
+      .weight-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================
+       prefers-reduced-motion
+       ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="layout">
+    <!-- ========================================
+         Sidebar
+         ======================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+        <span class="sidebar-logo-text">Morpheme UI<span class="sidebar-version">v1.0</span></span>
+      </div>
+
+      <nav class="sidebar-nav" id="sidebarNav">
+        <div class="nav-section-label">Foundations</div>
+        <a href="#colors" class="nav-item" data-section="colors">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="0.5"/><circle cx="17.5" cy="10.5" r="0.5"/><circle cx="8.5" cy="7.5" r="0.5"/><circle cx="6.5" cy="12.5" r="0.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+          Colors
+        </a>
+        <a href="#typography" class="nav-item" data-section="typography">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+          Typography
+        </a>
+        <a href="#spacing" class="nav-item" data-section="spacing">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          Spacing
+        </a>
+        <a href="#border-radius" class="nav-item" data-section="border-radius">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/></svg>
+          Border radius
+        </a>
+        <a href="#shadows" class="nav-item" data-section="shadows">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="16" height="16" rx="2"/><rect x="6" y="6" width="16" height="16" rx="2"/></svg>
+          Shadows
+        </a>
+        <a href="#blur-opacity" class="nav-item" data-section="blur-opacity">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          Blur &amp; opacity
+        </a>
+
+        <div class="nav-section-label">Components</div>
+        <a href="#buttons" class="nav-item" data-section="buttons">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="12" y1="12" x2="12" y2="12"/></svg>
+          Buttons
+        </a>
+        <a href="#form-inputs" class="nav-item" data-section="form-inputs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="12" x2="18" y2="12"/></svg>
+          Form inputs
+        </a>
+        <a href="#cards" class="nav-item" data-section="cards">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/></svg>
+          Cards
+        </a>
+        <a href="#badges" class="nav-item" data-section="badges">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15 8.5L22 9.3L17 14L18.2 21L12 17.8L5.8 21L7 14L2 9.3L9 8.5Z"/></svg>
+          Badges
+        </a>
+        <a href="#alerts" class="nav-item" data-section="alerts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Alerts
+        </a>
+        <a href="#modal" class="nav-item" data-section="modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          Modal
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="https://github.com/gravitano/morpheme-design-skill" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </aside>
+
+    <!-- ========================================
+         Main content
+         ======================================== -->
+    <div class="main">
+      <!-- Topbar -->
+      <div class="topbar">
+        <div style="display:flex;align-items:center;">
+          <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle sidebar menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="topbar-breadcrumb">
+            <span>Morpheme UI</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <span class="topbar-breadcrumb-current" id="breadcrumbCurrent">Overview</span>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn-copy-css" id="copyCssBtn" aria-label="Copy all CSS variables to clipboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy CSS
+          </button>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="content">
+
+        <!-- ==========================================
+             1. Hero / Overview
+             ========================================== -->
+        <section class="hero" id="overview">
+          <h1 class="hero-title">Morpheme UI design system</h1>
+          <p class="hero-subtitle">A universal, accessible design system built on a 3-layer token architecture: Foundation primitives, Brand aliases, and Semantic context tokens. Designed for projects of any scale.</p>
+
+          <div class="feature-cards">
+            <div class="feature-card">
+              <div class="feature-card-icon blue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+              </div>
+              <div class="feature-card-title">Consistent</div>
+              <div class="feature-card-desc">The same tokens and components are used consistently across the entire interface.</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-card-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </div>
+              <div class="feature-card-title">Accessible</div>
+              <div class="feature-card-desc">Semantic colors follow real-world associations (red = danger, yellow = warning, green = positive) to reduce cognitive load.</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-card-icon purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div class="feature-card-title">Scalable</div>
+              <div class="feature-card-desc">A layered token system (foundation, brand, semantic) makes theming and customization straightforward.</div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-card-icon orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              </div>
+              <div class="feature-card-title">Clean &amp; light</div>
+              <div class="feature-card-desc">Default visual style is light mode with crisp typography, subtle shadows, and generous whitespace.</div>
+            </div>
+          </div>
+
+          <!-- Token architecture diagram -->
+          <div class="token-diagram">
+            <div class="token-box foundation">
+              <div class="token-box-title">Foundation</div>
+              <div class="token-box-desc">Primitive values: #F04438, #1D6EEB</div>
+            </div>
+            <div class="token-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+            <div class="token-box brand">
+              <div class="token-box-title">Brand</div>
+              <div class="token-box-desc">Brand aliases: colorPrimary500, colorSecondary500</div>
+            </div>
+            <div class="token-arrow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+            <div class="token-box semantic">
+              <div class="token-box-title">Semantic</div>
+              <div class="token-box-desc">Contextual: --color-error, --color-primary</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             2. Colors
+             ========================================== -->
+        <section class="doc-section" id="colors">
+          <h2 class="doc-section-title">Colors</h2>
+          <p class="doc-section-desc">Morpheme uses a 3-layer color system: Foundation (primitives), Brand (product), and Semantic (contextual UI). Always use semantic tokens in components to preserve theming capability.</p>
+
+          <!-- Foundation colors -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Foundation colors</h3>
+            <p class="doc-subsection-desc">Base colors that remain constant regardless of theme.</p>
+            <div class="showcase">
+              <div class="swatch-row">
+                <div class="swatch-circle swatch-light" style="background:var(--color-white);border:1px solid var(--color-gray-200);">
+                  <span>#FFFFFF</span>
+                  <span class="swatch-label">white</span>
+                </div>
+                <div class="swatch-circle swatch-dark" style="background:var(--color-black);">
+                  <span>#000000</span>
+                  <span class="swatch-label">black</span>
+                </div>
+                <div class="swatch-circle swatch-dark" style="background:var(--color-info);">
+                  <span>#28A0F8</span>
+                  <span class="swatch-label">info</span>
+                </div>
+                <div class="swatch-circle swatch-dark" style="background:var(--color-warning);">
+                  <span>#F79009</span>
+                  <span class="swatch-label">warning</span>
+                </div>
+                <div class="swatch-circle swatch-dark" style="background:var(--color-success);">
+                  <span>#12B76A</span>
+                  <span class="swatch-label">success</span>
+                </div>
+                <div class="swatch-circle swatch-dark" style="background:var(--color-error);">
+                  <span>#F04438</span>
+                  <span class="swatch-label">error</span>
+                </div>
+              </div>
+            </div>
+            <div><span class="code-tag">--color-white</span> <span class="code-tag">--color-black</span> <span class="code-tag">--color-info</span> <span class="code-tag">--color-warning</span> <span class="code-tag">--color-success</span> <span class="code-tag">--color-error</span></div>
+          </div>
+
+          <!-- Primary scale -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Primary scale (blue)</h3>
+            <p class="doc-subsection-desc">Brand primary color used on all interactive elements. <span class="code-tag">colorPrimary500: #1D6EEB</span></p>
+            <div class="showcase">
+              <div class="swatch-row">
+                <div class="swatch swatch-light" style="background:var(--color-primary-25);">25<span class="swatch-label">#F5F8FF</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-primary-50);">50<span class="swatch-label">#EBF3FF</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-primary-100);">100<span class="swatch-label">#BFDBFE</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-primary-200);">200<span class="swatch-label">#93C5FD</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-primary-300);">300<span class="swatch-label">#60A5FA</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-primary-400);">400<span class="swatch-label">#3B82F6</span></div>
+                <div class="swatch swatch-wide swatch-dark" style="background:var(--color-primary);border-color:var(--color-primary-700);">500<span class="swatch-label">#1D6EEB</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-primary-600);">600<span class="swatch-label">#1B69C2</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-primary-700);">700<span class="swatch-label">#1554A1</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-primary-800);">800<span class="swatch-label">#0D4487</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-primary-900);">900<span class="swatch-label">#072D60</span></div>
+              </div>
+            </div>
+            <div><span class="code-tag">--color-primary-25</span> through <span class="code-tag">--color-primary-900</span></div>
+          </div>
+
+          <!-- Secondary scale -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Secondary scale (orange)</h3>
+            <p class="doc-subsection-desc">Used sparingly for pills, alerts, accents, and non-primary badges. <span class="code-tag">colorSecondary500: #E55B05</span></p>
+            <div class="showcase">
+              <div class="swatch-row">
+                <div class="swatch swatch-light" style="background:var(--color-secondary-25);">25<span class="swatch-label">#FFF9F5</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-secondary-50);">50<span class="swatch-label">#FFF3EB</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-secondary-100);">100<span class="swatch-label">#FFE0C2</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-secondary-200);">200<span class="swatch-label">#FFBC87</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-secondary-300);">300<span class="swatch-label">#FF9855</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-secondary-400);">400<span class="swatch-label">#FF7320</span></div>
+                <div class="swatch swatch-wide swatch-dark" style="background:var(--color-secondary);border-color:var(--color-secondary-700);">500<span class="swatch-label">#E55B05</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-secondary-600);">600<span class="swatch-label">#CC4E00</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-secondary-700);">700<span class="swatch-label">#A33E00</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-secondary-800);">800<span class="swatch-label">#7A2E00</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-secondary-900);">900<span class="swatch-label">#4A1C00</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Neutral / Gray scale -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Neutral scale (gray)</h3>
+            <p class="doc-subsection-desc">Used for text, borders, backgrounds, and UI chrome.</p>
+            <div class="showcase">
+              <div class="swatch-row">
+                <div class="swatch swatch-light" style="background:var(--color-gray-25);">25<span class="swatch-label">#FCFCFD</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-gray-50);">50<span class="swatch-label">#F9FAFB</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-gray-100);">100<span class="swatch-label">#F2F4F7</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-gray-200);">200<span class="swatch-label">#EAECF0</span></div>
+                <div class="swatch swatch-light" style="background:var(--color-gray-300);">300<span class="swatch-label">#D0D5DD</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-gray-400);">400<span class="swatch-label">#98A2B3</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-gray-500);">500<span class="swatch-label">#667085</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-gray-600);">600<span class="swatch-label">#475467</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-gray-700);">700<span class="swatch-label">#344054</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-gray-800);">800<span class="swatch-label">#1D2939</span></div>
+                <div class="swatch swatch-dark" style="background:var(--color-gray-900);">900<span class="swatch-label">#101828</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Semantic colors -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Semantic colors</h3>
+            <p class="doc-subsection-desc">Mapped from foundation colors to specific UI contexts. Each category has a 25-900 scale.</p>
+            <div class="showcase">
+              <div class="semantic-row">
+                <div class="semantic-label">Info</div>
+                <div class="semantic-swatches">
+                  <div class="semantic-swatch swatch-light" style="background:var(--color-info-25);">25</div>
+                  <div class="semantic-swatch swatch-light" style="background:var(--color-info-100);">100</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-info-300);">300</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-info-500);">500</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-info-700);">700</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-info-900);">900</div>
+                </div>
+              </div>
+              <div class="semantic-row">
+                <div class="semantic-label">Warning</div>
+                <div class="semantic-swatches">
+                  <div class="semantic-swatch swatch-light" style="background:var(--color-warning-25);">25</div>
+                  <div class="semantic-swatch swatch-light" style="background:var(--color-warning-100);">100</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-warning-300);">300</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-warning-500);">500</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-warning-700);">700</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-warning-900);">900</div>
+                </div>
+              </div>
+              <div class="semantic-row">
+                <div class="semantic-label">Success</div>
+                <div class="semantic-swatches">
+                  <div class="semantic-swatch swatch-light" style="background:var(--color-success-25);">25</div>
+                  <div class="semantic-swatch swatch-light" style="background:var(--color-success-100);">100</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-success-300);">300</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-success-500);">500</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-success-700);">700</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-success-900);">900</div>
+                </div>
+              </div>
+              <div class="semantic-row">
+                <div class="semantic-label">Error</div>
+                <div class="semantic-swatches">
+                  <div class="semantic-swatch swatch-light" style="background:var(--color-error-25);">25</div>
+                  <div class="semantic-swatch swatch-light" style="background:var(--color-error-100);">100</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-error-300);">300</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-error-500);">500</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-error-700);">700</div>
+                  <div class="semantic-swatch swatch-dark" style="background:var(--color-error-900);">900</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             3. Typography
+             ========================================== -->
+        <section class="doc-section" id="typography">
+          <h2 class="doc-section-title">Typography</h2>
+          <p class="doc-section-desc">Morpheme uses Poppins, a geometric sans-serif with clean, modern character. Available in Regular (400), Medium (500), Semibold (600), and Bold (700).</p>
+
+          <!-- Font specimen -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Font family</h3>
+            <div class="showcase" style="margin-bottom:var(--space-4);">
+              <div style="margin-bottom:var(--space-4);">
+                <div style="font-size:var(--text-xs);font-weight:500;color:var(--color-gray-400);margin-bottom:var(--space-2);">REGULAR 400</div>
+                <div style="font-size:var(--text-xl);font-weight:400;color:var(--color-gray-900);">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</div>
+              </div>
+              <div style="margin-bottom:var(--space-4);">
+                <div style="font-size:var(--text-xs);font-weight:500;color:var(--color-gray-400);margin-bottom:var(--space-2);">MEDIUM 500</div>
+                <div style="font-size:var(--text-xl);font-weight:500;color:var(--color-gray-900);">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</div>
+              </div>
+              <div style="margin-bottom:var(--space-4);">
+                <div style="font-size:var(--text-xs);font-weight:500;color:var(--color-gray-400);margin-bottom:var(--space-2);">SEMIBOLD 600</div>
+                <div style="font-size:var(--text-xl);font-weight:600;color:var(--color-gray-900);">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</div>
+              </div>
+              <div>
+                <div style="font-size:var(--text-xs);font-weight:500;color:var(--color-gray-400);margin-bottom:var(--space-2);">BOLD 700</div>
+                <div style="font-size:var(--text-xl);font-weight:700;color:var(--color-gray-900);">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</div>
+              </div>
+            </div>
+            <div><span class="code-tag">--font-family: "Poppins", -apple-system, sans-serif</span></div>
+          </div>
+
+          <!-- Type scale -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Type scale</h3>
+            <div class="type-specimen">
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Display 2xl</div>
+                  <div class="type-meta-details">72px / 90px / -2%</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-7xl);line-height:90px;letter-spacing:-0.02em;font-weight:700;">The quick brown fox</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Display xl</div>
+                  <div class="type-meta-details">60px / 72px / -2%</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-6xl);line-height:72px;letter-spacing:-0.02em;font-weight:700;">The quick brown fox</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Display lg</div>
+                  <div class="type-meta-details">48px / 60px / -2%</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-5xl);line-height:60px;letter-spacing:-0.02em;font-weight:700;">The quick brown fox</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Display md</div>
+                  <div class="type-meta-details">36px / 44px / -2%</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-4xl);line-height:44px;letter-spacing:-0.02em;font-weight:600;">The quick brown fox</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Display sm</div>
+                  <div class="type-meta-details">30px / 38px</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-3xl);line-height:38px;font-weight:600;">The quick brown fox</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Display xs</div>
+                  <div class="type-meta-details">24px / 32px</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-2xl);line-height:32px;font-weight:600;">The quick brown fox</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Text xl</div>
+                  <div class="type-meta-details">20px / 30px</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-xl);line-height:30px;">The quick brown fox jumps over the lazy dog</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Text lg</div>
+                  <div class="type-meta-details">18px / 28px</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-lg);line-height:28px;">The quick brown fox jumps over the lazy dog</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Text md</div>
+                  <div class="type-meta-details">16px / 24px</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-md);line-height:24px;">The quick brown fox jumps over the lazy dog</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Text sm</div>
+                  <div class="type-meta-details">14px / 20px</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-sm);line-height:20px;">The quick brown fox jumps over the lazy dog</div>
+              </div>
+              <div class="type-row">
+                <div class="type-meta">
+                  <div class="type-meta-name">Text xs</div>
+                  <div class="type-meta-details">12px / 18px</div>
+                </div>
+                <div class="type-sample" style="font-size:var(--text-xs);line-height:18px;">The quick brown fox jumps over the lazy dog</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weight usage -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Weight usage</h3>
+            <div class="weight-grid">
+              <div class="weight-card">
+                <div class="weight-card-sample" style="font-weight:400;">Aa</div>
+                <div class="weight-card-name">Regular (400)</div>
+                <div class="weight-card-use">Body text, descriptions</div>
+              </div>
+              <div class="weight-card">
+                <div class="weight-card-sample" style="font-weight:500;">Aa</div>
+                <div class="weight-card-name">Medium (500)</div>
+                <div class="weight-card-use">Labels, nav items, secondary headings</div>
+              </div>
+              <div class="weight-card">
+                <div class="weight-card-sample" style="font-weight:600;">Aa</div>
+                <div class="weight-card-name">Semibold (600)</div>
+                <div class="weight-card-use">Headings, subheadings, important labels</div>
+              </div>
+              <div class="weight-card">
+                <div class="weight-card-sample" style="font-weight:700;">Aa</div>
+                <div class="weight-card-name">Bold (700)</div>
+                <div class="weight-card-use">Display text, CTAs, emphasis</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             4. Spacing
+             ========================================== -->
+        <section class="doc-section" id="spacing">
+          <h2 class="doc-section-title">Spacing</h2>
+          <p class="doc-section-desc">Based on a 4px base unit. All spacing values are multiples of 4.</p>
+
+          <div class="showcase">
+            <div class="spacing-list">
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-1</div>
+                <div class="spacing-item-value">4px</div>
+                <div class="spacing-item-bar" style="width:4px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-2</div>
+                <div class="spacing-item-value">8px</div>
+                <div class="spacing-item-bar" style="width:8px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-3</div>
+                <div class="spacing-item-value">12px</div>
+                <div class="spacing-item-bar" style="width:12px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-4</div>
+                <div class="spacing-item-value">16px</div>
+                <div class="spacing-item-bar" style="width:16px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-5</div>
+                <div class="spacing-item-value">20px</div>
+                <div class="spacing-item-bar" style="width:20px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-6</div>
+                <div class="spacing-item-value">24px</div>
+                <div class="spacing-item-bar" style="width:24px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-8</div>
+                <div class="spacing-item-value">32px</div>
+                <div class="spacing-item-bar" style="width:32px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-10</div>
+                <div class="spacing-item-value">40px</div>
+                <div class="spacing-item-bar" style="width:40px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-12</div>
+                <div class="spacing-item-value">48px</div>
+                <div class="spacing-item-bar" style="width:48px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-16</div>
+                <div class="spacing-item-value">64px</div>
+                <div class="spacing-item-bar" style="width:64px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-20</div>
+                <div class="spacing-item-value">80px</div>
+                <div class="spacing-item-bar" style="width:80px;"></div>
+              </div>
+              <div class="spacing-item">
+                <div class="spacing-item-label">spacing-24</div>
+                <div class="spacing-item-value">96px</div>
+                <div class="spacing-item-bar" style="width:96px;"></div>
+              </div>
+            </div>
+          </div>
+          <div><span class="code-tag">--space-1: 4px</span> through <span class="code-tag">--space-24: 96px</span></div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             5. Border radius
+             ========================================== -->
+        <section class="doc-section" id="border-radius">
+          <h2 class="doc-section-title">Border radius</h2>
+          <p class="doc-section-desc">A range of border-radius tokens from sharp corners to fully rounded pills.</p>
+
+          <div class="showcase">
+            <div class="radius-grid">
+              <div class="radius-demo">
+                <div class="radius-box" style="border-radius:var(--radius-none);"></div>
+                <div class="radius-demo-label">radius-none</div>
+                <div class="radius-demo-value">0px</div>
+              </div>
+              <div class="radius-demo">
+                <div class="radius-box" style="border-radius:var(--radius-xs);"></div>
+                <div class="radius-demo-label">radius-xs</div>
+                <div class="radius-demo-value">2px</div>
+              </div>
+              <div class="radius-demo">
+                <div class="radius-box" style="border-radius:var(--radius-sm);"></div>
+                <div class="radius-demo-label">radius-sm</div>
+                <div class="radius-demo-value">4px</div>
+              </div>
+              <div class="radius-demo">
+                <div class="radius-box" style="border-radius:var(--radius-md);"></div>
+                <div class="radius-demo-label">radius-md</div>
+                <div class="radius-demo-value">6px</div>
+              </div>
+              <div class="radius-demo">
+                <div class="radius-box" style="border-radius:var(--radius-lg);"></div>
+                <div class="radius-demo-label">radius-lg</div>
+                <div class="radius-demo-value">8px</div>
+              </div>
+              <div class="radius-demo">
+                <div class="radius-box" style="border-radius:var(--radius-xl);"></div>
+                <div class="radius-demo-label">radius-xl</div>
+                <div class="radius-demo-value">12px</div>
+              </div>
+              <div class="radius-demo">
+                <div class="radius-box" style="border-radius:var(--radius-2xl);"></div>
+                <div class="radius-demo-label">radius-2xl</div>
+                <div class="radius-demo-value">16px</div>
+              </div>
+              <div class="radius-demo">
+                <div class="radius-box" style="border-radius:var(--radius-full);"></div>
+                <div class="radius-demo-label">radius-full</div>
+                <div class="radius-demo-value">9999px</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             6. Shadows
+             ========================================== -->
+        <section class="doc-section" id="shadows">
+          <h2 class="doc-section-title">Shadows</h2>
+          <p class="doc-section-desc">Shadows serve as elevation indicators. From subtle inner shadows to deep 2xl elevation.</p>
+
+          <div class="showcase" style="background:var(--color-gray-50);">
+            <div class="shadow-grid">
+              <div class="shadow-demo">
+                <div class="shadow-box" style="box-shadow:var(--shadow-inner);"></div>
+                <div class="shadow-demo-label">shadow-inner</div>
+                <div><span class="code-tag">--shadow-inner</span></div>
+              </div>
+              <div class="shadow-demo">
+                <div class="shadow-box" style="box-shadow:var(--shadow-none);border:1px solid var(--color-gray-200);"></div>
+                <div class="shadow-demo-label">shadow-none</div>
+                <div><span class="code-tag">--shadow-none</span></div>
+              </div>
+              <div class="shadow-demo">
+                <div class="shadow-box" style="box-shadow:var(--shadow-sm);"></div>
+                <div class="shadow-demo-label">shadow-sm</div>
+                <div><span class="code-tag">--shadow-sm</span></div>
+              </div>
+              <div class="shadow-demo">
+                <div class="shadow-box" style="box-shadow:var(--shadow);"></div>
+                <div class="shadow-demo-label">shadow (default)</div>
+                <div><span class="code-tag">--shadow</span></div>
+              </div>
+              <div class="shadow-demo">
+                <div class="shadow-box" style="box-shadow:var(--shadow-md);"></div>
+                <div class="shadow-demo-label">shadow-md</div>
+                <div><span class="code-tag">--shadow-md</span></div>
+              </div>
+              <div class="shadow-demo">
+                <div class="shadow-box" style="box-shadow:var(--shadow-lg);"></div>
+                <div class="shadow-demo-label">shadow-lg</div>
+                <div><span class="code-tag">--shadow-lg</span></div>
+              </div>
+              <div class="shadow-demo">
+                <div class="shadow-box" style="box-shadow:var(--shadow-xl);"></div>
+                <div class="shadow-demo-label">shadow-xl</div>
+                <div><span class="code-tag">--shadow-xl</span></div>
+              </div>
+              <div class="shadow-demo">
+                <div class="shadow-box" style="box-shadow:var(--shadow-2xl);"></div>
+                <div class="shadow-demo-label">shadow-2xl</div>
+                <div><span class="code-tag">--shadow-2xl</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             Blur & Opacity
+             ========================================== -->
+        <section class="doc-section" id="blur-opacity">
+          <h2 class="doc-section-title">Blur &amp; opacity</h2>
+          <p class="doc-section-desc">Backdrop blur tokens for glassmorphism effects, and opacity tokens for overlays.</p>
+
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Blur scale</h3>
+            <div class="showcase">
+              <div class="blur-grid">
+                <div>
+                  <div class="blur-demo">
+                    <div class="blur-overlay light" style="backdrop-filter:blur(4px);background:rgba(255,255,255,0.4);">
+                      <span>blur-sm</span><span style="font-size:10px;opacity:0.7;">4px</span>
+                    </div>
+                  </div>
+                  <div class="blur-demo-label">blur-sm (4px)</div>
+                </div>
+                <div>
+                  <div class="blur-demo">
+                    <div class="blur-overlay light" style="backdrop-filter:blur(8px);background:rgba(255,255,255,0.6);">
+                      <span>blur-md</span><span style="font-size:10px;opacity:0.7;">8px</span>
+                    </div>
+                  </div>
+                  <div class="blur-demo-label">blur-md (8px)</div>
+                </div>
+                <div>
+                  <div class="blur-demo">
+                    <div class="blur-overlay light" style="backdrop-filter:blur(16px);background:rgba(255,255,255,0.75);">
+                      <span>blur-lg</span><span style="font-size:10px;opacity:0.7;">16px</span>
+                    </div>
+                  </div>
+                  <div class="blur-demo-label">blur-lg (16px)</div>
+                </div>
+                <div>
+                  <div class="blur-demo">
+                    <div class="blur-overlay light" style="backdrop-filter:blur(32px);background:rgba(255,255,255,0.9);">
+                      <span>blur-xl</span><span style="font-size:10px;opacity:0.7;">32px</span>
+                    </div>
+                  </div>
+                  <div class="blur-demo-label">blur-xl (32px)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Opacity scale</h3>
+            <div class="showcase">
+              <div class="opacity-grid">
+                <div>
+                  <div class="opacity-demo" style="background:rgba(16,24,40,0.20);color:var(--color-white);">opacity-sm (~0.20)</div>
+                </div>
+                <div>
+                  <div class="opacity-demo" style="background:rgba(16,24,40,0.40);color:var(--color-white);">opacity-md (~0.40)</div>
+                </div>
+                <div>
+                  <div class="opacity-demo" style="background:rgba(16,24,40,0.65);color:var(--color-white);">opacity-lg (~0.65)</div>
+                </div>
+                <div>
+                  <div class="opacity-demo" style="background:rgba(16,24,40,0.90);color:var(--color-white);">opacity-xl (~0.90)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             7. Buttons
+             ========================================== -->
+        <section class="doc-section" id="buttons">
+          <h2 class="doc-section-title">Buttons</h2>
+          <p class="doc-section-desc">Available in 2 color groups (primary, destructive) x 4 style variants (filled, outlined, text, icon-only) x 4 sizes (lg, md, sm, xs) x 6 states. Font weight is Medium (500) for all sizes. Default size is md (44px).</p>
+
+          <!-- PRIMARY BUTTONS -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Primary buttons</h3>
+
+            <!-- Filled -->
+            <div class="doc-subsection">
+              <div class="showcase-label">Filled - text only</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-filled btn-lg">Button</button>
+                  <button class="btn btn-primary-filled btn-md">Button</button>
+                  <button class="btn btn-primary-filled btn-sm">Button</button>
+                  <button class="btn btn-primary-filled btn-xs">Button</button>
+                </div>
+              </div>
+
+              <div class="showcase-label">Filled - icon left</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-filled btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                  <button class="btn btn-primary-filled btn-md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                  <button class="btn btn-primary-filled btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                  <button class="btn btn-primary-filled btn-xs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                </div>
+              </div>
+
+              <div class="showcase-label">Filled - icon right</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-filled btn-lg">Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-filled btn-md">Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-filled btn-sm">Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-filled btn-xs">Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                </div>
+              </div>
+
+              <div class="showcase-label">Filled - icon both sides</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-filled btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-filled btn-md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-filled btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-filled btn-xs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Outlined -->
+            <div class="doc-subsection">
+              <div class="showcase-label">Outlined - text only</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-outlined btn-lg">Button</button>
+                  <button class="btn btn-primary-outlined btn-md">Button</button>
+                  <button class="btn btn-primary-outlined btn-sm">Button</button>
+                  <button class="btn btn-primary-outlined btn-xs">Button</button>
+                </div>
+              </div>
+
+              <div class="showcase-label">Outlined - icon left</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-outlined btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                  <button class="btn btn-primary-outlined btn-md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                  <button class="btn btn-primary-outlined btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                  <button class="btn btn-primary-outlined btn-xs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                </div>
+              </div>
+
+              <div class="showcase-label">Outlined - icon right</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-outlined btn-lg">Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-md">Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-sm">Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-xs">Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                </div>
+              </div>
+
+              <div class="showcase-label">Outlined - icon both sides</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-outlined btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-xs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Text / Ghost -->
+            <div class="doc-subsection">
+              <div class="showcase-label">Text (ghost) - text only</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-text btn-lg">Button</button>
+                  <button class="btn btn-primary-text btn-md">Button</button>
+                  <button class="btn btn-primary-text btn-sm">Button</button>
+                  <button class="btn btn-primary-text btn-xs">Button</button>
+                </div>
+              </div>
+
+              <div class="showcase-label">Text (ghost) - icon left</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-text btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                  <button class="btn btn-primary-text btn-md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                  <button class="btn btn-primary-text btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                  <button class="btn btn-primary-text btn-xs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Button</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Icon-only -->
+            <div class="doc-subsection">
+              <div class="showcase-label">Icon-only - square</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-filled btn-icon-only btn-lg" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-filled btn-icon-only btn-md" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-filled btn-icon-only btn-sm" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-filled btn-icon-only btn-xs" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <span style="width:var(--space-4);"></span>
+                  <button class="btn btn-primary-outlined btn-icon-only btn-lg" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-icon-only btn-md" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-icon-only btn-sm" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-icon-only btn-xs" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                </div>
+              </div>
+
+              <div class="showcase-label">Icon-only - rounded</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <button class="btn btn-primary-filled btn-icon-only btn-rounded btn-lg" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-filled btn-icon-only btn-rounded btn-md" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-filled btn-icon-only btn-rounded btn-sm" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-filled btn-icon-only btn-rounded btn-xs" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <span style="width:var(--space-4);"></span>
+                  <button class="btn btn-primary-outlined btn-icon-only btn-rounded btn-lg" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-icon-only btn-rounded btn-md" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-icon-only btn-rounded btn-sm" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                  <button class="btn btn-primary-outlined btn-icon-only btn-rounded btn-xs" aria-label="Add item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- States -->
+            <div class="doc-subsection">
+              <div class="showcase-label">Primary filled - states</div>
+              <div class="showcase">
+                <div class="showcase-row">
+                  <div style="text-align:center;">
+                    <button class="btn btn-primary-filled btn-md">Default</button>
+                    <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Default</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <button class="btn btn-primary-filled btn-md btn-hover-demo">Hover</button>
+                    <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Hover</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <button class="btn btn-primary-filled btn-md btn-active-demo">Active</button>
+                    <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Active</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <button class="btn btn-primary-filled btn-md btn-focus-demo">Focus</button>
+                    <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Focus</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <button class="btn btn-primary-filled btn-md disabled" disabled>Disabled</button>
+                    <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Disabled</div>
+                  </div>
+                  <div style="text-align:center;">
+                    <button class="btn btn-primary-filled btn-md btn-loading"><span class="btn-label">Loading</span><div class="loading-dots"><span></span><span></span><span></span></div></button>
+                    <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Loading</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- DESTRUCTIVE BUTTONS -->
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Destructive buttons</h3>
+
+            <div class="showcase-label">Filled - all sizes</div>
+            <div class="showcase">
+              <div class="showcase-row">
+                <button class="btn btn-destructive-filled btn-lg">Delete</button>
+                <button class="btn btn-destructive-filled btn-md">Delete</button>
+                <button class="btn btn-destructive-filled btn-sm">Delete</button>
+                <button class="btn btn-destructive-filled btn-xs">Delete</button>
+              </div>
+            </div>
+
+            <div class="showcase-label">Filled - icon left</div>
+            <div class="showcase">
+              <div class="showcase-row">
+                <button class="btn btn-destructive-filled btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Delete</button>
+                <button class="btn btn-destructive-filled btn-md"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Delete</button>
+                <button class="btn btn-destructive-filled btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Delete</button>
+                <button class="btn btn-destructive-filled btn-xs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Delete</button>
+              </div>
+            </div>
+
+            <div class="showcase-label">Outlined - all sizes</div>
+            <div class="showcase">
+              <div class="showcase-row">
+                <button class="btn btn-destructive-outlined btn-lg">Delete</button>
+                <button class="btn btn-destructive-outlined btn-md">Delete</button>
+                <button class="btn btn-destructive-outlined btn-sm">Delete</button>
+                <button class="btn btn-destructive-outlined btn-xs">Delete</button>
+              </div>
+            </div>
+
+            <div class="showcase-label">Text (ghost) - all sizes</div>
+            <div class="showcase">
+              <div class="showcase-row">
+                <button class="btn btn-destructive-text btn-lg">Delete</button>
+                <button class="btn btn-destructive-text btn-md">Delete</button>
+                <button class="btn btn-destructive-text btn-sm">Delete</button>
+                <button class="btn btn-destructive-text btn-xs">Delete</button>
+              </div>
+            </div>
+
+            <div class="showcase-label">Icon-only - square &amp; rounded</div>
+            <div class="showcase">
+              <div class="showcase-row">
+                <button class="btn btn-destructive-filled btn-icon-only btn-lg" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <button class="btn btn-destructive-filled btn-icon-only btn-md" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <button class="btn btn-destructive-filled btn-icon-only btn-sm" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <button class="btn btn-destructive-filled btn-icon-only btn-xs" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <span style="width:var(--space-4);"></span>
+                <button class="btn btn-destructive-filled btn-icon-only btn-rounded btn-lg" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <button class="btn btn-destructive-filled btn-icon-only btn-rounded btn-md" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <button class="btn btn-destructive-filled btn-icon-only btn-rounded btn-sm" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+                <button class="btn btn-destructive-filled btn-icon-only btn-rounded btn-xs" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+              </div>
+            </div>
+
+            <div class="showcase-label">Destructive filled - states</div>
+            <div class="showcase">
+              <div class="showcase-row">
+                <div style="text-align:center;">
+                  <button class="btn btn-destructive-filled btn-md">Default</button>
+                  <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Default</div>
+                </div>
+                <div style="text-align:center;">
+                  <button class="btn btn-destructive-filled btn-md btn-hover-demo">Hover</button>
+                  <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Hover</div>
+                </div>
+                <div style="text-align:center;">
+                  <button class="btn btn-destructive-filled btn-md btn-focus-demo">Focus</button>
+                  <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Focus</div>
+                </div>
+                <div style="text-align:center;">
+                  <button class="btn btn-destructive-filled btn-md disabled" disabled>Disabled</button>
+                  <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Disabled</div>
+                </div>
+                <div style="text-align:center;">
+                  <button class="btn btn-destructive-filled btn-md btn-loading"><span class="btn-label">Loading</span><div class="loading-dots"><span></span><span></span><span></span></div></button>
+                  <div style="font-size:var(--text-xs);color:var(--color-gray-400);margin-top:var(--space-2);">Loading</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             8. Form inputs
+             ========================================== -->
+        <section class="doc-section" id="form-inputs">
+          <h2 class="doc-section-title">Form inputs</h2>
+          <p class="doc-section-desc">All form elements follow a consistent height of 44px, with 1.5px borders, 8px border-radius, and Poppins typography.</p>
+
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Text input states</h3>
+            <div class="showcase">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);">
+                <div class="form-group">
+                  <label class="form-label" for="input-default">Default</label>
+                  <input type="text" id="input-default" class="form-input" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="input-focused">Focused (click to see)</label>
+                  <input type="text" id="input-focused" class="form-input" placeholder="Click to focus" value="John Doe">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="input-error">Error state</label>
+                  <input type="text" id="input-error" class="form-input error" value="invalid@">
+                  <div class="form-error-text">Please enter a valid email address.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="input-disabled">Disabled</label>
+                  <input type="text" id="input-disabled" class="form-input" placeholder="Disabled input" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Label and helper text</h3>
+            <div class="showcase">
+              <div style="max-width:400px;">
+                <div class="form-group">
+                  <label class="form-label" for="input-helper">Email address</label>
+                  <input type="email" id="input-helper" class="form-input" placeholder="you@example.com">
+                  <div class="form-helper">We will never share your email with anyone else.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Input with prefix</h3>
+            <div class="showcase">
+              <div style="max-width:400px;">
+                <div class="form-group">
+                  <label class="form-label" for="input-prefix">Website URL</label>
+                  <div class="input-prefix-group">
+                    <span class="input-prefix">https://</span>
+                    <input type="text" id="input-prefix" class="form-input" placeholder="www.example.com">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Select dropdown</h3>
+            <div class="showcase">
+              <div style="max-width:400px;">
+                <div class="form-group">
+                  <label class="form-label" for="select-demo">Country</label>
+                  <select id="select-demo" class="form-select">
+                    <option value="" disabled selected>Select a country</option>
+                    <option>Indonesia</option>
+                    <option>United States</option>
+                    <option>Japan</option>
+                    <option>Germany</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Textarea</h3>
+            <div class="showcase">
+              <div style="max-width:400px;">
+                <div class="form-group">
+                  <label class="form-label" for="textarea-demo">Message</label>
+                  <textarea id="textarea-demo" class="form-textarea" placeholder="Write your message here..."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="doc-subsection">
+            <h3 class="doc-subsection-title">Checkbox and radio</h3>
+            <div class="showcase">
+              <div style="display:flex;gap:var(--space-8);">
+                <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+                  <div class="showcase-label" style="margin-bottom:0;">Checkboxes</div>
+                  <label class="custom-checkbox">
+                    <input type="checkbox" checked>
+                    <span class="checkbox-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    Accept terms and conditions
+                  </label>
+                  <label class="custom-checkbox">
+                    <input type="checkbox">
+                    <span class="checkbox-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    Subscribe to newsletter
+                  </label>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:var(--space-3);">
+                  <div class="showcase-label" style="margin-bottom:0;">Radio buttons</div>
+                  <label class="custom-radio">
+                    <input type="radio" name="plan" checked>
+                    <span class="radio-mark"></span>
+                    Monthly plan
+                  </label>
+                  <label class="custom-radio">
+                    <input type="radio" name="plan">
+                    <span class="radio-mark"></span>
+                    Annual plan
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             9. Cards
+             ========================================== -->
+        <section class="doc-section" id="cards">
+          <h2 class="doc-section-title">Cards</h2>
+          <p class="doc-section-desc">Cards use white background, 1px gray-200 border, radius-xl (12px), 24px padding, and shadow-md. Interactive cards elevate to shadow-lg on hover.</p>
+
+          <div class="showcase" style="background:var(--color-gray-50);">
+            <div class="cards-grid">
+              <!-- Default card -->
+              <div class="card">
+                <div class="card-body">
+                  <div class="card-title">Default card</div>
+                  <div class="card-text">This is a standard card with shadow-md, radius-xl, and 24px padding. No hover effect applied.</div>
+                </div>
+              </div>
+
+              <!-- Interactive card -->
+              <div class="card card-interactive">
+                <div class="card-body">
+                  <div class="card-title">Interactive card</div>
+                  <div class="card-text">Hover over this card to see it elevate to shadow-lg with a subtle translateY(-2px) transition.</div>
+                </div>
+              </div>
+
+              <!-- Card with image -->
+              <div class="card card-interactive">
+                <div class="card-img-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <div class="card-body">
+                  <div class="card-title">Card with image</div>
+                  <div class="card-text">Cards can include an image placeholder area above the body content.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div><span class="code-tag">border-radius: var(--radius-xl)</span> <span class="code-tag">box-shadow: var(--shadow-md)</span> <span class="code-tag">padding: var(--space-6)</span></div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             10. Badges
+             ========================================== -->
+        <section class="doc-section" id="badges">
+          <h2 class="doc-section-title">Badges</h2>
+          <p class="doc-section-desc">Compact labels at 22px height, pill-shaped (radius-full), using Poppins Medium 12px.</p>
+
+          <div class="doc-subsection">
+            <div class="showcase-label">Semantic badges</div>
+            <div class="showcase">
+              <div class="showcase-row">
+                <span class="badge badge-info">Info</span>
+                <span class="badge badge-success">Success</span>
+                <span class="badge badge-warning">Warning</span>
+                <span class="badge badge-error">Error</span>
+              </div>
+            </div>
+
+            <div class="showcase-label">Custom badges</div>
+            <div class="showcase">
+              <div class="showcase-row">
+                <span class="badge badge-sale">Sale</span>
+                <span class="badge badge-new">New</span>
+                <span class="badge badge-info">In progress</span>
+                <span class="badge badge-success">Completed</span>
+                <span class="badge badge-warning">Pending</span>
+                <span class="badge badge-error">Failed</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             11. Alerts
+             ========================================== -->
+        <section class="doc-section" id="alerts">
+          <h2 class="doc-section-title">Alerts</h2>
+          <p class="doc-section-desc">Alert banners with a 4px left border, semantic background color, icon, title, and description.</p>
+
+          <div class="showcase">
+            <div class="alert alert-info">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              <div>
+                <div class="alert-content-title">Information</div>
+                <div>A new software update is available. See what's new in version 2.0.</div>
+              </div>
+            </div>
+            <div class="alert alert-success">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <div>
+                <div class="alert-content-title">Success</div>
+                <div>Your changes have been saved successfully.</div>
+              </div>
+            </div>
+            <div class="alert alert-warning">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <div>
+                <div class="alert-content-title">Warning</div>
+                <div>Your trial period ends in 3 days. Upgrade now to avoid service interruption.</div>
+              </div>
+            </div>
+            <div class="alert alert-error">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              <div>
+                <div class="alert-content-title">Error</div>
+                <div>There was a problem processing your payment. Please check your card details and try again.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ==========================================
+             12. Modal
+             ========================================== -->
+        <section class="doc-section" id="modal">
+          <h2 class="doc-section-title">Modal</h2>
+          <p class="doc-section-desc">Modals use a backdrop at rgba(16,24,40,0.6), white card with radius-2xl (16px), shadow-2xl, max-width 560px. Close with backdrop click, Escape key, or close button.</p>
+
+          <div class="showcase">
+            <button class="btn btn-primary-filled btn-md" id="openModalBtn">Open modal</button>
+          </div>
+          <div><span class="code-tag">border-radius: var(--radius-2xl)</span> <span class="code-tag">box-shadow: var(--shadow-2xl)</span> <span class="code-tag">max-width: 560px</span></div>
+        </section>
+
+      </div><!-- .content -->
+    </div><!-- .main -->
+  </div><!-- .layout -->
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Confirm action</h3>
+        <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to proceed with this action? This will apply changes to your project settings and cannot be easily undone.</p>
+        <p style="margin-top:var(--space-3);">Please review the details before confirming.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary-outlined btn-md" id="modalCancelBtn">Cancel</button>
+        <button class="btn btn-primary-filled btn-md" id="modalConfirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       JavaScript
+       ======================================== -->
+  <script>
+    (function() {
+      'use strict';
+
+      // ---- Scroll spy (IntersectionObserver) ----
+      const sections = document.querySelectorAll('.doc-section, .hero');
+      const navItems = document.querySelectorAll('.nav-item[data-section]');
+      const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+
+      const sectionNames = {
+        'overview': 'Overview',
+        'colors': 'Colors',
+        'typography': 'Typography',
+        'spacing': 'Spacing',
+        'border-radius': 'Border radius',
+        'shadows': 'Shadows',
+        'blur-opacity': 'Blur & opacity',
+        'buttons': 'Buttons',
+        'form-inputs': 'Form inputs',
+        'cards': 'Cards',
+        'badges': 'Badges',
+        'alerts': 'Alerts',
+        'modal': 'Modal'
+      };
+
+      let currentSection = 'overview';
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-80px 0px -60% 0px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            if (id) {
+              currentSection = id;
+              updateActiveNav(id);
+              updateBreadcrumb(id);
+            }
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(function(section) {
+        if (section.id) {
+          observer.observe(section);
+        }
+      });
+
+      function updateActiveNav(id) {
+        navItems.forEach(function(item) {
+          if (item.getAttribute('data-section') === id) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        });
+      }
+
+      function updateBreadcrumb(id) {
+        if (breadcrumbCurrent && sectionNames[id]) {
+          breadcrumbCurrent.textContent = sectionNames[id];
+        }
+      }
+
+      // ---- Sidebar toggle (mobile) ----
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+      function openSidebar() {
+        sidebar.classList.add('open');
+        sidebarOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      if (hamburgerBtn) {
+        hamburgerBtn.addEventListener('click', function() {
+          if (sidebar.classList.contains('open')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeSidebar);
+      }
+
+      // Close sidebar on nav click (mobile)
+      navItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+          if (window.innerWidth < 1024) {
+            closeSidebar();
+          }
+        });
+      });
+
+      // ---- Modal ----
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      const openModalBtn = document.getElementById('openModalBtn');
+      const modalCloseBtn = document.getElementById('modalCloseBtn');
+      const modalCancelBtn = document.getElementById('modalCancelBtn');
+      const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+
+      function openModal() {
+        modalBackdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        // Focus the close button
+        setTimeout(function() {
+          modalCloseBtn.focus();
+        }, 100);
+      }
+
+      function closeModal() {
+        modalBackdrop.classList.remove('open');
+        document.body.style.overflow = '';
+        openModalBtn.focus();
+      }
+
+      if (openModalBtn) openModalBtn.addEventListener('click', openModal);
+      if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+      if (modalCancelBtn) modalCancelBtn.addEventListener('click', closeModal);
+      if (modalConfirmBtn) modalConfirmBtn.addEventListener('click', closeModal);
+
+      if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', function(e) {
+          if (e.target === modalBackdrop) {
+            closeModal();
+          }
+        });
+      }
+
+      // ---- Keyboard: Escape closes modal and sidebar ----
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          if (modalBackdrop && modalBackdrop.classList.contains('open')) {
+            closeModal();
+          }
+          if (sidebar && sidebar.classList.contains('open')) {
+            closeSidebar();
+          }
+        }
+      });
+
+      // ---- Copy to clipboard (code tags + Copy CSS button) ----
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('code-tag')) {
+          var text = e.target.textContent;
+          navigator.clipboard.writeText(text).then(function() {
+            e.target.classList.add('copied');
+            var original = e.target.textContent;
+            e.target.textContent = 'Copied!';
+            setTimeout(function() {
+              e.target.textContent = original;
+              e.target.classList.remove('copied');
+            }, 1200);
+          });
+        }
+      });
+
+      // Copy CSS variables button
+      var copyCssBtn = document.getElementById('copyCssBtn');
+      if (copyCssBtn) {
+        copyCssBtn.addEventListener('click', function() {
+          var rootStyles = document.querySelector('style').textContent;
+          var match = rootStyles.match(/:root\s*\{([^}]+)\}/);
+          if (match) {
+            var cssVars = ':root {\n' + match[1].trim() + '\n}';
+            navigator.clipboard.writeText(cssVars).then(function() {
+              copyCssBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+              setTimeout(function() {
+                copyCssBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy CSS';
+              }, 2000);
+            });
+          }
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>
