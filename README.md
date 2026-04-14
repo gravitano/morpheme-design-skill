@@ -1,6 +1,12 @@
 # Morpheme Design Skill
 
-A Claude Code skill that enforces the **Morpheme UI Design System** by [gits.id](https://gits.id) when building web pages, apps, or UI components. Includes the full design system specification and 10 example implementations.
+A Claude Code skill that enforces the **Morpheme UI Design System** by [gits.id](https://gits.id) when building web pages, apps, or UI components. Includes the full design system specification and 11 example implementations.
+
+![Design System Documentation](assets/screenshot-docs.png)
+
+![E-commerce Homepage](assets/screenshot-ecommerce.png)
+
+![Admin Dashboard](assets/screenshot-dashboard.png)
 
 ## What's inside
 
@@ -9,6 +15,7 @@ DESIGN.md                    # Full design system specification
 CLAUDE.md                    # Claude Code project instructions
 .claude/skills/              # Morpheme design skill for Claude Code
 examples/
+  docs/                      # Design system documentation & showcase
   auth/                      # Login, register, forgot password, OTP
   blog/                      # Article listing + article detail
   crm/                       # CRM admin with contacts table + detail panel
@@ -115,6 +122,9 @@ The skill ensures all generated code follows Morpheme tokens, component specs, a
 All examples are static HTML — open any page directly in a browser:
 
 ```bash
+# Documentation & showcase
+open examples/docs/index.html            # Design system docs
+
 # App examples
 open examples/e-commerce/index.html      # Multi-page storefront
 open examples/dashboard/index.html       # Admin dashboard
