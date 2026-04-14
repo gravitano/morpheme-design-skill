@@ -11,16 +11,18 @@ description: >
 
 # Morpheme Design System — Agent Skill
 
-You are building UI that **must** follow the Morpheme UI Design System. Read `@DESIGN.md` as your authoritative source of truth before writing any HTML/CSS/JS.
+You are building UI that **must** follow the Morpheme UI Design System. The full design specification is in [references/DESIGN.md](references/DESIGN.md) — consult it for detailed token values, component specs, and guidelines.
 
 ## Pre-flight checklist
 
 Before generating any UI code:
 
-1. Review all specifications in this skill document — tokens, component specs, and rules are defined below. For the full authoritative reference, see [DESIGN.md](references/DESIGN.md).
-2. Identify which components are needed (see Component specifications section).
-3. Plan the layout using the 12-column grid system (see Layout & grid section).
-4. Choose the correct typography and spacing tokens (see Typography and Spacing sections below).
+1. Review all specifications in this skill document. For the full authoritative reference, see [references/DESIGN.md](references/DESIGN.md).
+2. **If modifying an existing component** — read the file first, then change only what is needed. Do not rewrite the whole component.
+3. Identify which components are needed (see Component specifications section).
+4. Plan the layout using the 12-column grid system (see Layout & grid section).
+5. Choose the correct typography and spacing tokens (see Typography and Spacing sections below).
+6. Detect the framework, CSS tooling, and TypeScript usage from the project before writing a single line of code (see Output structure section).
 
 ## Mandatory CSS variables
 
@@ -176,6 +178,8 @@ Never default to plain HTML when a framework is present in the project and the u
 
 ### Detection signals
 
+#### Framework
+
 | Framework | Signal files / deps |
 |-----------|-------------------|
 | Next.js | `next` in deps, `next.config.*` |
@@ -186,6 +190,81 @@ Never default to plain HTML when a framework is present in the project and the u
 | Analog.js | `@analogjs/platform` in deps, `vite.config.ts` with analog plugin |
 | Solid.js | `solid-js` in deps, `.tsx` with `solid` imports |
 | Plain HTML | No framework detected |
+
+#### CSS tooling
+
+| Tooling | Signal | How to apply Morpheme tokens |
+|---------|--------|------------------------------|
+| Tailwind CSS | `tailwindcss` in deps, `tailwind.config.*` | Extend the Tailwind config with Morpheme tokens. Use utility classes — no separate `:root` block needed |
+| CSS Modules | `*.module.css` files in project | Write CSS vars in a shared `tokens.module.css`, import per component |
+| styled-components / Emotion | `styled-components` or `@emotion/react` in deps | Use a `ThemeProvider` with Morpheme tokens as theme values |
+| Plain CSS | No tooling detected | Add `:root` CSS variables block to global stylesheet |
+
+#### TypeScript vs JavaScript
+
+| Signal | Output |
+|--------|--------|
+| `typescript` in deps, `tsconfig.json` present | `.tsx` / `.ts` files |
+| No TypeScript detected | `.jsx` / `.js` files |
+
+#### Dark mode
+
+| Signal | Behavior |
+|--------|----------|
+| `darkMode` in `tailwind.config.*` | Follow the existing dark mode strategy (`class` or `media`) |
+| `prefers-color-scheme` used in existing CSS | Add `@media (prefers-color-scheme: dark)` overrides |
+| No dark mode detected | Light mode only — do not add dark mode unless asked |
+
+---
+
+### Tailwind CSS (any framework)
+
+When Tailwind is detected, **extend `tailwind.config.*` with Morpheme tokens** instead of adding a `:root` CSS block. Map every Morpheme token to a Tailwind key:
+
+```ts
+// tailwind.config.ts
+export default {
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: '#1D6EEB',
+          25: '#F5F8FF', 50: '#EBF3FF', 100: '#BFDBFE',
+          500: '#1D6EEB', 600: '#1B69C2', 700: '#1554A1', 900: '#072D60',
+        },
+        secondary: { DEFAULT: '#E55B05', 500: '#E55B05' },
+        error:   '#F04438',
+        success: '#12B76A',
+        warning: '#F79009',
+        info:    '#28A0F8',
+        gray: {
+          25: '#FCFCFD', 50: '#F9FAFB', 100: '#F2F4F7', 200: '#EAECF0',
+          300: '#D0D5DD', 400: '#98A2B3', 500: '#667085', 600: '#475467',
+          700: '#344054', 800: '#1D2939', 900: '#101828',
+        },
+      },
+      fontFamily: { sans: ['Poppins', 'system-ui', 'sans-serif'] },
+      borderRadius: {
+        sm: '4px', md: '6px', lg: '8px', xl: '12px', '2xl': '16px',
+      },
+      boxShadow: {
+        sm:   '0 1px 2px rgba(16,24,40,0.05)',
+        DEFAULT: '0 1px 3px rgba(16,24,40,0.10), 0 1px 2px rgba(16,24,40,0.06)',
+        md:   '0 4px 8px -2px rgba(16,24,40,0.10), 0 2px 4px -2px rgba(16,24,40,0.06)',
+        lg:   '0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03)',
+        xl:   '0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03)',
+        '2xl':'0 24px 48px -12px rgba(16,24,40,0.18)',
+      },
+      spacing: {
+        1: '4px', 2: '8px', 3: '12px', 4: '16px', 5: '20px', 6: '24px',
+        8: '32px', 10: '40px', 12: '48px', 16: '64px', 20: '80px', 24: '96px',
+      },
+    },
+  },
+}
+```
+
+Then use utility classes: `bg-primary`, `text-gray-700`, `rounded-lg`, `shadow-md`, `p-6`, etc.
 
 ---
 
@@ -339,15 +418,38 @@ Only fall back to full HTML when there is no framework in the project:
 
 Before presenting the final code, verify:
 
-- [ ] All colors use CSS variables, not hardcoded hex
-- [ ] All spacing is multiples of 4px via `--space-*` tokens
-- [ ] Typography uses Poppins with correct weight hierarchy
-- [ ] All interactive elements have hover transitions (min 100ms)
-- [ ] Focus rings on all focusable elements
-- [ ] All form inputs have linked labels
+**Design tokens**
+- [ ] All colors use tokens (CSS vars or Tailwind classes) — no hardcoded hex
+- [ ] All spacing is multiples of 4px via `--space-*` or Tailwind spacing tokens
+- [ ] Border-radius uses `--radius-*` tokens or equivalent Tailwind classes
+- [ ] Shadows match elevation hierarchy (`--shadow-sm` → `--shadow-2xl`)
+
+**Typography**
+- [ ] Poppins loaded correctly for the framework (`next/font`, `@import`, etc.)
+- [ ] Correct weight hierarchy: 400 body, 500 labels, 600 headings, 700 display/CTA
+- [ ] Display sizes (24px+) have `letter-spacing: -0.02em`
+
+**Interactions**
+- [ ] All interactive elements have hover transitions (min 100ms ease-out)
+- [ ] Focus rings on all focusable elements (`outline: 2px solid var(--color-primary); outline-offset: 2px`)
+- [ ] Only `opacity` and `transform` animated — no layout-triggering properties
 - [ ] `prefers-reduced-motion` media query included
-- [ ] Responsive layout with correct breakpoints
-- [ ] Shadows match elevation hierarchy
-- [ ] Border-radius uses `--radius-*` tokens
-- [ ] Sentence case in all copy
-- [ ] No layout-triggering animations (only opacity/transform)
+
+**Accessibility**
+- [ ] All form inputs have linked `<label>` via `for`/`id` (or `htmlFor` in JSX)
+- [ ] All icon-only buttons have `aria-label`
+- [ ] Color is not the sole differentiator — paired with icon or text
+
+**Layout**
+- [ ] Responsive layout with correct breakpoints (xs/sm/md/lg/xl/2xl)
+- [ ] Max content width 1280px, centered
+
+**Copy**
+- [ ] Sentence case in all text
+- [ ] Action-first button labels
+
+**Framework-specific**
+- [ ] Next.js: no React hooks in Server Components; `'use client'` added where needed
+- [ ] Vue/Svelte: styles are scoped
+- [ ] TypeScript: no untyped props or `any`
+- [ ] Tailwind: tokens mapped in config, not inlined as arbitrary values like `bg-[#1D6EEB]`
