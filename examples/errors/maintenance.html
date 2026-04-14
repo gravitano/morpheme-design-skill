@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheduled maintenance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <main class="error-page">
+    <div class="error-content">
+
+      <!-- Illustration -->
+      <div class="error-illustration" style="background-color: var(--color-warning-light);">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Wrench -->
+          <path d="M54.5 18.5C50.3 14.3 43.9 13.5 38.9 16.3L47.6 25L44.4 28.2L43 29.6L39.8 32.8L31 24.1C28.2 29.1 29 35.5 33.2 39.7C37 43.5 42.6 44.5 47.3 42.5L60.4 55.6C61.9 57.1 64.4 57.1 65.9 55.6L66.6 54.9C68.1 53.4 68.1 50.9 66.6 49.4L53.5 36.3C55.5 31.6 54.5 25.9 50.7 22.1" stroke="var(--color-warning)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <!-- Gear accent -->
+          <circle cx="24" cy="56" r="10" stroke="var(--color-warning)" stroke-width="1.5" fill="none"/>
+          <circle cx="24" cy="56" r="4" stroke="var(--color-warning)" stroke-width="1.5" fill="none"/>
+          <line x1="24" y1="43" x2="24" y2="46" stroke="var(--color-warning)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="24" y1="66" x2="24" y2="69" stroke="var(--color-warning)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="11" y1="56" x2="14" y2="56" stroke="var(--color-warning)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="34" y1="56" x2="37" y2="56" stroke="var(--color-warning)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Badge -->
+      <span class="error-badge error-badge--warning">Scheduled maintenance</span>
+
+      <!-- Title -->
+      <h1 class="error-title">We'll be right back</h1>
+
+      <!-- Description -->
+      <p class="error-description">
+        We're performing scheduled maintenance to improve your experience. Expected downtime: approximately 2 hours. Thank you for your patience.
+      </p>
+
+      <!-- Progress bar -->
+      <div class="progress-container">
+        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Maintenance progress">
+          <div class="progress-bar__fill" style="width: 60%;"></div>
+        </div>
+        <p class="progress-label">Estimated: 60% complete</p>
+      </div>
+
+      <!-- Actions -->
+      <div class="error-actions">
+        <a href="https://status.morpheme.dev" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Check status</a>
+      </div>
+
+      <!-- Footer -->
+      <p class="error-footer">
+        Follow <a href="https://twitter.com/morpheme" target="_blank" rel="noopener noreferrer">@morpheme</a> for updates
+      </p>
+
+    </div>
+  </main>
+
+</body>
+</html>

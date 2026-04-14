@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create account — Morpheme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="auth-wrapper">
+
+    <!-- Logo -->
+    <a href="login.html" class="auth-logo" aria-label="Morpheme home">
+      <span class="auth-logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+        </svg>
+      </span>
+      <span class="auth-logo-text">Morpheme</span>
+    </a>
+
+    <!-- Card -->
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <h1 class="auth-card-title">Create your account</h1>
+        <p class="auth-card-subtitle">Start your journey with Morpheme today</p>
+      </div>
+
+      <form action="#" method="post" novalidate>
+        <!-- First name + Last name -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first-name" class="form-label">First name</label>
+            <input
+              type="text"
+              id="first-name"
+              name="first_name"
+              class="form-input"
+              placeholder="John"
+              autocomplete="given-name"
+              required
+            >
+          </div>
+          <div class="form-group">
+            <label for="last-name" class="form-label">Last name</label>
+            <input
+              type="text"
+              id="last-name"
+              name="last_name"
+              class="form-input"
+              placeholder="Doe"
+              autocomplete="family-name"
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email" class="form-label">Email address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-password-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-input"
+              placeholder="Create a password"
+              autocomplete="new-password"
+              required
+            >
+            <button type="button" class="input-password-toggle" aria-label="Show password" onclick="togglePassword('password', this)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Password requirements -->
+          <div class="password-requirements">
+            <div class="password-req" id="req-length">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <span>At least 8 characters</span>
+            </div>
+            <div class="password-req" id="req-uppercase">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <span>At least 1 uppercase letter</span>
+            </div>
+            <div class="password-req" id="req-number">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+              <span>At least 1 number</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirm password -->
+        <div class="form-group">
+          <label for="confirm-password" class="form-label">Confirm password</label>
+          <div class="input-password-wrapper">
+            <input
+              type="password"
+              id="confirm-password"
+              name="confirm_password"
+              class="form-input"
+              placeholder="Confirm your password"
+              autocomplete="new-password"
+              required
+            >
+            <button type="button" class="input-password-toggle" aria-label="Show password" onclick="togglePassword('confirm-password', this)">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Terms checkbox -->
+        <div class="form-group">
+          <label class="form-checkbox">
+            <input type="checkbox" id="terms" name="terms" required>
+            <span class="form-checkbox-label">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+          </label>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary btn-block">Create account</button>
+      </form>
+    </div>
+
+    <!-- Footer link -->
+    <p class="auth-footer">
+      Already have an account? <a href="login.html">Sign in</a>
+    </p>
+
+  </div>
+
+  <script>
+    function togglePassword(inputId, btn) {
+      var input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.setAttribute('aria-label', 'Hide password');
+      } else {
+        input.type = 'password';
+        btn.setAttribute('aria-label', 'Show password');
+      }
+    }
+
+    // Password requirements validation
+    var passwordInput = document.getElementById('password');
+    if (passwordInput) {
+      passwordInput.addEventListener('input', function () {
+        var val = this.value;
+        toggleReq('req-length', val.length >= 8);
+        toggleReq('req-uppercase', /[A-Z]/.test(val));
+        toggleReq('req-number', /[0-9]/.test(val));
+      });
+    }
+
+    function toggleReq(id, met) {
+      var el = document.getElementById(id);
+      if (el) {
+        if (met) {
+          el.classList.add('met');
+        } else {
+          el.classList.remove('met');
+        }
+      }
+    }
+  </script>
+</body>
+</html>

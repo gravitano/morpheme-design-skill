@@ -6,44 +6,44 @@
 
 ## 1. Design Philosophy
 
-Morpheme UI adalah design system yang bersifat **universal dan accessible** — dirancang untuk digunakan di berbagai proyek dengan skala apapun. Prinsip utamanya:
+Morpheme UI is a **universal and accessible** design system — built for projects of any scale. Its core principles:
 
-- **Consistent** — Token dan komponen yang sama digunakan secara konsisten di seluruh antarmuka.
-- **Accessible** — Warna semantic mengikuti asosiasi dunia nyata (merah = bahaya, kuning = peringatan, hijau = positif) untuk menurunkan cognitive load.
-- **Scalable** — Sistem token berlapis (foundation → brand → semantic) memudahkan theming dan kustomisasi.
-- **Clean & Light** — Visual default adalah light mode dengan tipografi tegas, shadow halus, dan whitespace yang lapang.
+- **Consistent** — The same tokens and components are used consistently across the entire interface.
+- **Accessible** — Semantic colors follow real-world associations (red = danger, yellow = warning, green = positive) to reduce cognitive load.
+- **Scalable** — A layered token system (foundation → brand → semantic) makes theming and customization straightforward.
+- **Clean & Light** — The default visual style is light mode with crisp typography, subtle shadows, and generous whitespace.
 
 ---
 
 ## 2. Color System
 
-Morpheme menggunakan sistem warna **3 lapisan**:
+Morpheme uses a **3-layer** color system:
 
 ```
 Foundation Colors  →  Brand Colors  →  Semantic Colors
-(primitif)            (produk)          (kontekstual UI)
+(primitives)          (product)        (contextual UI)
 ```
 
 ---
 
 ### 2.1 Foundation Colors
 
-Warna dasar yang tidak berubah terlepas dari tema.
+Base colors that remain constant regardless of theme.
 
 | Token     | Hex       | RGB                | Usage                          |
 |-----------|-----------|--------------------|--------------------------------|
-| `white`   | `#FFFFFF` | rgb(255, 255, 255) | Background, surface terang     |
+| `white`   | `#FFFFFF` | rgb(255, 255, 255) | Backgrounds, light surfaces    |
 | `black`   | `#000000` | rgb(0, 0, 0)       | Base typography color tokens   |
 | `info`    | `#28A0F8` | rgb(40, 160, 248)  | Informational states           |
-| `warning` | `#F79009` | rgb(247, 144, 9)   | Caution, peringatan            |
-| `success` | `#12B76A` | rgb(18, 183, 106)  | Positive feedback, selesai     |
-| `error`   | `#F04438` | rgb(240, 68, 56)   | Danger, error, destruktif      |
+| `warning` | `#F79009` | rgb(247, 144, 9)   | Caution, warnings              |
+| `success` | `#12B76A` | rgb(18, 183, 106)  | Positive feedback, completion  |
+| `error`   | `#F04438` | rgb(240, 68, 56)   | Danger, errors, destructive    |
 
 ---
 
 ### 2.2 Brand Colors
 
-Brand color default adalah **biru** (primary) dan **oranye** (secondary). Kedua warna ini harus diganti sesuai brand produk.
+The default brand colors are **blue** (primary) and **orange** (secondary). Both should be replaced to match the product's brand.
 
 #### Primary Colors (Blue Scale)
 
@@ -61,8 +61,8 @@ Brand color default adalah **biru** (primary) dan **oranye** (secondary). Kedua 
 | `colorPrimary800`  | 800   | `#0D4487` | rgb(13, 68, 135)  *(approx)* |
 | `colorPrimary900`  | 900   | `#072D60` | rgb(7, 45, 96)               |
 
-**Primary brand color utama: `#1D6EEB` (colorPrimary500)**
-Digunakan pada semua elemen interaktif: tombol, link, input focus, dll.
+**Primary brand color: `#1D6EEB` (colorPrimary500)**
+Used on all interactive elements: buttons, links, input focus, etc.
 
 #### Secondary Colors (Orange/Red Scale)
 
@@ -80,27 +80,27 @@ Digunakan pada semua elemen interaktif: tombol, link, input focus, dll.
 | `colorSecondary800` | 800   | `#7A2E00`    |
 | `colorSecondary900` | 900   | `#4A1C00`    |
 
-Secondary digunakan sparingly — pills, alerts, aksen, badge non-primary.
+Secondary is used sparingly — pills, alerts, accents, non-primary badges.
 
 ---
 
 ### 2.3 Semantic Colors
 
-Semantic colors dipetakan dari foundation colors ke konteks UI yang spesifik. Tersedia dalam skala 25–900 untuk setiap kategori:
+Semantic colors are mapped from foundation colors to specific UI contexts. Available in a 25–900 scale for each category:
 
-- **Info** (berbasis biru `#28A0F8`) — notifikasi informatif, tooltip
-- **Warning** (berbasis kuning-oranye `#F79009`) — peringatan, at-risk
-- **Success** (berbasis hijau `#12B76A`) — selesai, valid, positif
-- **Error** (berbasis merah `#F04438`) — error, destruktif, blocked
+- **Info** (based on blue `#28A0F8`) — informational notifications, tooltips
+- **Warning** (based on yellow-orange `#F79009`) — caution, at-risk states
+- **Success** (based on green `#12B76A`) — completion, valid, positive
+- **Error** (based on red `#F04438`) — errors, destructive, blocked
 
-Setiap kategori semantic memiliki skala warna 25–900:
+Each semantic category has a 25–900 color scale:
 ```
-{category}25   → tint paling terang, untuk background/surface
-{category}100  → background ringan (alert, badge bg)
+{category}25   → lightest tint, for backgrounds/surfaces
+{category}100  → light background (alert, badge bg)
 {category}300  → border, outline
-{category}500  → warna utama (icon, text bold)
-{category}700  → warna gelap (hover state)
-{category}900  → tint paling gelap
+{category}500  → primary color (icon, bold text)
+{category}700  → dark shade (hover state)
+{category}900  → darkest tint
 ```
 
 ---
@@ -109,11 +109,11 @@ Setiap kategori semantic memiliki skala warna 25–900:
 
 ### Font Family
 ```
-Font utama: Poppins
-Fallback:   -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+Primary font: Poppins
+Fallback:     -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
 ```
 
-Morpheme menggunakan **Poppins** — geometric sans-serif dengan karakter yang bersih dan modern. Tersedia dalam Regular (400), Medium (500), Semibold (600), dan Bold (700).
+Morpheme uses **Poppins** — a geometric sans-serif with clean, modern character. Available in Regular (400), Medium (500), Semibold (600), and Bold (700).
 
 ### Type Scale
 
@@ -140,16 +140,16 @@ Bold      (700) — display text, CTAs, emphasis
 ```
 
 ### Typography Rules
-- Display sizes selalu gunakan tracking `-2%` (letter-spacing negatif) untuk keterbacaan di ukuran besar.
-- Body text default: **Text md (16px)**, line height 24px.
-- Jangan mix lebih dari 2 weight dalam satu komponen.
-- Gunakan Poppins Semibold untuk semua heading h1–h3.
+- Display sizes must always use `-2%` tracking (negative letter-spacing) for readability at large sizes.
+- Default body text: **Text md (16px)**, line height 24px.
+- Do not mix more than 2 weights in a single component.
+- Use Poppins Semibold for all headings h1–h3.
 
 ---
 
 ## 4. Spacing System
 
-Berbasis **4px base unit**. Semua spacing adalah kelipatan 4.
+Based on a **4px base unit**. All spacing is a multiple of 4.
 
 ```
 4px   — spacing-1  (hairline)
@@ -158,7 +158,7 @@ Berbasis **4px base unit**. Semua spacing adalah kelipatan 4.
 16px  — spacing-4  (md — default padding)
 20px  — spacing-5
 24px  — spacing-6  (card inner padding)
-32px  — spacing-8  (section gap kecil)
+32px  — spacing-8  (small section gap)
 40px  — spacing-10
 48px  — spacing-12 (section gap)
 64px  — spacing-16
@@ -171,12 +171,12 @@ Berbasis **4px base unit**. Semua spacing adalah kelipatan 4.
 ## 5. Border Radius
 
 ```
-0px   — radius-none  (sharp, tabel)
-2px   — radius-xs    (badge kecil)
+0px   — radius-none  (sharp, tables)
+2px   — radius-xs    (small badges)
 4px   — radius-sm    (input, button sm)
-6px   — radius-md    (default button, card kecil)
-8px   — radius-lg    (card default)
-12px  — radius-xl    (card besar, modal)
+6px   — radius-md    (default button, small card)
+8px   — radius-lg    (default card)
+12px  — radius-xl    (large card, modal)
 16px  — radius-2xl   (feature card)
 9999px— radius-full  (pill, avatar, chip)
 ```
@@ -185,7 +185,7 @@ Berbasis **4px base unit**. Semua spacing adalah kelipatan 4.
 
 ## 6. Shadows
 
-Morpheme menggunakan shadow sebagai indikator elevasi pada white dan colored background.
+Morpheme uses shadows as elevation indicators on white and colored backgrounds.
 
 ### White Background (Light Surface)
 
@@ -217,7 +217,7 @@ box-shadow: 0 24px 48px -12px rgba(16,24,40,0.18);
 
 ### Colored Background
 
-Gunakan shadow yang sama tapi dengan opacity sedikit lebih tinggi karena kontras berbeda pada background berwarna.
+Use the same shadow values but with slightly higher opacity due to different contrast on colored backgrounds.
 
 ---
 
@@ -233,21 +233,21 @@ Gunakan shadow yang sama tapi dengan opacity sedikit lebih tinggi karena kontras
 | `blur-xl`  | 32px       | rgba(255,255,255,0.9) | rgba(30,40,60,0.9) |
 
 ```css
-/* Contoh penggunaan */
+/* Example usage */
 backdrop-filter: blur(8px);
 background: rgba(255, 255, 255, 0.6);
 ```
 
 ### Opacity Scale
 
-| Token       | Value  | Use case                        |
-|-------------|--------|---------------------------------|
-| `opacity-sm`| ~0.20  | Overlay sangat transparan       |
-| `opacity-md`| ~0.40  | Overlay sedang                  |
-| `opacity-lg`| ~0.65  | Overlay tebal, modal backdrop   |
-| `opacity-xl`| ~0.90  | Hampir solid, glassmorphism max |
+| Token       | Value  | Use case                            |
+|-------------|--------|-------------------------------------|
+| `opacity-sm`| ~0.20  | Very transparent overlay            |
+| `opacity-md`| ~0.40  | Medium overlay                      |
+| `opacity-lg`| ~0.65  | Heavy overlay, modal backdrop       |
+| `opacity-xl`| ~0.90  | Nearly solid, glassmorphism max     |
 
-Light variants menggunakan white base, dark variants menggunakan dark navy base.
+Light variants use a white base, dark variants use a dark navy base.
 
 ---
 
@@ -280,7 +280,7 @@ Destructive Button:
 Ghost / Link Button:
   No border, no background
   Text: #1D6EEB
-  Hover: underline atau colorPrimary25 bg
+  Hover: underline or colorPrimary25 bg
 ```
 
 ### 8.2 Form Inputs
@@ -398,10 +398,10 @@ Section label:
 ## 9. Iconography
 
 - Style: **Outline** icons, 1.5–2px stroke
-- Recommended library: Heroicons, Phosphor Icons, atau Feather Icons
-- Ukuran standar: 16px (inline), 20px (default), 24px (feature/header)
-- Warna icon mengikuti hierarchy teks parent-nya
-- Icon-only selalu sertakan `aria-label`
+- Recommended libraries: Heroicons, Phosphor Icons, or Feather Icons
+- Standard sizes: 16px (inline), 20px (default), 24px (feature/header)
+- Icon color follows the parent text hierarchy
+- Icon-only elements must always include `aria-label`
 
 ---
 
@@ -417,10 +417,10 @@ Toast / notification: 200ms     slide + fade
 Page transitions:    300ms      ease-in-out
 ```
 
-**Prinsip:**
-- Gunakan hanya `opacity` dan `transform` untuk animasi (hindari animasi layout).
-- Semua interaktif harus punya transisi hover minimal 100ms — jangan instant.
-- `prefers-reduced-motion`: nonaktifkan semua transisi, perubahan state tetap terjadi.
+**Principles:**
+- Only use `opacity` and `transform` for animations (avoid layout-triggering properties).
+- All interactive elements must have a hover transition of at least 100ms — never instant.
+- `prefers-reduced-motion`: disable all transitions; state changes still occur.
 
 ---
 
@@ -439,30 +439,30 @@ Gutter: 24px
 xs:  0px      (mobile portrait)
 sm:  640px    (mobile landscape)
 md:  768px    (tablet)
-lg:  1024px   (desktop kecil)
+lg:  1024px   (small desktop)
 xl:  1280px   (desktop)
-2xl: 1536px   (desktop besar)
+2xl: 1536px   (large desktop)
 ```
 
 ---
 
 ## 12. Writing & Copy Style
 
-- **Sentence case** — bukan Title Case, kecuali nama produk/brand
-- **Langsung & jelas** — hindari kata-kata filler ("simply", "easily", "just")
-- **Action-first** pada tombol: "Simpan perubahan", "Hapus akun", "Buat baru"
-- **Error messages** selalu eksplisit dan memberikan solusi
-- **Placeholder text** menggunakan contoh konkret, bukan instruksi generik
+- **Sentence case** — not Title Case, except for product/brand names
+- **Direct & clear** — avoid filler words ("simply", "easily", "just")
+- **Action-first** button labels: "Save changes", "Delete account", "Create new"
+- **Error messages** must always be explicit and provide a solution
+- **Placeholder text** should use concrete examples, not generic instructions
 
 ---
 
 ## 13. Accessibility
 
-- Kontras minimum: **4.5:1** untuk body text, **3:1** untuk UI besar
+- Minimum contrast: **4.5:1** for body text, **3:1** for large UI elements
 - Focus ring: `outline: 2px solid #1D6EEB; outline-offset: 2px`
-- Warna bukan satu-satunya pembeda — selalu kombinasikan dengan icon atau label
-- Semua form input memiliki label yang terhubung via `for`/`id`
-- Urutan tab logis dan konsisten
+- Color is never the sole differentiator — always combine with an icon or label
+- All form inputs must have a linked label via `for`/`id`
+- Tab order must be logical and consistent
 
 ---
 
@@ -555,12 +555,12 @@ xl:  1280px   (desktop)
 
 ## 15. Token Naming Convention
 
-Morpheme menggunakan pola penamaan yang konsisten:
+Morpheme uses a consistent naming pattern:
 
 ```
 {category}{variant}{scale}
 
-Contoh:
+Examples:
   colorPrimary500    → brand primary, shade 500
   colorSecondary100  → brand secondary, shade 100
   shadow-lg          → shadow, large
@@ -568,12 +568,12 @@ Contoh:
   radius-xl          → border radius, extra large
 ```
 
-Tiga lapisan token:
-1. **Foundation** — nilai primitif (`#F04438`)
-2. **Brand** — alias brand (`colorPrimary500`)
-3. **Semantic** — alias kontekstual (`color-error`, `color-success`)
+Three token layers:
+1. **Foundation** — primitive values (`#F04438`)
+2. **Brand** — brand aliases (`colorPrimary500`)
+3. **Semantic** — contextual aliases (`color-error`, `color-success`)
 
-Selalu gunakan **semantic token** di komponen, bukan foundation token langsung, agar theming mudah dilakukan.
+Always use **semantic tokens** in components, not foundation tokens directly, to keep theming easy.
 
 ---
 

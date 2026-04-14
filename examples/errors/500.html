@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>500 — Something went wrong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <main class="error-page">
+    <div class="error-content">
+
+      <!-- Illustration -->
+      <div class="error-illustration" style="background-color: var(--color-error-light);">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Warning triangle -->
+          <path d="M40 12L72 66H8L40 12Z" stroke="var(--color-error)" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+          <!-- Exclamation mark -->
+          <line x1="40" y1="32" x2="40" y2="48" stroke="var(--color-error)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="40" cy="56" r="1.5" fill="var(--color-error)"/>
+        </svg>
+      </div>
+
+      <!-- Error code -->
+      <p class="error-code" style="color: var(--color-error);">500</p>
+
+      <!-- Title -->
+      <h1 class="error-title">Something went wrong</h1>
+
+      <!-- Description -->
+      <p class="error-description">
+        We're experiencing an internal server error. Our team has been notified and is working on a fix. Please try again in a few minutes.
+      </p>
+
+      <!-- Actions -->
+      <div class="error-actions">
+        <button type="button" class="btn btn-primary" onclick="location.reload()">Try again</button>
+        <a href="/" class="btn btn-secondary">Go to homepage</a>
+      </div>
+
+      <!-- Footer -->
+      <p class="error-footer">
+        Status page: <a href="https://status.morpheme.dev" target="_blank" rel="noopener noreferrer">status.morpheme.dev</a>
+      </p>
+
+    </div>
+  </main>
+
+</body>
+</html>

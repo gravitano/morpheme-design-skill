@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page not found</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <main class="error-page">
+    <div class="error-content">
+
+      <!-- Illustration -->
+      <div class="error-illustration" style="background-color: var(--color-primary-25); border: 1.5px solid var(--color-primary-100);">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Compass icon -->
+          <circle cx="40" cy="40" r="28" stroke="var(--color-primary)" stroke-width="1.5" fill="none"/>
+          <circle cx="40" cy="40" r="3" fill="var(--color-primary)"/>
+          <!-- Compass needle -->
+          <path d="M40 16L43 37H37L40 16Z" fill="var(--color-primary)" opacity="0.9"/>
+          <path d="M40 64L37 43H43L40 64Z" fill="var(--color-primary)" opacity="0.4"/>
+          <!-- Cardinal marks -->
+          <line x1="40" y1="8" x2="40" y2="12" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="40" y1="68" x2="40" y2="72" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="8" y1="40" x2="12" y2="40" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="68" y1="40" x2="72" y2="40" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Error code -->
+      <p class="error-code">404</p>
+
+      <!-- Title -->
+      <h1 class="error-title">Page not found</h1>
+
+      <!-- Description -->
+      <p class="error-description">
+        Sorry, the page you're looking for doesn't exist or has been moved. Check the URL or navigate back to safety.
+      </p>
+
+      <!-- Actions -->
+      <div class="error-actions">
+        <a href="/" class="btn btn-primary">Go to homepage</a>
+        <button type="button" class="btn btn-secondary" onclick="history.back()">Go back</button>
+      </div>
+
+      <!-- Footer -->
+      <p class="error-footer">
+        Need help? <a href="/support">Contact support</a>
+      </p>
+
+    </div>
+  </main>
+
+</body>
+</html>

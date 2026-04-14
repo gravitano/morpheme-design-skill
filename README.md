@@ -5,19 +5,20 @@ Design token reference and example implementations for the **Morpheme UI Design 
 ## What's inside
 
 ```
-DESIGN.md                  # Full design system specification
-CLAUDE.md                  # Claude Code project instructions
-.claude/skills/            # Morpheme design skill for Claude Code
+DESIGN.md                    # Full design system specification
+CLAUDE.md                    # Claude Code project instructions
+.claude/skills/              # Morpheme design skill for Claude Code
 examples/
-  saas-landing-page/       # SaaS landing page example
-  dashboard/               # E-commerce admin dashboard
-  e-commerce/              # Multi-page e-commerce storefront
-    index.html             #   Homepage
-    products.html          #   Product listing with filters
-    product-detail.html    #   Product detail with variants
-    cart.html              #   Shopping cart
-    checkout.html          #   Checkout flow
-    styles.css             #   Shared design tokens & components
+  auth/                      # Login, register, forgot password, OTP
+  blog/                      # Article listing + article detail
+  crm/                       # CRM admin with contacts table + detail panel
+  dashboard/                 # E-commerce admin dashboard
+  e-commerce/                # Multi-page storefront (5 pages)
+  email/                     # 3-panel email/inbox client
+  errors/                    # 404, 500, maintenance pages
+  pricing/                   # Pricing plans + feature comparison + FAQ
+  saas-landing-page/         # SaaS landing page
+  settings/                  # Profile & account settings with toggles
 ```
 
 ## Design system overview
@@ -104,19 +105,33 @@ Once installed, the `/morpheme-design` skill automatically enforces the design s
 /morpheme-design build a pricing page in HTML
 
 # The skill also auto-triggers when you ask Claude to build any UI
-# e.g. "buat halaman login" will activate the skill automatically
+# e.g. "build a login page" will activate the skill automatically
 ```
 
 The skill ensures all generated code follows Morpheme tokens, component specs, and accessibility requirements.
 
 ## Running examples
 
-All examples are static HTML — open any `index.html` directly in a browser:
+All examples are static HTML — open any page directly in a browser:
 
 ```bash
-open examples/e-commerce/index.html
-open examples/dashboard/index.html
+# App examples
+open examples/e-commerce/index.html      # Multi-page storefront
+open examples/dashboard/index.html       # Admin dashboard
+open examples/crm/index.html             # CRM contacts manager
+open examples/email/index.html           # Email inbox client
+
+# Page examples
+open examples/auth/login.html            # Auth flow (login/register/otp)
+open examples/blog/index.html            # Blog listing + article
+open examples/pricing/index.html         # Pricing + FAQ
+open examples/settings/index.html        # Profile settings
 open examples/saas-landing-page/index.html
+
+# Error pages
+open examples/errors/404.html
+open examples/errors/500.html
+open examples/errors/maintenance.html
 ```
 
 ## License

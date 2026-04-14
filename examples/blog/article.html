@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building a scalable design token architecture — Morpheme Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ================================================
+       Header
+       ================================================ -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="header-logo">
+        <span class="header-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+          </svg>
+        </span>
+        <span class="header-logo-text">Morpheme Blog</span>
+      </a>
+
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html" class="active">Articles</a>
+        <a href="#">Categories</a>
+        <a href="#">About</a>
+      </nav>
+
+      <div class="header-search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+        </svg>
+        <label for="header-search-input" class="sr-only">Search articles</label>
+        <input type="search" id="header-search-input" placeholder="Search articles...">
+      </div>
+
+      <div class="header-actions">
+        <button class="header-icon-btn" type="button" aria-label="Toggle dark mode">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+          </svg>
+        </button>
+
+        <button class="mobile-menu-btn" type="button" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================================================
+       Breadcrumb
+       ================================================ -->
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-separator" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+        </svg>
+      </span>
+      <a href="index.html">Articles</a>
+      <span class="breadcrumb-separator" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+        </svg>
+      </span>
+      <span class="breadcrumb-current">Building a scalable design token architecture</span>
+    </nav>
+  </div>
+
+  <!-- ================================================
+       Article Header
+       ================================================ -->
+  <div class="container">
+    <header class="article-header">
+      <span class="badge badge-info">Design systems</span>
+      <h1 class="article-title">Building a scalable design token architecture</h1>
+      <p class="article-subtitle">
+        A comprehensive guide to structuring design tokens across multiple layers, enabling seamless theming and consistent UI at every scale.
+      </p>
+      <div class="article-author-row">
+        <div class="author-avatar author-avatar-lg">SC</div>
+        <div class="article-author-details">
+          <span class="article-author-name">Sarah Chen</span>
+          <span class="article-author-role">Design lead</span>
+        </div>
+        <span class="breadcrumb-separator" aria-hidden="true" style="color: var(--color-gray-300);">|</span>
+        <div class="article-date-row">
+          <span>April 10, 2026</span>
+          <span class="author-meta-dot"></span>
+          <span>8 min read</span>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- ================================================
+       Featured Image
+       ================================================ -->
+  <div class="container">
+    <div class="article-featured-img">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ================================================
+       Article Body (Prose)
+       ================================================ -->
+  <article class="prose">
+
+    <p>
+      Design tokens are the atomic building blocks of a design system. They represent the smallest decisions about color, spacing, typography, and motion, stored as platform-agnostic key-value pairs. When implemented well, they become the single source of truth that bridges the gap between design tools and production code.
+    </p>
+
+    <p>
+      But as organizations grow and products multiply, a flat list of tokens quickly becomes unmanageable. Teams need a structured architecture that supports theming, white-labeling, and multi-platform delivery without drowning in complexity. This article explores a proven three-layer approach used by teams at scale.
+    </p>
+
+    <!-- Section 1 -->
+    <h2>Why design tokens matter</h2>
+
+    <p>
+      Every design system eventually faces a consistency crisis. Designers specify one shade of blue, but engineers implement three slightly different variants. A button radius changes in Figma, but the corresponding CSS value stays the same for months. These micro-inconsistencies compound into a fragmented user experience that erodes trust in the product.
+    </p>
+
+    <p>
+      Design tokens solve this by externalizing design decisions into a shared, version-controlled format. Instead of hardcoding <code>#1D6EEB</code> throughout your stylesheets, you reference <code>var(--color-primary)</code>. When the brand color changes, you update one value and every surface reflects the change instantly.
+    </p>
+
+    <blockquote>
+      Design tokens are not just about convenience. They encode the design intent behind every visual decision, making it possible for teams to reason about why a value exists, not just what it is.
+    </blockquote>
+
+    <p>
+      The benefits extend beyond consistency. Tokens enable automated testing of visual properties, support dark mode and high-contrast themes through aliasing, and allow non-technical stakeholders to understand and contribute to the design language through a readable vocabulary.
+    </p>
+
+    <!-- Section 2 -->
+    <h2>The three-layer architecture</h2>
+
+    <p>
+      The most resilient token architectures use three distinct layers, each with a clear purpose. This separation of concerns mirrors well-known software patterns and makes it straightforward to modify one aspect of the system without breaking another.
+    </p>
+
+    <h3>Foundation tokens</h3>
+
+    <p>
+      Foundation tokens are raw, primitive values with no semantic meaning. They represent the complete palette of options available to the system. Think of them as your design vocabulary: every possible color, every spacing increment, every shadow definition.
+    </p>
+
+    <pre><code>/* Foundation tokens — raw values */
+--blue-500: #1D6EEB;
+--blue-600: #1B69C2;
+--gray-100: #F2F4F7;
+--gray-900: #101828;
+--space-4:  16px;
+--space-6:  24px;</code></pre>
+
+    <p>
+      Foundation tokens should never be referenced directly in component styles. They exist solely to provide the raw material that brand and semantic tokens draw from. This constraint is critical: it means you can completely swap out a foundation palette without touching any component code.
+    </p>
+
+    <h3>Brand tokens</h3>
+
+    <p>
+      Brand tokens map foundation values to product-specific identities. They answer the question: "Which foundation value represents our primary brand color?" This layer is where multi-brand and white-label scenarios are handled.
+    </p>
+
+    <ul>
+      <li><strong>colorPrimary500</strong> maps to a specific blue in the foundation layer</li>
+      <li><strong>colorSecondary500</strong> maps to a specific orange for accent usage</li>
+      <li>Each brand token references a foundation token, never a raw hex value</li>
+      <li>Swapping brands means only changing these mappings</li>
+    </ul>
+
+    <h3>Semantic tokens</h3>
+
+    <p>
+      Semantic tokens are the tokens that components actually consume. They describe the purpose of a value, not its visual appearance. <code>--color-error</code> is semantic; <code>--red-500</code> is not. This distinction is what makes theming possible: in dark mode, <code>--color-error</code> might resolve to a lighter red for legibility, while <code>--red-500</code> remains unchanged.
+    </p>
+
+    <ol>
+      <li>Define the intent: what does the component need? (e.g., a surface color, a text color, an interactive state)</li>
+      <li>Map to brand tokens: connect the intent to a brand-level decision</li>
+      <li>Override per theme: dark mode, high contrast, and brand variants each provide their own mappings</li>
+      <li>Consume in components: every <code>var()</code> reference in CSS uses a semantic token</li>
+    </ol>
+
+    <!-- Section 3 -->
+    <h2>Implementation strategies</h2>
+
+    <p>
+      Choosing the right format and tooling for your tokens depends on your tech stack, team size, and delivery requirements. Here are the approaches we have seen work well at different scales.
+    </p>
+
+    <h3>CSS custom properties</h3>
+
+    <p>
+      For web-first teams, CSS custom properties provide native token support with zero build-step overhead. They cascade naturally, can be scoped to components, and support runtime theming through class-based overrides. The Morpheme design system uses this approach with a root-level declaration block:
+    </p>
+
+    <pre><code>:root {
+  --color-primary:       #1D6EEB;
+  --color-primary-light: #EFF8FF;
+  --color-error:         #F04438;
+  --shadow-md: 0 4px 8px -2px rgba(16,24,40,0.10),
+               0 2px 4px -2px rgba(16,24,40,0.06);
+}
+
+.theme-dark {
+  --color-primary:       #60A5FA;
+  --color-primary-light: #1D2939;
+  --color-error:         #FCA5A5;
+}</code></pre>
+
+    <p>
+      The advantage here is simplicity and browser-native performance. The tradeoff is that CSS custom properties are string-based, which means you lose type safety and cannot perform compile-time validation of token references.
+    </p>
+
+    <h3>Token transformation pipelines</h3>
+
+    <p>
+      For multi-platform teams (web, iOS, Android), tools like Style Dictionary or Theo allow you to define tokens in a canonical JSON format and transform them into platform-specific outputs: CSS variables, Swift enums, Kotlin objects, or XML resources. This approach adds build complexity but ensures cross-platform consistency from a single source.
+    </p>
+
+    <blockquote>
+      The best token architecture is the one your team will actually maintain. Start with the simplest approach that meets your current needs, and add transformation layers only when multi-platform delivery demands it.
+    </blockquote>
+
+    <!-- Section 4 -->
+    <h2>Measuring adoption</h2>
+
+    <p>
+      A token architecture is only valuable if teams actually use it. Without measurement, you are building infrastructure on faith. Here are the metrics that matter most:
+    </p>
+
+    <ul>
+      <li><strong>Token coverage</strong> — percentage of hardcoded values replaced by token references across the codebase</li>
+      <li><strong>Component adoption</strong> — number of product surfaces using design system components versus custom implementations</li>
+      <li><strong>Contribution rate</strong> — how often product teams propose or submit new tokens and components back to the system</li>
+      <li><strong>Theme compliance</strong> — whether dark mode, high-contrast, and brand variants render correctly across all surfaces</li>
+      <li><strong>Developer satisfaction</strong> — quarterly surveys measuring ease of use, documentation quality, and unblocking speed</li>
+    </ul>
+
+    <p>
+      We recommend running automated linting rules that flag raw hex values, pixel literals, and font-family strings that should be token references. These checks can run in CI pipelines and pull request reviews, catching regressions before they reach production.
+    </p>
+
+    <p>
+      Token adoption is a cultural challenge as much as a technical one. Invest in onboarding documentation, pair programming sessions with early adopters, and a responsive support channel. The fastest path to adoption is making the right thing the easy thing: when using a token is simpler than hardcoding a value, teams will adopt naturally.
+    </p>
+
+  </article>
+
+  <!-- ================================================
+       Tags & Share
+       ================================================ -->
+  <div class="article-meta-section">
+    <div class="divider"></div>
+    <div class="article-tags-share">
+      <div class="tags-row">
+        <a href="#" class="tag">Design</a>
+        <a href="#" class="tag">Tokens</a>
+        <a href="#" class="tag">CSS</a>
+        <a href="#" class="tag">Architecture</a>
+        <a href="#" class="tag">Frontend</a>
+      </div>
+      <div class="share-row">
+        <span class="share-label">Share this article</span>
+        <!-- Twitter / X -->
+        <button class="share-btn" type="button" aria-label="Share on Twitter">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l6.15 7.81L4.5 19.5h1.76l5.1-5.92L15.75 19.5h4.25l-6.47-8.22L19.5 4.5h-1.76l-4.79 5.56L9.25 4.5H4.5z"/>
+          </svg>
+        </button>
+        <!-- LinkedIn -->
+        <button class="share-btn" type="button" aria-label="Share on LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 2.25H3.75A1.5 1.5 0 002.25 3.75v16.5a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5V3.75a1.5 1.5 0 00-1.5-1.5zM8.25 18.75v-9M8.25 6.75v.008M12.75 18.75v-5.25a2.25 2.25 0 014.5 0v5.25"/>
+          </svg>
+        </button>
+        <!-- Copy link -->
+        <button class="share-btn" type="button" aria-label="Copy link">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
+          </svg>
+        </button>
+        <!-- Email -->
+        <button class="share-btn" type="button" aria-label="Share via email">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- ================================================
+       Related Articles
+       ================================================ -->
+  <section class="related-section">
+    <div class="container">
+      <h2 class="section-title">Related articles</h2>
+      <div class="grid grid-3">
+        <!-- Related 1 -->
+        <article class="card card-interactive">
+          <div class="article-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+            </svg>
+          </div>
+          <div class="article-card-body">
+            <span class="badge badge-info">Engineering</span>
+            <h3 class="article-card-title">
+              <a href="article.html">Migrating to CSS custom properties at scale</a>
+            </h3>
+            <p class="article-card-excerpt">
+              A practical guide to replacing hardcoded values with design tokens across a large codebase without breaking production.
+            </p>
+            <div class="article-card-footer">
+              <div class="author-row">
+                <div class="author-avatar">AK</div>
+                <div class="author-info">
+                  <span class="author-name">Alex Kim</span>
+                  <span class="author-meta">April 8, 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Related 2 -->
+        <article class="card card-interactive">
+          <div class="article-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+            </svg>
+          </div>
+          <div class="article-card-body">
+            <span class="badge badge-warning">Design</span>
+            <h3 class="article-card-title">
+              <a href="article.html">Accessible color systems beyond contrast ratios</a>
+            </h3>
+            <p class="article-card-excerpt">
+              Why meeting WCAG contrast ratios is just the beginning, and how semantic color associations improve usability for everyone.
+            </p>
+            <div class="article-card-footer">
+              <div class="author-row">
+                <div class="author-avatar">JT</div>
+                <div class="author-info">
+                  <span class="author-name">Jordan Taylor</span>
+                  <span class="author-meta">April 3, 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Related 3 -->
+        <article class="card card-interactive">
+          <div class="article-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+            </svg>
+          </div>
+          <div class="article-card-body">
+            <span class="badge badge-success">Product</span>
+            <h3 class="article-card-title">
+              <a href="article.html">Measuring design system adoption across teams</a>
+            </h3>
+            <p class="article-card-excerpt">
+              How to track component usage, token adoption rates, and team onboarding metrics to prove the ROI of your design system.
+            </p>
+            <div class="article-card-footer">
+              <div class="author-row">
+                <div class="author-avatar">MR</div>
+                <div class="author-info">
+                  <span class="author-name">Maya Rodriguez</span>
+                  <span class="author-meta">April 5, 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Footer
+       ================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="header-logo" style="margin-bottom: var(--space-2);">
+            <span class="header-logo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+              </svg>
+            </span>
+            <span class="header-logo-text" style="color: var(--color-white);">Morpheme Blog</span>
+          </a>
+          <p class="footer-brand-text">
+            Insights on design systems, frontend engineering, and building products that scale. Powered by the Morpheme UI design system.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Content</h4>
+          <div class="footer-links">
+            <a href="#">Articles</a>
+            <a href="#">Tutorials</a>
+            <a href="#">Case studies</a>
+            <a href="#">Changelog</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Resources</h4>
+          <div class="footer-links">
+            <a href="#">Documentation</a>
+            <a href="#">Figma library</a>
+            <a href="#">GitHub</a>
+            <a href="#">NPM packages</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Company</h4>
+          <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Careers</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Morpheme Blog. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="#" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l6.15 7.81L4.5 19.5h1.76l5.1-5.92L15.75 19.5h4.25l-6.47-8.22L19.5 4.5h-1.76l-4.79 5.56L9.25 4.5H4.5z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.7.11 2.5.34 1.9-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.16.59.67.5A10.003 10.003 0 0022 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 2.25H3.75A1.5 1.5 0 002.25 3.75v16.5a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5V3.75a1.5 1.5 0 00-1.5-1.5zM8.25 18.75v-9M8.25 6.75v.008M12.75 18.75v-5.25a2.25 2.25 0 014.5 0v5.25"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

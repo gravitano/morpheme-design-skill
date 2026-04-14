@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — Morpheme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================
+       CSS Reset
+       ================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ================================================
+       Design Tokens — DESIGN.md §14
+       ================================================ */
+    :root {
+      /* Brand — Primary (Blue) */
+      --color-primary-25:  #F5F8FF;
+      --color-primary-50:  #EBF3FF;
+      --color-primary-100: #BFDBFE;
+      --color-primary-200: #93C5FD;
+      --color-primary-300: #60A5FA;
+      --color-primary-400: #3B82F6;
+      --color-primary:     #1D6EEB;
+      --color-primary-600: #1B69C2;
+      --color-primary-700: #1554A1;
+      --color-primary-800: #0D4487;
+      --color-primary-900: #072D60;
+      --color-primary-light: #EFF8FF;
+
+      /* Brand — Secondary (Orange) */
+      --color-secondary-25:  #FFF9F5;
+      --color-secondary-50:  #FFF3EB;
+      --color-secondary-100: #FFE0C2;
+      --color-secondary-200: #FFBC87;
+      --color-secondary-300: #FF9855;
+      --color-secondary-400: #FF7320;
+      --color-secondary:     #E55B05;
+      --color-secondary-600: #CC4E00;
+      --color-secondary-700: #A33E00;
+      --color-secondary-800: #7A2E00;
+      --color-secondary-900: #4A1C00;
+      --color-secondary-light: #FFF3EB;
+
+      /* Foundation */
+      --color-white:   #FFFFFF;
+      --color-black:   #000000;
+      --color-info:    #28A0F8;
+      --color-warning: #F79009;
+      --color-success: #12B76A;
+      --color-error:   #F04438;
+
+      /* Neutral */
+      --color-gray-25:  #FCFCFD;
+      --color-gray-50:  #F9FAFB;
+      --color-gray-100: #F2F4F7;
+      --color-gray-200: #EAECF0;
+      --color-gray-300: #D0D5DD;
+      --color-gray-400: #98A2B3;
+      --color-gray-500: #667085;
+      --color-gray-600: #475467;
+      --color-gray-700: #344054;
+      --color-gray-800: #1D2939;
+      --color-gray-900: #101828;
+
+      /* Typography */
+      --font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --text-xs:  12px;
+      --text-sm:  14px;
+      --text-md:  16px;
+      --text-lg:  18px;
+      --text-xl:  20px;
+      --text-2xl: 24px;
+      --text-3xl: 30px;
+      --text-4xl: 36px;
+      --text-5xl: 48px;
+      --text-6xl: 60px;
+      --text-7xl: 72px;
+
+      /* Spacing (4px base) */
+      --space-1:  4px;
+      --space-2:  8px;
+      --space-3:  12px;
+      --space-4:  16px;
+      --space-5:  20px;
+      --space-6:  24px;
+      --space-8:  32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+      --space-24: 96px;
+
+      /* Border Radius */
+      --radius-xs:   2px;
+      --radius-sm:   4px;
+      --radius-md:   6px;
+      --radius-lg:   8px;
+      --radius-xl:   12px;
+      --radius-2xl:  16px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-sm:  0 1px 2px rgba(16,24,40,0.05);
+      --shadow:     0 1px 3px rgba(16,24,40,0.10), 0 1px 2px rgba(16,24,40,0.06);
+      --shadow-md:  0 4px 8px -2px rgba(16,24,40,0.10), 0 2px 4px -2px rgba(16,24,40,0.06);
+      --shadow-lg:  0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03);
+      --shadow-xl:  0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03);
+      --shadow-2xl: 0 24px 48px -12px rgba(16,24,40,0.18);
+
+      /* Motion */
+      --duration-fast:   100ms;
+      --duration-base:   150ms;
+      --duration-slow:   200ms;
+      --duration-slower: 300ms;
+      --ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
+      --ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    /* ================================================
+       Base Styles
+       ================================================ */
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      line-height: 1.5;
+      color: var(--color-gray-900);
+      background: var(--color-white);
+    }
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    a:hover { color: var(--color-primary-700); }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    button {
+      font-family: var(--font-family);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    img { display: block; max-width: 100%; }
+    ul, ol { list-style: none; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); border: 0;
+    }
+
+    /* ================================================
+       Layout
+       ================================================ */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-10);
+    }
+
+    /* ================================================
+       Header
+       ================================================ */
+    .header {
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-gray-200);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      height: 68px;
+      gap: var(--space-8);
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+      color: var(--color-gray-900);
+      flex-shrink: 0;
+    }
+
+    .header-logo-icon {
+      width: 36px; height: 36px;
+      background: var(--color-primary);
+      border-radius: var(--radius-lg);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-white);
+    }
+
+    .header-logo-icon svg { width: 20px; height: 20px; }
+
+    .header-logo-text {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .header-nav a {
+      display: flex;
+      align-items: center;
+      height: 36px;
+      padding: 0 var(--space-3);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-500);
+      border-radius: var(--radius-md);
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .header-nav a:hover {
+      background: var(--color-gray-50);
+      color: var(--color-gray-700);
+    }
+
+    .header-nav a.active {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-left: auto;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      width: 40px; height: 40px;
+      align-items: center; justify-content: center;
+      border-radius: var(--radius-md);
+      color: var(--color-gray-500);
+    }
+
+    .mobile-menu-btn svg { width: 24px; height: 24px; }
+
+    /* ================================================
+       Buttons
+       ================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      height: 44px;
+      padding: 0 var(--space-5);
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      font-weight: 500;
+      border-radius: var(--radius-lg);
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      transition: background var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out),
+                  opacity var(--duration-fast) var(--ease-out),
+                  transform var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-sm {
+      height: 36px;
+      padding: 0 var(--space-3);
+      font-size: var(--text-sm);
+    }
+
+    .btn-lg {
+      height: 52px;
+      padding: 0 var(--space-8);
+      font-size: var(--text-lg);
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .btn-primary:hover { background: var(--color-primary-600); }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1.5px solid var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-primary-25);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--color-gray-700);
+    }
+
+    .btn-ghost:hover { background: var(--color-gray-50); }
+
+    .btn-block { width: 100%; }
+
+    /* ================================================
+       Badges
+       ================================================ */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 2px var(--space-2);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    .badge-info    { background: #EFF8FF; color: #175CD3; }
+    .badge-success { background: #ECFDF3; color: #027A48; }
+    .badge-warning { background: #FFFAEB; color: #B54708; }
+    .badge-error   { background: #FEF3F2; color: #B42318; }
+    .badge-primary {
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-weight: 600;
+    }
+
+    /* ================================================
+       Hero section
+       ================================================ */
+    .hero {
+      text-align: center;
+      padding: var(--space-20) 0 var(--space-12);
+    }
+
+    .hero-badge {
+      margin-bottom: var(--space-5);
+    }
+
+    .hero-title {
+      font-size: var(--text-5xl);
+      font-weight: 700;
+      line-height: 60px;
+      letter-spacing: -0.02em;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-5);
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-xl);
+      color: var(--color-gray-500);
+      line-height: 30px;
+      max-width: 600px;
+      margin: 0 auto var(--space-10);
+    }
+
+    /* ================================================
+       Billing toggle (segmented control)
+       ================================================ */
+    .billing-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: var(--color-gray-100);
+      border-radius: var(--radius-lg);
+      padding: var(--space-1);
+    }
+
+    .billing-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      height: 36px;
+      padding: 0 var(--space-4);
+      font-family: var(--font-family);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-500);
+      border-radius: var(--radius-md);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: background var(--duration-base) var(--ease-out),
+                  color var(--duration-base) var(--ease-out),
+                  box-shadow var(--duration-base) var(--ease-out);
+    }
+
+    .billing-toggle-btn.active {
+      background: var(--color-white);
+      color: var(--color-gray-900);
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+    }
+
+    .billing-toggle-btn .badge {
+      margin-left: var(--space-1);
+    }
+
+    /* ================================================
+       Pricing cards
+       ================================================ */
+    .pricing-section {
+      padding-bottom: var(--space-24);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .pricing-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-md);
+      position: relative;
+      transition: box-shadow var(--duration-base) var(--ease-out);
+    }
+
+    .pricing-card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .pricing-card--highlighted {
+      border: 2px solid var(--color-primary);
+    }
+
+    .pricing-card-popular-badge {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      padding: var(--space-1) var(--space-4);
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+
+    .pricing-card-plan {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-1);
+    }
+
+    .pricing-card-description {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      line-height: 20px;
+      margin-bottom: var(--space-8);
+    }
+
+    .pricing-card-price {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-1);
+      margin-bottom: var(--space-2);
+    }
+
+    .pricing-card-amount {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      color: var(--color-gray-900);
+      letter-spacing: -0.02em;
+      line-height: 44px;
+    }
+
+    .pricing-card-period {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+    }
+
+    .pricing-card-annual-note {
+      font-size: var(--text-sm);
+      color: var(--color-gray-400);
+      margin-bottom: var(--space-8);
+      min-height: 20px;
+    }
+
+    .pricing-card-cta {
+      margin-bottom: var(--space-8);
+    }
+
+    .pricing-card-features-heading {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-4);
+    }
+
+    .pricing-card-features {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .pricing-card-feature {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--color-gray-600);
+      line-height: 20px;
+    }
+
+    .pricing-card-feature svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .check-gray { color: var(--color-gray-400); }
+    .check-primary { color: var(--color-primary); }
+
+    /* ================================================
+       Feature comparison table
+       ================================================ */
+    .comparison-section {
+      padding: var(--space-24) 0;
+      border-top: 1px solid var(--color-gray-200);
+    }
+
+    .comparison-heading {
+      font-size: var(--text-3xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: var(--space-12);
+    }
+
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    .comparison-table thead {
+      position: sticky;
+      top: 68px;
+      z-index: 10;
+    }
+
+    .comparison-table th {
+      background: var(--color-gray-50);
+      padding: var(--space-4) var(--space-5);
+      text-align: left;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-700);
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .comparison-table th:not(:first-child) {
+      text-align: center;
+      min-width: 140px;
+    }
+
+    .comparison-table th:first-child {
+      min-width: 260px;
+    }
+
+    .comparison-table td {
+      padding: var(--space-4) var(--space-5);
+      font-size: var(--text-sm);
+      color: var(--color-gray-600);
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .comparison-table td:not(:first-child) {
+      text-align: center;
+    }
+
+    .comparison-table-category td {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--color-gray-25);
+      padding: var(--space-3) var(--space-5);
+    }
+
+    .comparison-table .icon-check {
+      color: var(--color-success);
+      display: inline-block;
+      width: 20px; height: 20px;
+    }
+
+    .comparison-table .icon-x {
+      color: var(--color-gray-300);
+      display: inline-block;
+      width: 20px; height: 20px;
+    }
+
+    .comparison-table .text-value {
+      font-weight: 500;
+      color: var(--color-gray-700);
+    }
+
+    /* ================================================
+       FAQ section
+       ================================================ */
+    .faq-section {
+      padding: var(--space-24) 0;
+      border-top: 1px solid var(--color-gray-200);
+    }
+
+    .faq-heading {
+      font-size: var(--text-3xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: var(--space-4);
+    }
+
+    .faq-subheading {
+      font-size: var(--text-lg);
+      color: var(--color-gray-500);
+      text-align: center;
+      margin-bottom: var(--space-12);
+    }
+
+    .faq-list {
+      max-width: 768px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      width: 100%;
+      padding: var(--space-5) 0;
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      font-weight: 500;
+      color: var(--color-gray-900);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      line-height: 24px;
+    }
+
+    .faq-question:hover {
+      color: var(--color-primary);
+    }
+
+    .faq-chevron {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: var(--color-gray-400);
+      transition: transform var(--duration-base) var(--ease-out);
+    }
+
+    .faq-item[data-open="true"] .faq-chevron {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--duration-slow) var(--ease-out);
+    }
+
+    .faq-answer-inner {
+      padding-bottom: var(--space-5);
+      font-size: var(--text-sm);
+      color: var(--color-gray-600);
+      line-height: 1.7;
+    }
+
+    .faq-item[data-open="true"] .faq-answer {
+      max-height: 300px;
+    }
+
+    /* ================================================
+       CTA section
+       ================================================ */
+    .cta-section {
+      padding: var(--space-24) 0;
+    }
+
+    .cta-card {
+      background: var(--color-primary-25);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-16) var(--space-10);
+      text-align: center;
+    }
+
+    .cta-heading {
+      font-size: var(--text-3xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-4);
+    }
+
+    .cta-subtitle {
+      font-size: var(--text-lg);
+      color: var(--color-gray-500);
+      margin-bottom: var(--space-8);
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    /* ================================================
+       Footer
+       ================================================ */
+    .footer {
+      border-top: 1px solid var(--color-gray-200);
+      padding: var(--space-10) 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+      color: var(--color-gray-900);
+    }
+
+    .footer-logo-icon {
+      width: 32px; height: 32px;
+      background: var(--color-primary);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-white);
+    }
+
+    .footer-logo-icon svg { width: 18px; height: 18px; }
+
+    .footer-logo-text {
+      font-size: var(--text-md);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .footer-links a:hover { color: var(--color-gray-700); }
+
+    .footer-copyright {
+      font-size: var(--text-sm);
+      color: var(--color-gray-400);
+    }
+
+    /* ================================================
+       Responsive
+       ================================================ */
+    @media (max-width: 1023px) {
+      .container { padding: 0 var(--space-6); }
+
+      .header-nav { display: none; }
+      .mobile-menu-btn { display: flex; }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .hero-title {
+        font-size: var(--text-4xl);
+        line-height: 44px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .container { padding: 0 var(--space-4); }
+
+      .hero {
+        padding: var(--space-12) 0 var(--space-8);
+      }
+
+      .hero-title {
+        font-size: var(--text-3xl);
+        line-height: 38px;
+      }
+
+      .hero-subtitle {
+        font-size: var(--text-md);
+      }
+
+      .pricing-card {
+        padding: var(--space-6);
+      }
+
+      .comparison-section { padding: var(--space-16) 0; }
+      .faq-section { padding: var(--space-16) 0; }
+      .cta-section { padding: var(--space-16) 0; }
+
+      .cta-card {
+        padding: var(--space-10) var(--space-6);
+      }
+
+      .cta-heading {
+        font-size: var(--text-2xl);
+      }
+
+      .footer-links {
+        gap: var(--space-4);
+      }
+
+      .header-actions .btn-ghost,
+      .header-actions .btn-primary.btn-sm {
+        display: none;
+      }
+    }
+
+    /* ================================================
+       prefers-reduced-motion
+       ================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       Header
+       ============================================ -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="header-logo" aria-label="Morpheme home">
+        <span class="header-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </span>
+        <span class="header-logo-text">Morpheme</span>
+      </a>
+
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="#">Product</a>
+        <a href="#" class="active">Pricing</a>
+        <a href="#">Docs</a>
+        <a href="#">Blog</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#" class="btn btn-ghost btn-sm">Sign in</a>
+        <a href="#" class="btn btn-primary btn-sm">Get started</a>
+
+        <button class="mobile-menu-btn" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============================================
+         Hero section
+         ============================================ -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge">
+          <span class="badge badge-info">New plans available</span>
+        </div>
+        <h1 class="hero-title">Simple, transparent pricing</h1>
+        <p class="hero-subtitle">Choose the plan that fits your team. All plans include a 14-day free trial.</p>
+
+        <div class="billing-toggle" role="group" aria-label="Billing period">
+          <button type="button" class="billing-toggle-btn active" data-billing="monthly" aria-pressed="true">Monthly</button>
+          <button type="button" class="billing-toggle-btn" data-billing="annual" aria-pressed="false">
+            Annual
+            <span class="badge badge-success">Save 20%</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         Pricing cards
+         ============================================ -->
+    <section class="pricing-section" aria-label="Pricing plans">
+      <div class="container">
+        <div class="pricing-grid">
+
+          <!-- Starter -->
+          <div class="pricing-card">
+            <h2 class="pricing-card-plan">Starter</h2>
+            <p class="pricing-card-description">For individuals and small projects</p>
+            <div class="pricing-card-price">
+              <span class="pricing-card-amount" data-monthly="$9" data-annual="$7">$9</span>
+              <span class="pricing-card-period">/month</span>
+            </div>
+            <p class="pricing-card-annual-note" data-monthly="" data-annual="Billed annually at $84">&nbsp;</p>
+            <div class="pricing-card-cta">
+              <a href="#" class="btn btn-secondary btn-block">Get started</a>
+            </div>
+            <p class="pricing-card-features-heading">What's included</p>
+            <ul class="pricing-card-features">
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                3 projects
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                1 team member
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                5GB storage
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Basic analytics
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Email support
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                API access
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Community forum
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Basic integrations
+              </li>
+            </ul>
+          </div>
+
+          <!-- Pro (highlighted) -->
+          <div class="pricing-card pricing-card--highlighted">
+            <span class="pricing-card-popular-badge">Most popular</span>
+            <h2 class="pricing-card-plan">Pro</h2>
+            <p class="pricing-card-description">For growing teams that need more</p>
+            <div class="pricing-card-price">
+              <span class="pricing-card-amount" data-monthly="$29" data-annual="$23">$29</span>
+              <span class="pricing-card-period">/month</span>
+            </div>
+            <p class="pricing-card-annual-note" data-monthly="" data-annual="Billed annually at $276">&nbsp;</p>
+            <div class="pricing-card-cta">
+              <a href="#" class="btn btn-primary btn-block">Get started</a>
+            </div>
+            <p class="pricing-card-features-heading">Everything in Starter, plus</p>
+            <ul class="pricing-card-features">
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Unlimited projects
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                10 team members
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                100GB storage
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Advanced analytics
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Priority email support
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Full API access
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Custom integrations
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                SSO authentication
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Audit logs
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                99.9% uptime SLA
+              </li>
+            </ul>
+          </div>
+
+          <!-- Enterprise -->
+          <div class="pricing-card">
+            <h2 class="pricing-card-plan">Enterprise</h2>
+            <p class="pricing-card-description">For large organizations with custom needs</p>
+            <div class="pricing-card-price">
+              <span class="pricing-card-amount" data-monthly="Custom" data-annual="Custom">Custom</span>
+              <span class="pricing-card-period" data-is-enterprise="true"></span>
+            </div>
+            <p class="pricing-card-annual-note">&nbsp;</p>
+            <div class="pricing-card-cta">
+              <a href="#" class="btn btn-secondary btn-block">Contact sales</a>
+            </div>
+            <p class="pricing-card-features-heading">Everything in Pro, plus</p>
+            <ul class="pricing-card-features">
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Everything in Pro
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Unlimited team members
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Unlimited storage
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Custom analytics
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Dedicated support
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Custom SLA
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Advanced security
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                SAML SSO
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Custom contracts
+              </li>
+              <li class="pricing-card-feature">
+                <svg class="check-gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Onboarding assistance
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         Feature comparison table
+         ============================================ -->
+    <section class="comparison-section" aria-label="Feature comparison">
+      <div class="container">
+        <h2 class="comparison-heading">Compare all features</h2>
+        <div class="comparison-table-wrapper">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Starter</th>
+                <th>Pro</th>
+                <th>Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Core -->
+              <tr class="comparison-table-category">
+                <td colspan="4">Core</td>
+              </tr>
+              <tr>
+                <td>Projects</td>
+                <td><span class="text-value">3</span></td>
+                <td><span class="text-value">Unlimited</span></td>
+                <td><span class="text-value">Unlimited</span></td>
+              </tr>
+              <tr>
+                <td>Team members</td>
+                <td><span class="text-value">1</span></td>
+                <td><span class="text-value">10</span></td>
+                <td><span class="text-value">Unlimited</span></td>
+              </tr>
+              <tr>
+                <td>Storage</td>
+                <td><span class="text-value">5GB</span></td>
+                <td><span class="text-value">100GB</span></td>
+                <td><span class="text-value">Unlimited</span></td>
+              </tr>
+              <tr>
+                <td>API access</td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+              <tr>
+                <td>Analytics</td>
+                <td><span class="text-value">Basic</span></td>
+                <td><span class="text-value">Advanced</span></td>
+                <td><span class="text-value">Custom</span></td>
+              </tr>
+              <tr>
+                <td>Integrations</td>
+                <td><span class="text-value">Basic</span></td>
+                <td><span class="text-value">Custom</span></td>
+                <td><span class="text-value">Custom</span></td>
+              </tr>
+
+              <!-- Collaboration -->
+              <tr class="comparison-table-category">
+                <td colspan="4">Collaboration</td>
+              </tr>
+              <tr>
+                <td>Community forum</td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+              <tr>
+                <td>Audit logs</td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+              <tr>
+                <td>Custom contracts</td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+              <tr>
+                <td>Onboarding assistance</td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+
+              <!-- Security -->
+              <tr class="comparison-table-category">
+                <td colspan="4">Security</td>
+              </tr>
+              <tr>
+                <td>SSO authentication</td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+              <tr>
+                <td>SAML SSO</td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+              <tr>
+                <td>Advanced security</td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+
+              <!-- Support -->
+              <tr class="comparison-table-category">
+                <td colspan="4">Support</td>
+              </tr>
+              <tr>
+                <td>Email support</td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+              <tr>
+                <td>Priority support</td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+              <tr>
+                <td>Dedicated support</td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><svg class="icon-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></td>
+              </tr>
+              <tr>
+                <td>Uptime SLA</td>
+                <td><svg class="icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></td>
+                <td><span class="text-value">99.9%</span></td>
+                <td><span class="text-value">Custom</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         FAQ section
+         ============================================ -->
+    <section class="faq-section" aria-label="Frequently asked questions">
+      <div class="container">
+        <h2 class="faq-heading">Frequently asked questions</h2>
+        <p class="faq-subheading">Everything you need to know about our pricing and plans.</p>
+
+        <div class="faq-list">
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>Can I change plans later?</span>
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                Yes, you can upgrade or downgrade your plan at any time from your account settings. When upgrading, you'll be charged the prorated difference for the remainder of your billing cycle. Downgrades take effect at the start of your next billing period.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>What payment methods do you accept?</span>
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                We accept all major credit cards including Visa, Mastercard, and American Express. For Enterprise plans, we also support invoicing and bank transfers. All payments are processed securely through Stripe.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>Is there a free trial?</span>
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                Every plan comes with a 14-day free trial, no credit card required. You get full access to all features in your chosen plan during the trial period. We'll send you a reminder email three days before your trial ends.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>What happens when my trial ends?</span>
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                When your trial ends, you'll be asked to add a payment method to continue using the service. Your data and settings will be preserved for 30 days, giving you time to decide. If you choose not to subscribe, you can export your data at any time during that window.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>Do you offer discounts for nonprofits?</span>
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                We offer a 50% discount on all plans for registered nonprofit organizations. Contact our sales team with proof of your nonprofit status and we'll apply the discount to your account. Educational institutions also qualify for special pricing.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>How do I cancel my subscription?</span>
+              <svg class="faq-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer" role="region">
+              <div class="faq-answer-inner">
+                You can cancel your subscription at any time from your account settings page. Your plan will remain active until the end of your current billing period. There are no cancellation fees, and you can export all your data before your account is deactivated.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         CTA section
+         ============================================ -->
+    <section class="cta-section" aria-label="Call to action">
+      <div class="container">
+        <div class="cta-card">
+          <h2 class="cta-heading">Ready to get started?</h2>
+          <p class="cta-subtitle">Start your 14-day free trial today. No credit card required.</p>
+          <div class="cta-actions">
+            <a href="#" class="btn btn-primary btn-lg">Start free trial</a>
+            <a href="#" class="btn btn-secondary btn-lg">Talk to sales</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================
+       Footer
+       ============================================ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="#" class="footer-logo" aria-label="Morpheme home">
+        <span class="footer-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </span>
+        <span class="footer-logo-text">Morpheme</span>
+      </a>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#">Product</a>
+        <a href="#">Pricing</a>
+        <a href="#">Docs</a>
+        <a href="#">Blog</a>
+        <a href="#">Changelog</a>
+        <a href="#">Support</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </nav>
+      <p class="footer-copyright">&copy; 2026 Morpheme. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JavaScript
+       ============================================ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ---- Billing toggle ---- */
+      var billingBtns = document.querySelectorAll('.billing-toggle-btn');
+      var priceAmounts = document.querySelectorAll('.pricing-card-amount');
+      var annualNotes = document.querySelectorAll('.pricing-card-annual-note');
+      var periodLabels = document.querySelectorAll('.pricing-card-period');
+
+      billingBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var billing = btn.getAttribute('data-billing');
+
+          billingBtns.forEach(function (b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+
+          priceAmounts.forEach(function (el) {
+            el.textContent = el.getAttribute('data-' + billing);
+          });
+
+          annualNotes.forEach(function (el) {
+            var note = el.getAttribute('data-' + billing);
+            if (note !== null) {
+              el.textContent = note || '\u00A0';
+            }
+          });
+
+          periodLabels.forEach(function (el) {
+            if (el.getAttribute('data-is-enterprise') === 'true') return;
+            el.textContent = '/month';
+          });
+        });
+      });
+
+      /* ---- FAQ accordion ---- */
+      var faqItems = document.querySelectorAll('.faq-item');
+
+      faqItems.forEach(function (item) {
+        var question = item.querySelector('.faq-question');
+
+        question.addEventListener('click', function () {
+          var isOpen = item.getAttribute('data-open') === 'true';
+          var newState = !isOpen;
+
+          item.setAttribute('data-open', String(newState));
+          question.setAttribute('aria-expanded', String(newState));
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

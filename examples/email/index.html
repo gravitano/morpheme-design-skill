@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morpheme Mail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ================================================
+       CSS Reset
+       ================================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ================================================
+       Design Tokens — DESIGN.md Section 14
+       ================================================ */
+    :root {
+      /* Brand — Primary (Blue) */
+      --color-primary-25:  #F5F8FF;
+      --color-primary-50:  #EBF3FF;
+      --color-primary-100: #BFDBFE;
+      --color-primary-200: #93C5FD;
+      --color-primary-300: #60A5FA;
+      --color-primary-400: #3B82F6;
+      --color-primary:     #1D6EEB;
+      --color-primary-600: #1B69C2;
+      --color-primary-700: #1554A1;
+      --color-primary-800: #0D4487;
+      --color-primary-900: #072D60;
+      --color-primary-light: #EFF8FF;
+
+      /* Brand — Secondary (Orange) */
+      --color-secondary-25:  #FFF9F5;
+      --color-secondary-50:  #FFF3EB;
+      --color-secondary-100: #FFE0C2;
+      --color-secondary-200: #FFBC87;
+      --color-secondary-300: #FF9855;
+      --color-secondary-400: #FF7320;
+      --color-secondary:     #E55B05;
+      --color-secondary-600: #CC4E00;
+      --color-secondary-700: #A33E00;
+      --color-secondary-800: #7A2E00;
+      --color-secondary-900: #4A1C00;
+      --color-secondary-light: #FFF3EB;
+
+      /* Foundation */
+      --color-white:   #FFFFFF;
+      --color-black:   #000000;
+      --color-info:    #28A0F8;
+      --color-warning: #F79009;
+      --color-success: #12B76A;
+      --color-error:   #F04438;
+
+      /* Neutral */
+      --color-gray-25:  #FCFCFD;
+      --color-gray-50:  #F9FAFB;
+      --color-gray-100: #F2F4F7;
+      --color-gray-200: #EAECF0;
+      --color-gray-300: #D0D5DD;
+      --color-gray-400: #98A2B3;
+      --color-gray-500: #667085;
+      --color-gray-600: #475467;
+      --color-gray-700: #344054;
+      --color-gray-800: #1D2939;
+      --color-gray-900: #101828;
+
+      /* Typography */
+      --font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --text-xs:  12px;
+      --text-sm:  14px;
+      --text-md:  16px;
+      --text-lg:  18px;
+      --text-xl:  20px;
+      --text-2xl: 24px;
+      --text-3xl: 30px;
+      --text-4xl: 36px;
+      --text-5xl: 48px;
+      --text-6xl: 60px;
+      --text-7xl: 72px;
+
+      /* Spacing (4px base) */
+      --space-1:  4px;
+      --space-2:  8px;
+      --space-3:  12px;
+      --space-4:  16px;
+      --space-5:  20px;
+      --space-6:  24px;
+      --space-8:  32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+      --space-24: 96px;
+
+      /* Border Radius */
+      --radius-xs:   2px;
+      --radius-sm:   4px;
+      --radius-md:   6px;
+      --radius-lg:   8px;
+      --radius-xl:   12px;
+      --radius-2xl:  16px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-sm:  0 1px 2px rgba(16,24,40,0.05);
+      --shadow:     0 1px 3px rgba(16,24,40,0.10), 0 1px 2px rgba(16,24,40,0.06);
+      --shadow-md:  0 4px 8px -2px rgba(16,24,40,0.10), 0 2px 4px -2px rgba(16,24,40,0.06);
+      --shadow-lg:  0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03);
+      --shadow-xl:  0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03);
+      --shadow-2xl: 0 24px 48px -12px rgba(16,24,40,0.18);
+
+      /* Motion */
+      --duration-fast:   100ms;
+      --duration-base:   150ms;
+      --duration-slow:   200ms;
+      --duration-slower: 300ms;
+      --ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
+      --ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    /* ================================================
+       Base styles
+       ================================================ */
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      line-height: 1.5;
+      color: var(--color-gray-900);
+      background: var(--color-gray-100);
+    }
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    a:hover { color: var(--color-primary-700); }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    button {
+      font-family: var(--font-family);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    ul, ol { list-style: none; }
+    img { display: block; max-width: 100%; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+
+    /* ================================================
+       App layout — 3 panel grid
+       ================================================ */
+    .app {
+      display: grid;
+      grid-template-columns: 240px 360px 1fr;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ================================================
+       Sidebar (left panel)
+       ================================================ */
+    .sidebar {
+      background: var(--color-white);
+      border-right: 1px solid var(--color-gray-200);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: var(--space-5) var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--color-primary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo-icon svg { width: 18px; height: 18px; }
+
+    .sidebar-logo-text {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      letter-spacing: -0.02em;
+    }
+
+    .sidebar-compose {
+      padding: 0 var(--space-4);
+      margin-bottom: var(--space-4);
+      flex-shrink: 0;
+    }
+
+    .btn-compose {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      width: 100%;
+      height: 44px;
+      background: var(--color-primary);
+      color: var(--color-white);
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      font-weight: 500;
+      border: none;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-compose:hover { background: var(--color-primary-600); }
+    .btn-compose:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-compose svg { width: 20px; height: 20px; }
+
+    .sidebar-nav {
+      padding: 0 var(--space-2);
+      flex: 1;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      height: 40px;
+      padding: 0 var(--space-3);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-500);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      background: var(--color-gray-50);
+      color: var(--color-gray-700);
+    }
+
+    .nav-item.active {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .nav-item-label { flex: 1; }
+
+    .nav-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 var(--space-2);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .nav-item.active .nav-badge {
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background: var(--color-gray-200);
+      margin: var(--space-3) var(--space-4);
+    }
+
+    .sidebar-section-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: var(--space-3) var(--space-3) var(--space-2);
+    }
+
+    .label-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      height: 36px;
+      padding: 0 var(--space-3);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-500);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .label-item:hover {
+      background: var(--color-gray-50);
+      color: var(--color-gray-700);
+    }
+
+    .label-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+    }
+
+    .label-dot-blue    { background: var(--color-primary); }
+    .label-dot-green   { background: var(--color-success); }
+    .label-dot-orange  { background: var(--color-warning); }
+    .label-dot-red     { background: var(--color-error); }
+
+    .sidebar-storage {
+      padding: var(--space-4);
+      border-top: 1px solid var(--color-gray-200);
+      flex-shrink: 0;
+    }
+
+    .storage-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--color-gray-200);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      margin-bottom: var(--space-2);
+    }
+
+    .storage-bar-fill {
+      height: 100%;
+      width: 16%;
+      background: var(--color-primary);
+      border-radius: var(--radius-full);
+    }
+
+    .storage-text {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    /* ================================================
+       Mail list (middle panel)
+       ================================================ */
+    .mail-list {
+      background: var(--color-white);
+      border-right: 1px solid var(--color-gray-200);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .mail-list-header {
+      padding: var(--space-4) var(--space-4) 0;
+      flex-shrink: 0;
+    }
+
+    .mail-list-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-3);
+    }
+
+    .mail-list-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .mail-list-title h2 {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .mail-list-count {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-gray-400);
+    }
+
+    .mail-list-filter {
+      position: relative;
+    }
+
+    .mail-list-filter select {
+      appearance: none;
+      height: 32px;
+      padding: 0 var(--space-8) 0 var(--space-3);
+      border: 1.5px solid var(--color-gray-300);
+      border-radius: var(--radius-md);
+      font-family: var(--font-family);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-gray-700);
+      background: var(--color-white);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2398A2B3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right var(--space-2) center;
+      cursor: pointer;
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out);
+    }
+
+    .mail-list-filter select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(29,110,235,0.12);
+    }
+
+    .mail-list-search {
+      position: relative;
+      margin-bottom: var(--space-3);
+    }
+
+    .mail-list-search svg {
+      position: absolute;
+      left: var(--space-3);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      color: var(--color-gray-400);
+      pointer-events: none;
+    }
+
+    .mail-list-search input {
+      width: 100%;
+      height: 36px;
+      padding: 0 var(--space-3) 0 var(--space-8);
+      border: 1.5px solid var(--color-gray-300);
+      border-radius: var(--radius-lg);
+      font-family: var(--font-family);
+      font-size: var(--text-sm);
+      color: var(--color-gray-900);
+      background: var(--color-gray-50);
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out),
+                  background var(--duration-fast) var(--ease-out);
+    }
+
+    .mail-list-search input::placeholder { color: var(--color-gray-400); }
+
+    .mail-list-search input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      background: var(--color-white);
+      box-shadow: 0 0 0 4px rgba(29,110,235,0.12);
+    }
+
+    .mail-list-items {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    /* Individual email item */
+    .mail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      cursor: pointer;
+      border-bottom: 1px solid var(--color-gray-100);
+      position: relative;
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+
+    .mail-item:hover {
+      background: var(--color-gray-50);
+    }
+
+    .mail-item.active {
+      background: var(--color-primary-25);
+      border-left: 2px solid var(--color-primary);
+      padding-left: calc(var(--space-4) - 2px);
+    }
+
+    .mail-item.unread .mail-item-sender {
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .mail-item.unread .mail-item-subject {
+      font-weight: 500;
+      color: var(--color-gray-900);
+    }
+
+    .unread-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--color-primary);
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+      margin-top: 18px;
+    }
+
+    .unread-dot-placeholder {
+      width: 4px;
+      flex-shrink: 0;
+    }
+
+    .mail-item-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-white);
+      flex-shrink: 0;
+    }
+
+    .avatar-blue    { background: var(--color-primary); }
+    .avatar-gray    { background: var(--color-gray-600); }
+    .avatar-green   { background: var(--color-success); }
+    .avatar-orange  { background: var(--color-secondary); }
+    .avatar-purple  { background: #7C3AED; }
+    .avatar-red     { background: var(--color-error); }
+    .avatar-teal    { background: #0D9488; }
+    .avatar-indigo  { background: #4F46E5; }
+
+    .mail-item-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .mail-item-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      margin-bottom: var(--space-1);
+    }
+
+    .mail-item-sender {
+      font-size: var(--text-sm);
+      font-weight: 400;
+      color: var(--color-gray-700);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mail-item-time {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .mail-item-subject {
+      font-size: var(--text-sm);
+      font-weight: 400;
+      color: var(--color-gray-700);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: var(--space-1);
+    }
+
+    .mail-item-preview {
+      font-size: var(--text-xs);
+      color: var(--color-gray-500);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mail-item-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: var(--space-1);
+    }
+
+    .mail-item-tags {
+      display: flex;
+      gap: var(--space-1);
+    }
+
+    .mail-tag {
+      display: inline-flex;
+      align-items: center;
+      height: 18px;
+      padding: 0 var(--space-2);
+      font-size: 10px;
+      font-weight: 500;
+      border-radius: var(--radius-full);
+    }
+
+    .mail-tag-info    { background: #EFF8FF; color: #175CD3; }
+    .mail-tag-success { background: #ECFDF3; color: #027A48; }
+    .mail-tag-warning { background: #FFFAEB; color: #B54708; }
+    .mail-tag-error   { background: #FEF3F2; color: #B42318; }
+
+    .star-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      color: var(--color-gray-300);
+      flex-shrink: 0;
+      transition: color var(--duration-fast) var(--ease-out),
+                  background var(--duration-fast) var(--ease-out);
+    }
+
+    .star-btn:hover {
+      color: var(--color-warning);
+      background: var(--color-gray-50);
+    }
+
+    .star-btn.starred {
+      color: var(--color-warning);
+    }
+
+    .star-btn svg { width: 16px; height: 16px; }
+
+    /* ================================================
+       Message detail (right panel)
+       ================================================ */
+    .message-detail {
+      background: var(--color-gray-25);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .message-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) var(--space-6);
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-gray-200);
+      flex-shrink: 0;
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .toolbar-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      height: 36px;
+      padding: 0 var(--space-3);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-600);
+      border-radius: var(--radius-md);
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .toolbar-btn:hover {
+      background: var(--color-gray-100);
+      color: var(--color-gray-900);
+    }
+
+    .toolbar-btn svg { width: 18px; height: 18px; }
+
+    .toolbar-btn-icon {
+      width: 36px;
+      padding: 0;
+    }
+
+    .toolbar-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--color-gray-200);
+      margin: 0 var(--space-1);
+    }
+
+    .btn-reply {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      height: 36px;
+      padding: 0 var(--space-4);
+      font-family: var(--font-family);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-primary);
+      background: transparent;
+      border: 1.5px solid var(--color-primary);
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-reply:hover { background: var(--color-primary-25); }
+    .btn-reply svg { width: 16px; height: 16px; }
+
+    .back-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      color: var(--color-gray-600);
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+
+    .back-btn:hover { background: var(--color-gray-100); }
+    .back-btn svg { width: 20px; height: 20px; }
+
+    .message-content {
+      flex: 1;
+      padding: var(--space-6);
+    }
+
+    .message-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-6);
+      max-width: 100%;
+    }
+
+    .message-header {
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-5);
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .message-sender-row {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .message-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+      font-size: var(--text-md);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .message-sender-info { flex: 1; min-width: 0; }
+
+    .message-sender-name {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .message-sender-email {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+    }
+
+    .message-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-1) var(--space-4);
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    .message-subject {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      line-height: 1.4;
+    }
+
+    .message-body {
+      max-width: 680px;
+      font-size: var(--text-md);
+      line-height: 1.7;
+      color: var(--color-gray-700);
+    }
+
+    .message-body p {
+      margin-bottom: var(--space-4);
+    }
+
+    .message-body ul {
+      margin-bottom: var(--space-4);
+      padding-left: var(--space-6);
+    }
+
+    .message-body ul li {
+      list-style: disc;
+      margin-bottom: var(--space-2);
+      font-size: var(--text-md);
+      color: var(--color-gray-700);
+      line-height: 1.6;
+    }
+
+    .message-signoff {
+      margin-top: var(--space-6);
+      font-size: var(--text-md);
+      color: var(--color-gray-700);
+    }
+
+    .message-signoff-name {
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .message-signoff-title {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+    }
+
+    /* Attachments */
+    .attachments {
+      margin-top: var(--space-6);
+      padding-top: var(--space-5);
+      border-top: 1px solid var(--color-gray-200);
+    }
+
+    .attachments-label {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-700);
+      margin-bottom: var(--space-3);
+    }
+
+    .attachments-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .attachment-card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      background: var(--color-gray-25);
+      transition: box-shadow var(--duration-base) var(--ease-out);
+    }
+
+    .attachment-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .attachment-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      background: var(--color-primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+      flex-shrink: 0;
+    }
+
+    .attachment-icon svg { width: 20px; height: 20px; }
+
+    .attachment-info { flex: 1; min-width: 0; }
+
+    .attachment-name {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-900);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .attachment-size {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    .attachment-download {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-md);
+      color: var(--color-gray-400);
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .attachment-download:hover {
+      background: var(--color-gray-100);
+      color: var(--color-gray-700);
+    }
+
+    .attachment-download svg { width: 18px; height: 18px; }
+
+    /* Reply area */
+    .reply-area {
+      padding: 0 var(--space-6) var(--space-6);
+    }
+
+    .reply-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-5);
+    }
+
+    .reply-label {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-500);
+      margin-bottom: var(--space-3);
+    }
+
+    .reply-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: var(--space-3) var(--space-4);
+      border: 1.5px solid var(--color-gray-300);
+      border-radius: var(--radius-lg);
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      color: var(--color-gray-900);
+      background: var(--color-white);
+      resize: vertical;
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out);
+    }
+
+    .reply-textarea::placeholder { color: var(--color-gray-400); }
+
+    .reply-textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(29,110,235,0.12);
+    }
+
+    .reply-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: var(--space-3);
+    }
+
+    .reply-hints {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    .reply-buttons {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .btn-attach {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      color: var(--color-gray-500);
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-attach:hover {
+      background: var(--color-gray-100);
+      color: var(--color-gray-700);
+    }
+
+    .btn-attach svg { width: 18px; height: 18px; }
+
+    .btn-send {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      height: 36px;
+      padding: 0 var(--space-5);
+      font-family: var(--font-family);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-white);
+      background: var(--color-primary);
+      border: none;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-send:hover { background: var(--color-primary-600); }
+    .btn-send svg { width: 16px; height: 16px; }
+
+    /* ================================================
+       Mobile sidebar toggle
+       ================================================ */
+    .mobile-sidebar-toggle {
+      display: none;
+      position: fixed;
+      bottom: var(--space-5);
+      left: var(--space-5);
+      z-index: 100;
+      width: 48px;
+      height: 48px;
+      background: var(--color-primary);
+      color: var(--color-white);
+      border-radius: var(--radius-full);
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+
+    .mobile-sidebar-toggle:hover { background: var(--color-primary-600); }
+    .mobile-sidebar-toggle svg { width: 24px; height: 24px; }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(16,24,40,0.6);
+      z-index: 90;
+    }
+
+    /* ================================================
+       Responsive: < 1024px — hide sidebar
+       ================================================ */
+    @media (max-width: 1023px) {
+      .app {
+        grid-template-columns: 360px 1fr;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: -240px;
+        top: 0;
+        z-index: 95;
+        width: 240px;
+        transition: transform var(--duration-slower) var(--ease-in-out);
+      }
+
+      .sidebar.open {
+        transform: translateX(240px);
+      }
+
+      .sidebar-overlay.open {
+        display: block;
+      }
+
+      .mobile-sidebar-toggle {
+        display: flex;
+      }
+    }
+
+    /* ================================================
+       Responsive: < 768px — hide mail list
+       ================================================ */
+    @media (max-width: 767px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .mail-list {
+        display: none;
+      }
+
+      .back-btn {
+        display: flex;
+      }
+
+      .message-content {
+        padding: var(--space-4);
+      }
+
+      .message-toolbar {
+        padding: var(--space-3) var(--space-4);
+      }
+
+      .reply-area {
+        padding: 0 var(--space-4) var(--space-4);
+      }
+
+      .message-card {
+        padding: var(--space-4);
+      }
+
+      .message-sender-row {
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+    }
+
+    /* ================================================
+       prefers-reduced-motion
+       ================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile sidebar overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay" role="presentation"></div>
+
+  <!-- Mobile sidebar toggle -->
+  <button class="mobile-sidebar-toggle" id="sidebarToggle" aria-label="Open sidebar">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+    </svg>
+  </button>
+
+  <div class="app">
+    <!-- ================================================
+         LEFT SIDEBAR (240px)
+         ================================================ -->
+    <aside class="sidebar" id="sidebar" aria-label="Mail navigation">
+      <!-- Logo -->
+      <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+          </svg>
+        </div>
+        <span class="sidebar-logo-text">Morpheme Mail</span>
+      </div>
+
+      <!-- Compose button -->
+      <div class="sidebar-compose">
+        <button class="btn-compose" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+          </svg>
+          Compose
+        </button>
+      </div>
+
+      <!-- Nav items -->
+      <nav class="sidebar-nav" aria-label="Main folders">
+        <a href="#" class="nav-item active" aria-current="page">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h2.21a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.86M2.25 13.5V6.108c0-1.135.845-2.098 1.976-2.192a48.424 48.424 0 0 1 11.548 0c1.131.094 1.976 1.057 1.976 2.192V13.5M2.25 13.5v3.142c0 1.135.845 2.098 1.976 2.192a48.424 48.424 0 0 0 11.548 0c1.131-.094 1.976-1.057 1.976-2.192V13.5"/>
+          </svg>
+          <span class="nav-item-label">Inbox</span>
+          <span class="nav-badge">12</span>
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+          </svg>
+          <span class="nav-item-label">Starred</span>
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
+          </svg>
+          <span class="nav-item-label">Sent</span>
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+          </svg>
+          <span class="nav-item-label">Drafts</span>
+          <span class="nav-badge">3</span>
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/>
+          </svg>
+          <span class="nav-item-label">Archive</span>
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+          </svg>
+          <span class="nav-item-label">Spam</span>
+        </a>
+        <a href="#" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+          </svg>
+          <span class="nav-item-label">Trash</span>
+        </a>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- Labels -->
+        <div class="sidebar-section-label">Labels</div>
+        <div class="label-item">
+          <span class="label-dot label-dot-blue"></span>
+          <span>Work</span>
+        </div>
+        <div class="label-item">
+          <span class="label-dot label-dot-green"></span>
+          <span>Personal</span>
+        </div>
+        <div class="label-item">
+          <span class="label-dot label-dot-orange"></span>
+          <span>Finance</span>
+        </div>
+        <div class="label-item">
+          <span class="label-dot label-dot-red"></span>
+          <span>Urgent</span>
+        </div>
+      </nav>
+
+      <!-- Storage -->
+      <div class="sidebar-storage">
+        <div class="storage-bar">
+          <div class="storage-bar-fill"></div>
+        </div>
+        <span class="storage-text">2.4 GB of 15 GB used</span>
+      </div>
+    </aside>
+
+    <!-- ================================================
+         MIDDLE PANEL — Mail list (360px)
+         ================================================ -->
+    <section class="mail-list" aria-label="Email list">
+      <div class="mail-list-header">
+        <div class="mail-list-title-row">
+          <div class="mail-list-title">
+            <h2>Inbox</h2>
+            <span class="mail-list-count">12 unread</span>
+          </div>
+          <div class="mail-list-filter">
+            <label for="mail-filter" class="sr-only">Filter emails</label>
+            <select id="mail-filter">
+              <option>All</option>
+              <option>Unread</option>
+              <option>Starred</option>
+            </select>
+          </div>
+        </div>
+        <div class="mail-list-search">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+          </svg>
+          <label for="mail-search" class="sr-only">Search emails</label>
+          <input type="text" id="mail-search" placeholder="Search emails...">
+        </div>
+      </div>
+
+      <div class="mail-list-items">
+        <!-- Email 1: Unread -->
+        <div class="mail-item unread">
+          <div class="unread-dot"></div>
+          <div class="mail-item-avatar avatar-blue">AT</div>
+          <div class="mail-item-content">
+            <div class="mail-item-top">
+              <span class="mail-item-sender">Alex Thompson</span>
+              <span class="mail-item-time">10:32 AM</span>
+            </div>
+            <div class="mail-item-subject">Q2 design system roadmap</div>
+            <div class="mail-item-preview">Hi team, I've put together the roadmap...</div>
+            <div class="mail-item-bottom">
+              <div class="mail-item-tags">
+                <span class="mail-tag mail-tag-info">Work</span>
+              </div>
+              <button class="star-btn" aria-label="Star email from Alex Thompson">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email 2: Unread -->
+        <div class="mail-item unread">
+          <div class="unread-dot"></div>
+          <div class="mail-item-avatar avatar-gray">GH</div>
+          <div class="mail-item-content">
+            <div class="mail-item-top">
+              <span class="mail-item-sender">GitHub</span>
+              <span class="mail-item-time">9:15 AM</span>
+            </div>
+            <div class="mail-item-subject">New pull request #247</div>
+            <div class="mail-item-preview">[morpheme-ui] feat: add new color tokens...</div>
+            <div class="mail-item-bottom">
+              <div class="mail-item-tags"></div>
+              <button class="star-btn" aria-label="Star email from GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email 3: Active / Selected -->
+        <div class="mail-item active">
+          <div class="unread-dot-placeholder"></div>
+          <div class="mail-item-avatar avatar-purple">SC</div>
+          <div class="mail-item-content">
+            <div class="mail-item-top">
+              <span class="mail-item-sender">Sarah Chen</span>
+              <span class="mail-item-time">Yesterday</span>
+            </div>
+            <div class="mail-item-subject">Design review feedback</div>
+            <div class="mail-item-preview">Great work on the component library...</div>
+            <div class="mail-item-bottom">
+              <div class="mail-item-tags">
+                <span class="mail-tag mail-tag-info">Work</span>
+              </div>
+              <button class="star-btn" aria-label="Star email from Sarah Chen">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email 4: Read -->
+        <div class="mail-item">
+          <div class="unread-dot-placeholder"></div>
+          <div class="mail-item-avatar avatar-indigo">LN</div>
+          <div class="mail-item-content">
+            <div class="mail-item-top">
+              <span class="mail-item-sender">Linear</span>
+              <span class="mail-item-time">Yesterday</span>
+            </div>
+            <div class="mail-item-subject">3 issues assigned to you</div>
+            <div class="mail-item-preview">You have new assignments in the Design...</div>
+            <div class="mail-item-bottom">
+              <div class="mail-item-tags"></div>
+              <button class="star-btn" aria-label="Star email from Linear">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email 5: Read, Starred -->
+        <div class="mail-item">
+          <div class="unread-dot-placeholder"></div>
+          <div class="mail-item-avatar avatar-green">JW</div>
+          <div class="mail-item-content">
+            <div class="mail-item-top">
+              <span class="mail-item-sender">James Wilson</span>
+              <span class="mail-item-time">Yesterday</span>
+            </div>
+            <div class="mail-item-subject">Meeting notes: Sprint planning</div>
+            <div class="mail-item-preview">Here are the notes from today's...</div>
+            <div class="mail-item-bottom">
+              <div class="mail-item-tags">
+                <span class="mail-tag mail-tag-info">Work</span>
+              </div>
+              <button class="star-btn starred" aria-label="Unstar email from James Wilson">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email 6: Read -->
+        <div class="mail-item">
+          <div class="unread-dot-placeholder"></div>
+          <div class="mail-item-avatar avatar-teal">NO</div>
+          <div class="mail-item-content">
+            <div class="mail-item-top">
+              <span class="mail-item-sender">Notion</span>
+              <span class="mail-item-time">Apr 11</span>
+            </div>
+            <div class="mail-item-subject">Weekly workspace digest</div>
+            <div class="mail-item-preview">Here's what happened in your workspace...</div>
+            <div class="mail-item-bottom">
+              <div class="mail-item-tags"></div>
+              <button class="star-btn" aria-label="Star email from Notion">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email 7: Read -->
+        <div class="mail-item">
+          <div class="unread-dot-placeholder"></div>
+          <div class="mail-item-avatar avatar-orange">MG</div>
+          <div class="mail-item-content">
+            <div class="mail-item-top">
+              <span class="mail-item-sender">Maria Garcia</span>
+              <span class="mail-item-time">Apr 11</span>
+            </div>
+            <div class="mail-item-subject">Updated brand guidelines</div>
+            <div class="mail-item-preview">I've attached the latest version of...</div>
+            <div class="mail-item-bottom">
+              <div class="mail-item-tags">
+                <span class="mail-tag mail-tag-warning">Finance</span>
+              </div>
+              <button class="star-btn" aria-label="Star email from Maria Garcia">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email 8: Unread -->
+        <div class="mail-item unread">
+          <div class="unread-dot"></div>
+          <div class="mail-item-avatar avatar-red">ST</div>
+          <div class="mail-item-content">
+            <div class="mail-item-top">
+              <span class="mail-item-sender">Stripe</span>
+              <span class="mail-item-time">Apr 12</span>
+            </div>
+            <div class="mail-item-subject">Payment received: $2,400</div>
+            <div class="mail-item-preview">A payment of $2,400.00 was received...</div>
+            <div class="mail-item-bottom">
+              <div class="mail-item-tags">
+                <span class="mail-tag mail-tag-success">Finance</span>
+              </div>
+              <button class="star-btn" aria-label="Star email from Stripe">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         RIGHT PANEL — Message detail
+         ================================================ -->
+    <main class="message-detail" aria-label="Email message">
+      <!-- Action toolbar -->
+      <div class="message-toolbar">
+        <div class="toolbar-left">
+          <button class="back-btn" aria-label="Back to inbox">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+            </svg>
+          </button>
+          <button class="toolbar-btn" aria-label="Archive">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"/>
+            </svg>
+            <span>Archive</span>
+          </button>
+          <button class="toolbar-btn" aria-label="Move to trash">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+            </svg>
+            <span>Trash</span>
+          </button>
+          <button class="toolbar-btn toolbar-btn-icon" aria-label="More actions">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+            </svg>
+          </button>
+          <div class="toolbar-divider"></div>
+          <button class="toolbar-btn" aria-label="Move to folder">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
+            </svg>
+            <span>Move</span>
+          </button>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn-reply">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
+            </svg>
+            Reply
+          </button>
+          <button class="btn-reply">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3"/>
+            </svg>
+            Forward
+          </button>
+        </div>
+      </div>
+
+      <!-- Message body -->
+      <div class="message-content">
+        <div class="message-card">
+          <div class="message-header">
+            <div class="message-sender-row">
+              <div class="message-avatar">SC</div>
+              <div class="message-sender-info">
+                <div class="message-sender-name">Sarah Chen</div>
+                <div class="message-sender-email">sarah.chen@acme.com</div>
+              </div>
+            </div>
+            <div class="message-meta">
+              <span>April 12, 2026 at 2:34 PM</span>
+              <span>To: you (warsono@email.com)</span>
+            </div>
+            <h1 class="message-subject" style="margin-top: var(--space-4);">Design review feedback</h1>
+          </div>
+
+          <div class="message-body">
+            <p>Hi Warsono,</p>
+
+            <p>Great work on the component library updates! I've gone through the latest iteration of the design system components and wanted to share my feedback. Overall, the consistency has improved significantly since the last review, and the token usage is much cleaner.</p>
+
+            <p>The button hierarchy feels intuitive now, and the form inputs have a polished, professional quality. I especially appreciate the attention to focus states and accessibility patterns across all interactive elements. The spacing system is being applied consistently, which gives everything a cohesive rhythm.</p>
+
+            <p>Here are a few specific items I'd like to address before we finalize:</p>
+
+            <ul>
+              <li>The card component's hover shadow transition feels slightly too slow at 200ms. Consider reducing it to 150ms to match the base duration token for a snappier feel.</li>
+              <li>Badge text colors on the warning variant could use a darker shade for better contrast. The current yellow-on-amber combination barely passes 4.5:1 on smaller text sizes.</li>
+              <li>Modal backdrop opacity at 0.6 works well, but the close button positioning should be inset by 16px from the top-right corner instead of the current 12px to align with the card padding.</li>
+              <li>The navigation sidebar active state is great, but consider adding a left border accent (2px solid primary) in addition to the background highlight for stronger visual affordance.</li>
+            </ul>
+
+            <p>Let me know if you have any questions about these items. I'm available for a quick sync call tomorrow afternoon if you'd like to walk through them together.</p>
+
+            <div class="message-signoff">
+              <p>Best regards,</p>
+              <p class="message-signoff-name">Sarah Chen</p>
+              <p class="message-signoff-title">Product Manager, Acme Corp</p>
+            </div>
+          </div>
+
+          <!-- Attachments -->
+          <div class="attachments">
+            <div class="attachments-label">Attachments (2)</div>
+            <div class="attachments-list">
+              <div class="attachment-card">
+                <div class="attachment-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                  </svg>
+                </div>
+                <div class="attachment-info">
+                  <div class="attachment-name">design-review-v2.pdf</div>
+                  <div class="attachment-size">2.4 MB</div>
+                </div>
+                <button class="attachment-download" aria-label="Download design-review-v2.pdf">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="attachment-card">
+                <div class="attachment-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                  </svg>
+                </div>
+                <div class="attachment-info">
+                  <div class="attachment-name">component-specs.fig</div>
+                  <div class="attachment-size">8.1 MB</div>
+                </div>
+                <button class="attachment-download" aria-label="Download component-specs.fig">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reply area -->
+      <div class="reply-area">
+        <div class="reply-card">
+          <div class="reply-label">Reply to Sarah Chen</div>
+          <label for="reply-input" class="sr-only">Write your reply</label>
+          <textarea id="reply-input" class="reply-textarea" placeholder="Write your reply..." rows="4"></textarea>
+          <div class="reply-actions">
+            <span class="reply-hints">Markdown supported</span>
+            <div class="reply-buttons">
+              <button class="btn-attach" aria-label="Attach file">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"/>
+                </svg>
+              </button>
+              <button class="btn-send" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"/>
+                </svg>
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ================================================
+       JavaScript — Mobile sidebar toggle
+       ================================================ -->
+  <script>
+    (function () {
+      var toggle = document.getElementById('sidebarToggle');
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.getElementById('sidebarOverlay');
+
+      function openSidebar() {
+        sidebar.classList.add('open');
+        overlay.classList.add('open');
+        toggle.setAttribute('aria-label', 'Close sidebar');
+      }
+
+      function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+        toggle.setAttribute('aria-label', 'Open sidebar');
+      }
+
+      toggle.addEventListener('click', function () {
+        if (sidebar.classList.contains('open')) {
+          closeSidebar();
+        } else {
+          openSidebar();
+        }
+      });
+
+      overlay.addEventListener('click', closeSidebar);
+    })();
+  </script>
+</body>
+</html>

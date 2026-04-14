@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morpheme Blog — Design, engineering, and product insights</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ================================================
+       Header
+       ================================================ -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="header-logo">
+        <span class="header-logo-icon">
+          <!-- Pen/blog icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+          </svg>
+        </span>
+        <span class="header-logo-text">Morpheme Blog</span>
+      </a>
+
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html" class="active">Articles</a>
+        <a href="#">Categories</a>
+        <a href="#">About</a>
+      </nav>
+
+      <div class="header-search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+        </svg>
+        <label for="header-search-input" class="sr-only">Search articles</label>
+        <input type="search" id="header-search-input" placeholder="Search articles...">
+      </div>
+
+      <div class="header-actions">
+        <!-- Dark mode toggle (visual only) -->
+        <button class="header-icon-btn" type="button" aria-label="Toggle dark mode">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+          </svg>
+        </button>
+
+        <button class="mobile-menu-btn" type="button" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================================================
+       Hero Section
+       ================================================ -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Morpheme Blog</h1>
+        <p class="hero-subtitle">Design, engineering, and product insights</p>
+        <div class="hero-search">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+          </svg>
+          <label for="hero-search-input" class="sr-only">Search articles</label>
+          <input type="search" id="hero-search-input" class="form-input form-input-lg" placeholder="Search for topics, authors, or keywords...">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Featured Article
+       ================================================ -->
+  <section class="section">
+    <div class="container">
+      <article class="featured-card">
+        <div class="featured-card-img">
+          <!-- Image placeholder -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+          </svg>
+        </div>
+        <div class="featured-card-body">
+          <div class="featured-card-meta">
+            <span class="badge badge-primary">Featured</span>
+            <span class="featured-card-category">Design systems</span>
+          </div>
+          <h2 class="featured-card-title">
+            <a href="article.html">Building a scalable design token architecture</a>
+          </h2>
+          <p class="featured-card-excerpt">
+            Learn how to structure your design tokens across foundation, brand, and semantic layers to create a flexible, themeable system that scales with your product.
+          </p>
+          <div class="author-row">
+            <div class="author-avatar">SC</div>
+            <div class="author-info">
+              <span class="author-name">Sarah Chen</span>
+              <span class="author-meta">
+                April 10, 2026
+                <span class="author-meta-dot"></span>
+                8 min read
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Latest Articles
+       ================================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Latest articles</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-3">
+        <!-- Article Card 1 -->
+        <article class="card card-interactive">
+          <div class="article-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+            </svg>
+          </div>
+          <div class="article-card-body">
+            <span class="badge badge-info">Engineering</span>
+            <h3 class="article-card-title">
+              <a href="article.html">Migrating to CSS custom properties at scale</a>
+            </h3>
+            <p class="article-card-excerpt">
+              A practical guide to replacing hardcoded values with design tokens across a large codebase without breaking production.
+            </p>
+            <div class="article-card-footer">
+              <div class="author-row">
+                <div class="author-avatar">AK</div>
+                <div class="author-info">
+                  <span class="author-name">Alex Kim</span>
+                  <span class="author-meta">
+                    April 8, 2026
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article Card 2 -->
+        <article class="card card-interactive">
+          <div class="article-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+            </svg>
+          </div>
+          <div class="article-card-body">
+            <span class="badge badge-success">Product</span>
+            <h3 class="article-card-title">
+              <a href="article.html">Measuring design system adoption across teams</a>
+            </h3>
+            <p class="article-card-excerpt">
+              How to track component usage, token adoption rates, and team onboarding metrics to prove the ROI of your design system.
+            </p>
+            <div class="article-card-footer">
+              <div class="author-row">
+                <div class="author-avatar">MR</div>
+                <div class="author-info">
+                  <span class="author-name">Maya Rodriguez</span>
+                  <span class="author-meta">
+                    April 5, 2026
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article Card 3 -->
+        <article class="card card-interactive">
+          <div class="article-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+            </svg>
+          </div>
+          <div class="article-card-body">
+            <span class="badge badge-warning">Design</span>
+            <h3 class="article-card-title">
+              <a href="article.html">Accessible color systems beyond contrast ratios</a>
+            </h3>
+            <p class="article-card-excerpt">
+              Why meeting WCAG contrast ratios is just the beginning, and how semantic color associations improve usability for everyone.
+            </p>
+            <div class="article-card-footer">
+              <div class="author-row">
+                <div class="author-avatar">JT</div>
+                <div class="author-info">
+                  <span class="author-name">Jordan Taylor</span>
+                  <span class="author-meta">
+                    April 3, 2026
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article Card 4 -->
+        <article class="card card-interactive">
+          <div class="article-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+            </svg>
+          </div>
+          <div class="article-card-body">
+            <span class="badge badge-error">Performance</span>
+            <h3 class="article-card-title">
+              <a href="article.html">Optimizing font loading for design system typography</a>
+            </h3>
+            <p class="article-card-excerpt">
+              Strategies for loading custom fonts efficiently while preventing layout shifts and maintaining visual consistency.
+            </p>
+            <div class="article-card-footer">
+              <div class="author-row">
+                <div class="author-avatar">DW</div>
+                <div class="author-info">
+                  <span class="author-name">David Walsh</span>
+                  <span class="author-meta">
+                    March 30, 2026
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article Card 5 -->
+        <article class="card card-interactive">
+          <div class="article-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+            </svg>
+          </div>
+          <div class="article-card-body">
+            <span class="badge badge-secondary">Tools</span>
+            <h3 class="article-card-title">
+              <a href="article.html">Automating design-to-code token synchronization</a>
+            </h3>
+            <p class="article-card-excerpt">
+              Build a pipeline that keeps Figma variables and CSS custom properties in sync using the Figma API and CI workflows.
+            </p>
+            <div class="article-card-footer">
+              <div class="author-row">
+                <div class="author-avatar">LN</div>
+                <div class="author-info">
+                  <span class="author-name">Lisa Nguyen</span>
+                  <span class="author-meta">
+                    March 27, 2026
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article Card 6 -->
+        <article class="card card-interactive">
+          <div class="article-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/>
+            </svg>
+          </div>
+          <div class="article-card-body">
+            <span class="badge badge-neutral">Process</span>
+            <h3 class="article-card-title">
+              <a href="article.html">Running effective design system governance meetings</a>
+            </h3>
+            <p class="article-card-excerpt">
+              A framework for quarterly reviews, contribution guidelines, and cross-team alignment that keeps your system healthy.
+            </p>
+            <div class="article-card-footer">
+              <div class="author-row">
+                <div class="author-avatar">RP</div>
+                <div class="author-info">
+                  <span class="author-name">Rachel Park</span>
+                  <span class="author-meta">
+                    March 24, 2026
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Pagination -->
+      <nav class="pagination" aria-label="Pagination">
+        <button class="page-btn page-btn-text" type="button" aria-label="Previous page">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+          </svg>
+          <span>Previous</span>
+        </button>
+        <button class="page-btn active" type="button" aria-current="page">1</button>
+        <button class="page-btn" type="button">2</button>
+        <button class="page-btn" type="button">3</button>
+        <button class="page-btn page-btn-text" type="button" aria-label="Next page">
+          <span>Next</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Footer
+       ================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="header-logo" style="margin-bottom: var(--space-2);">
+            <span class="header-logo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+              </svg>
+            </span>
+            <span class="header-logo-text" style="color: var(--color-white);">Morpheme Blog</span>
+          </a>
+          <p class="footer-brand-text">
+            Insights on design systems, frontend engineering, and building products that scale. Powered by the Morpheme UI design system.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Content</h4>
+          <div class="footer-links">
+            <a href="#">Articles</a>
+            <a href="#">Tutorials</a>
+            <a href="#">Case studies</a>
+            <a href="#">Changelog</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Resources</h4>
+          <div class="footer-links">
+            <a href="#">Documentation</a>
+            <a href="#">Figma library</a>
+            <a href="#">GitHub</a>
+            <a href="#">NPM packages</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Company</h4>
+          <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Careers</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Morpheme Blog. All rights reserved.</span>
+        <div class="footer-socials">
+          <!-- Twitter / X -->
+          <a href="#" aria-label="Twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l6.15 7.81L4.5 19.5h1.76l5.1-5.92L15.75 19.5h4.25l-6.47-8.22L19.5 4.5h-1.76l-4.79 5.56L9.25 4.5H4.5z"/>
+            </svg>
+          </a>
+          <!-- GitHub -->
+          <a href="#" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.7.11 2.5.34 1.9-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.16.59.67.5A10.003 10.003 0 0022 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+          </a>
+          <!-- LinkedIn -->
+          <a href="#" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 2.25H3.75A1.5 1.5 0 002.25 3.75v16.5a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5V3.75a1.5 1.5 0 00-1.5-1.5zM8.25 18.75v-9M8.25 6.75v.008M12.75 18.75v-5.25a2.25 2.25 0 014.5 0v5.25"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

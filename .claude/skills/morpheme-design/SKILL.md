@@ -157,7 +157,7 @@ Use the shadow scale for depth hierarchy:
 ## Copy & writing style
 
 - **Sentence case** everywhere (not Title Case).
-- **Action-first** button labels: "Simpan perubahan", "Hapus akun", "Buat baru".
+- **Action-first** button labels: "Save changes", "Delete account", "Create new".
 - Error messages must be explicit and provide a solution.
 - Placeholders use concrete examples, not generic instructions.
 
@@ -167,7 +167,7 @@ When generating a complete page, structure the HTML as:
 
 ```html
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
