@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat — Morpheme</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* 1. CSS Reset */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* 2. Design tokens — DESIGN.md §14 */
+    :root {
+      /* Brand */
+      --color-primary:         #1D6EEB;
+      --color-primary-light:   #EFF8FF;
+      --color-secondary:       #E55B05;
+      --color-secondary-light: #FFF3EB;
+
+      /* Primary scale */
+      --color-primary-25:  #F5F8FF;
+      --color-primary-50:  #EBF3FF;
+      --color-primary-100: #BFDBFE;
+      --color-primary-200: #93C5FD;
+      --color-primary-300: #60A5FA;
+      --color-primary-400: #3B82F6;
+      --color-primary-500: #1D6EEB;
+      --color-primary-600: #1B69C2;
+      --color-primary-700: #1554A1;
+      --color-primary-800: #0D4487;
+      --color-primary-900: #072D60;
+
+      /* Foundation */
+      --color-white:   #FFFFFF;
+      --color-black:   #000000;
+      --color-info:    #28A0F8;
+      --color-warning: #F79009;
+      --color-success: #12B76A;
+      --color-error:   #F04438;
+
+      /* Neutral */
+      --color-gray-25:  #FCFCFD;
+      --color-gray-50:  #F9FAFB;
+      --color-gray-100: #F2F4F7;
+      --color-gray-200: #EAECF0;
+      --color-gray-300: #D0D5DD;
+      --color-gray-400: #98A2B3;
+      --color-gray-500: #667085;
+      --color-gray-600: #475467;
+      --color-gray-700: #344054;
+      --color-gray-800: #1D2939;
+      --color-gray-900: #101828;
+
+      /* Typography */
+      --font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --text-xs:  12px;
+      --text-sm:  14px;
+      --text-md:  16px;
+      --text-lg:  18px;
+      --text-xl:  20px;
+      --text-2xl: 24px;
+
+      /* Spacing */
+      --space-1:  4px;
+      --space-2:  8px;
+      --space-3:  12px;
+      --space-4:  16px;
+      --space-5:  20px;
+      --space-6:  24px;
+      --space-8:  32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+      --space-24: 96px;
+
+      /* Border radius */
+      --radius-sm:   4px;
+      --radius-md:   6px;
+      --radius-lg:   8px;
+      --radius-xl:   12px;
+      --radius-2xl:  16px;
+      --radius-full: 9999px;
+
+      /* Shadows */
+      --shadow-sm:  0 1px 2px rgba(16,24,40,0.05);
+      --shadow:     0 1px 3px rgba(16,24,40,0.10), 0 1px 2px rgba(16,24,40,0.06);
+      --shadow-md:  0 4px 8px -2px rgba(16,24,40,0.10), 0 2px 4px -2px rgba(16,24,40,0.06);
+      --shadow-lg:  0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03);
+      --shadow-xl:  0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03);
+      --shadow-2xl: 0 24px 48px -12px rgba(16,24,40,0.18);
+
+      /* Motion */
+      --duration-fast:   100ms;
+      --duration-base:   150ms;
+      --duration-slow:   200ms;
+      --duration-slower: 300ms;
+      --ease-out:     cubic-bezier(0.0, 0.0, 0.2, 1);
+      --ease-in-out:  cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    /* 3. Base */
+    html, body {
+      height: 100%;
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      color: var(--color-gray-900);
+      background: var(--color-white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border-width: 0;
+    }
+
+    /* =====================
+       4. App shell
+    ===================== */
+    .app {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* =====================
+       5. Sidebar
+    ===================== */
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: var(--color-white);
+      border-right: 1px solid var(--color-gray-200);
+      transition: transform var(--duration-slow) var(--ease-out);
+    }
+
+    /* Sidebar header */
+    .sidebar-header {
+      padding: var(--space-4);
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      text-decoration: none;
+      margin-bottom: var(--space-3);
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background: var(--color-primary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-logo svg {
+      width: 18px;
+      height: 18px;
+      color: var(--color-white);
+    }
+
+    .brand-name {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      letter-spacing: -0.01em;
+    }
+
+    /* New chat button — Primary Filled sm */
+    .btn-new-chat {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      width: 100%;
+      height: 36px;
+      padding: 0 var(--space-3);
+      background: var(--color-primary);
+      color: var(--color-white);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-family: var(--font-family);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-new-chat:hover { background: var(--color-primary-600); }
+    .btn-new-chat:active { background: var(--color-primary-700); }
+    .btn-new-chat:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .btn-new-chat svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* Sidebar nav scroll area */
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-3) var(--space-2);
+    }
+
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-nav::-webkit-scrollbar-thumb {
+      background: var(--color-gray-200);
+      border-radius: var(--radius-full);
+    }
+
+    .conv-group { margin-bottom: var(--space-5); }
+
+    .conv-group-label {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0 var(--space-2) var(--space-2);
+    }
+
+    .conv-list { list-style: none; }
+
+    /* Nav item — DESIGN.md §8.7 */
+    .conv-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      width: 100%;
+      height: 40px;
+      padding: 0 var(--space-3);
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-family);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-500);
+      cursor: pointer;
+      text-align: left;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .conv-item:hover { background: var(--color-gray-50); color: var(--color-gray-700); }
+    .conv-item:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+    .conv-item.active {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    .conv-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .conv-item-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Sidebar footer */
+    .sidebar-footer {
+      padding: var(--space-3) var(--space-4);
+      border-top: 1px solid var(--color-gray-200);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      width: 100%;
+      padding: var(--space-2);
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      font-family: var(--font-family);
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+
+    .user-profile:hover { background: var(--color-gray-50); }
+    .user-profile:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      color: var(--color-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .user-info { flex: 1; min-width: 0; text-align: left; }
+
+    .user-name {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-700);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-plan {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    .user-profile .icon-settings {
+      width: 16px;
+      height: 16px;
+      color: var(--color-gray-400);
+      flex-shrink: 0;
+    }
+
+    /* =====================
+       6. Main chat column
+    ===================== */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--color-white);
+      min-width: 0;
+    }
+
+    /* Chat header */
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-6);
+      height: 60px;
+      border-bottom: 1px solid var(--color-gray-200);
+      flex-shrink: 0;
+      gap: var(--space-3);
+    }
+
+    .header-left { display: flex; align-items: center; gap: var(--space-2); }
+    .header-right { display: flex; align-items: center; gap: var(--space-2); }
+
+    /* Mobile sidebar toggle */
+    .btn-hamburger {
+      display: none;
+      width: 36px;
+      height: 36px;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-lg);
+      color: var(--color-gray-500);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-hamburger:hover { background: var(--color-gray-100); }
+    .btn-hamburger:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .btn-hamburger svg { width: 20px; height: 20px; }
+
+    /* Model selector — Outlined sm */
+    .model-selector {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      height: 36px;
+      padding: 0 var(--space-3);
+      border: 1.5px solid var(--color-gray-200);
+      border-radius: var(--radius-lg);
+      background: transparent;
+      font-family: var(--font-family);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-700);
+      cursor: pointer;
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  background var(--duration-fast) var(--ease-out);
+    }
+
+    .model-selector:hover { border-color: var(--color-gray-300); background: var(--color-gray-50); }
+    .model-selector:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+    .model-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--color-success);
+      flex-shrink: 0;
+    }
+
+    .model-selector svg { width: 16px; height: 16px; color: var(--color-gray-400); }
+
+    /* Icon button */
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-lg);
+      color: var(--color-gray-500);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-icon:hover { background: var(--color-gray-100); color: var(--color-gray-700); }
+    .btn-icon:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .btn-icon svg { width: 20px; height: 20px; }
+
+    /* =====================
+       7. Messages area
+    ===================== */
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: var(--color-gray-200);
+      border-radius: var(--radius-full);
+    }
+
+    /* Welcome state */
+    .welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding: var(--space-12) var(--space-6);
+      text-align: center;
+    }
+
+    .welcome-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--color-primary-light);
+      border-radius: var(--radius-2xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-5);
+    }
+
+    .welcome-icon svg { width: 32px; height: 32px; color: var(--color-primary); }
+
+    .welcome-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-2);
+    }
+
+    .welcome-sub {
+      font-size: var(--text-md);
+      color: var(--color-gray-500);
+      line-height: 1.6;
+      max-width: 440px;
+      margin-bottom: var(--space-8);
+    }
+
+    /* Suggestion cards — Card spec DESIGN.md §8.3 */
+    .suggestions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+      max-width: 560px;
+      width: 100%;
+    }
+
+    .suggestion-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      padding: var(--space-4);
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-family);
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out);
+    }
+
+    .suggestion-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .suggestion-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+    .suggestion-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-2);
+    }
+
+    .suggestion-icon svg { width: 18px; height: 18px; }
+
+    .suggestion-title {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-gray-700);
+      margin-bottom: var(--space-1);
+    }
+
+    .suggestion-desc {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+      line-height: 1.5;
+    }
+
+    /* Message groups */
+    .messages-inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      max-width: 780px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .message-group {
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+    }
+
+    .message-group.user { flex-direction: row-reverse; }
+
+    .msg-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xs);
+      font-weight: 600;
+    }
+
+    .msg-avatar.ai {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      border: 1px solid var(--color-primary-100);
+    }
+
+    .msg-avatar.ai svg { width: 16px; height: 16px; }
+
+    .msg-avatar.user {
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .msg-body { flex: 1; min-width: 0; }
+
+    /* Right-align everything inside a user message */
+    .message-group.user .msg-body {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .msg-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-1);
+      width: 100%;
+    }
+
+    .message-group.user .msg-meta { flex-direction: row-reverse; }
+
+    .msg-sender {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-gray-500);
+    }
+
+    .msg-time {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    .msg-bubble {
+      display: inline-block;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-md);
+      line-height: 1.7;
+    }
+
+    /* AI bubble */
+    .message-group.ai .msg-bubble {
+      background: var(--color-gray-50);
+      border: 1px solid var(--color-gray-200);
+      color: var(--color-gray-900);
+      border-radius: var(--radius-sm) var(--radius-xl) var(--radius-xl) var(--radius-xl);
+      max-width: 100%;
+    }
+
+    /* User bubble */
+    .message-group.user .msg-bubble {
+      background: var(--color-primary);
+      color: var(--color-white);
+      border-radius: var(--radius-xl) var(--radius-sm) var(--radius-xl) var(--radius-xl);
+      max-width: 80%;
+    }
+
+    /* Message action row */
+    .msg-actions {
+      display: flex;
+      gap: var(--space-1);
+      margin-top: var(--space-2);
+      opacity: 0;
+      transition: opacity var(--duration-fast) var(--ease-out);
+    }
+
+    .message-group:hover .msg-actions { opacity: 1; }
+
+    .message-group.user .msg-actions { justify-content: flex-end; }
+
+    .btn-msg-action {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-md);
+      color: var(--color-gray-400);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-msg-action:hover { background: var(--color-gray-100); color: var(--color-gray-600); }
+    .btn-msg-action:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .btn-msg-action svg { width: 14px; height: 14px; }
+
+    /* Code block */
+    .msg-code {
+      background: var(--color-gray-900);
+      border-radius: var(--radius-lg);
+      margin-top: var(--space-3);
+      overflow: hidden;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) var(--space-3);
+      background: var(--color-gray-800);
+    }
+
+    .code-lang {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-gray-400);
+    }
+
+    .btn-copy {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: 2px var(--space-2);
+      background: transparent;
+      border: 1px solid var(--color-gray-600);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: 11px;
+      color: var(--color-gray-400);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-copy:hover { background: var(--color-gray-700); color: var(--color-gray-200); }
+    .btn-copy:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .btn-copy svg { width: 12px; height: 12px; }
+
+    .code-body {
+      padding: var(--space-4);
+      overflow-x: auto;
+      font-family: "Courier New", Courier, monospace;
+      font-size: var(--text-sm);
+      line-height: 1.6;
+      color: #e2e8f0;
+      white-space: pre;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: none;
+      gap: var(--space-3);
+      align-items: flex-start;
+    }
+
+    .typing-indicator.visible { display: flex; }
+
+    .typing-dots {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-3) var(--space-4);
+      background: var(--color-gray-50);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-sm) var(--radius-xl) var(--radius-xl) var(--radius-xl);
+    }
+
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: var(--radius-full);
+      background: var(--color-gray-400);
+      animation: typing-pulse 1.4s ease-in-out infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 200ms; }
+    .typing-dot:nth-child(3) { animation-delay: 400ms; }
+
+    @keyframes typing-pulse {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
+      30%            { transform: translateY(-4px); opacity: 1; }
+    }
+
+    /* =====================
+       8. Input area
+    ===================== */
+    .chat-input-area {
+      flex-shrink: 0;
+      padding: var(--space-4) var(--space-6) var(--space-6);
+      background: var(--color-white);
+    }
+
+    .input-wrapper { max-width: 780px; margin: 0 auto; }
+
+    /* Input container — Form input spec §8.2 adapted */
+    .input-box {
+      background: var(--color-white);
+      border: 1.5px solid var(--color-gray-300);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) var(--ease-out);
+      overflow: hidden;
+    }
+
+    .input-box:focus-within {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 4px rgba(29,110,235,0.12);
+    }
+
+    .input-top {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-4) var(--space-2);
+    }
+
+    .chat-textarea {
+      flex: 1;
+      border: none;
+      outline: none;
+      resize: none;
+      font-family: var(--font-family);
+      font-size: var(--text-md);
+      color: var(--color-gray-900);
+      line-height: 1.6;
+      background: transparent;
+      min-height: 24px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .chat-textarea::placeholder { color: var(--color-gray-400); }
+
+    .input-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-2) var(--space-3) var(--space-3);
+      border-top: 1px solid var(--color-gray-100);
+    }
+
+    .input-tools { display: flex; align-items: center; gap: var(--space-1); }
+
+    .btn-tool {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-md);
+      color: var(--color-gray-400);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out),
+                  color var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-tool:hover { background: var(--color-gray-100); color: var(--color-gray-600); }
+    .btn-tool:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .btn-tool svg { width: 18px; height: 18px; }
+
+    .input-right { display: flex; align-items: center; gap: var(--space-2); }
+
+    /* Send button — Primary Filled icon-only */
+    .btn-send {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-primary);
+      border: none;
+      border-radius: var(--radius-lg);
+      color: var(--color-white);
+      cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-out),
+                  transform var(--duration-fast) var(--ease-out),
+                  opacity var(--duration-fast) var(--ease-out);
+    }
+
+    .btn-send:hover:not(:disabled) { background: var(--color-primary-600); }
+    .btn-send:active:not(:disabled) { background: var(--color-primary-700); transform: scale(0.95); }
+
+    .btn-send:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-send:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+    .btn-send svg { width: 18px; height: 18px; }
+
+    .input-hint {
+      text-align: center;
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+      margin-top: var(--space-2);
+    }
+
+    .input-hint kbd {
+      display: inline-block;
+      padding: 1px 5px;
+      background: var(--color-gray-100);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-family);
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--color-gray-600);
+    }
+
+    /* =====================
+       9. Responsive
+    ===================== */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 200;
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+        box-shadow: var(--shadow-2xl);
+      }
+
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(16,24,40,0.5);
+        z-index: 199;
+      }
+
+      .sidebar-overlay.visible { display: block; }
+
+      .btn-hamburger { display: flex; }
+
+      .chat-header { padding: 0 var(--space-4); }
+
+      .chat-messages { padding: var(--space-4); }
+
+      .chat-input-area { padding: var(--space-3) var(--space-4) var(--space-4); }
+
+      .suggestions { grid-template-columns: 1fr; }
+
+      .message-group.user .msg-bubble { max-width: 90%; }
+    }
+
+    /* 10. Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="overlay" aria-hidden="true"></div>
+
+<div class="app">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar" aria-label="Conversations">
+
+    <div class="sidebar-header">
+      <a href="#" class="brand" aria-label="Morpheme AI home">
+        <div class="brand-logo" aria-hidden="true">
+          <!-- Sparkle icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <span class="brand-name">Morpheme AI</span>
+      </a>
+
+      <button class="btn-new-chat" id="newChatBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        New chat
+      </button>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Recent conversations">
+
+      <div class="conv-group">
+        <div class="conv-group-label" id="grp-today">Today</div>
+        <ul class="conv-list" role="list" aria-labelledby="grp-today">
+          <li>
+            <button class="conv-item active" aria-current="page">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="conv-item-text">Building a REST API with Node.js</span>
+            </button>
+          </li>
+          <li>
+            <button class="conv-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="conv-item-text">Explain React hooks in depth</span>
+            </button>
+          </li>
+          <li>
+            <button class="conv-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="conv-item-text">Python data analysis script</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="conv-group">
+        <div class="conv-group-label" id="grp-yesterday">Yesterday</div>
+        <ul class="conv-list" role="list" aria-labelledby="grp-yesterday">
+          <li>
+            <button class="conv-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="conv-item-text">Write a professional cover letter</span>
+            </button>
+          </li>
+          <li>
+            <button class="conv-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="conv-item-text">SQL query optimization tips</span>
+            </button>
+          </li>
+          <li>
+            <button class="conv-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="conv-item-text">Docker setup for production</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="conv-group">
+        <div class="conv-group-label" id="grp-week">Last 7 days</div>
+        <ul class="conv-list" role="list" aria-labelledby="grp-week">
+          <li>
+            <button class="conv-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="conv-item-text">Blog post about AI trends 2026</span>
+            </button>
+          </li>
+          <li>
+            <button class="conv-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="conv-item-text">Marketing email campaign ideas</span>
+            </button>
+          </li>
+          <li>
+            <button class="conv-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              <span class="conv-item-text">Kubernetes deployment guide</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="user-profile" aria-label="Open user settings">
+        <div class="avatar" aria-hidden="true">W</div>
+        <div class="user-info">
+          <div class="user-name">Warsono</div>
+          <div class="user-plan">Pro plan</div>
+        </div>
+        <svg class="icon-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+        </svg>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <!-- Header -->
+    <header class="chat-header">
+      <div class="header-left">
+        <button class="btn-hamburger" id="hamburgerBtn" aria-label="Open sidebar" aria-expanded="false" aria-controls="sidebar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+
+        <button class="model-selector" aria-label="Select model" aria-haspopup="listbox">
+          <span class="model-dot" aria-hidden="true"></span>
+          <span>Morpheme 3.5 Sonnet</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="header-right">
+        <button class="btn-icon" aria-label="Share conversation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+        </button>
+        <button class="btn-icon" aria-label="More options">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages" role="log" aria-label="Chat messages" aria-live="polite">
+
+      <!-- Welcome screen shown when no active conversation -->
+      <div class="welcome" id="welcome" style="display:none">
+        <div class="welcome-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <h1 class="welcome-title">How can I help you today?</h1>
+        <p class="welcome-sub">Ask me anything — I can write code, answer questions, summarize documents, or just have a conversation.</p>
+
+        <div class="suggestions" role="list" aria-label="Suggested prompts">
+          <button class="suggestion-card" role="listitem">
+            <div class="suggestion-icon" style="background:#EFF8FF;" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1D6EEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <div class="suggestion-title">Write code</div>
+            <div class="suggestion-desc">Generate, explain, or debug any code</div>
+          </button>
+          <button class="suggestion-card" role="listitem">
+            <div class="suggestion-icon" style="background:#ECFDF3;" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#027A48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+            <div class="suggestion-title">Summarize text</div>
+            <div class="suggestion-desc">Condense long documents or articles</div>
+          </button>
+          <button class="suggestion-card" role="listitem">
+            <div class="suggestion-icon" style="background:#FFFAEB;" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#B54708" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <div class="suggestion-title">Answer questions</div>
+            <div class="suggestion-desc">Get clear answers on any topic</div>
+          </button>
+          <button class="suggestion-card" role="listitem">
+            <div class="suggestion-icon" style="background:#FFF3EB;" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#E55B05" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <div class="suggestion-title">Write content</div>
+            <div class="suggestion-desc">Emails, essays, posts, and more</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active messages container -->
+      <div class="messages-inner" id="messagesInner" style="display:flex;">
+
+        <!-- AI message example -->
+        <div class="message-group ai">
+          <div class="msg-avatar ai" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <div class="msg-body">
+            <div class="msg-meta">
+              <span class="msg-sender">Morpheme AI</span>
+              <span class="msg-time">2:34 PM</span>
+            </div>
+            <div class="msg-bubble">
+              I'd be happy to help you build a REST API with Node.js! Let me walk you through the key steps.<br><br>
+              First, set up your project with Express.js — the most popular Node.js web framework:
+            </div>
+            <div class="msg-code" aria-label="Code: bash">
+              <div class="code-header">
+                <span class="code-lang">bash</span>
+                <button class="btn-copy" aria-label="Copy code">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <pre class="code-body">mkdir my-api && cd my-api
+npm init -y
+npm install express cors dotenv</pre>
+            </div>
+            <div class="msg-actions" aria-label="Message actions">
+              <button class="btn-msg-action" aria-label="Copy message">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+              <button class="btn-msg-action" aria-label="Thumbs up">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              </button>
+              <button class="btn-msg-action" aria-label="Thumbs down">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+              </button>
+              <button class="btn-msg-action" aria-label="Regenerate">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- User message -->
+        <div class="message-group user">
+          <div class="msg-avatar user" aria-hidden="true">W</div>
+          <div class="msg-body">
+            <div class="msg-meta">
+              <span class="msg-sender">You</span>
+              <span class="msg-time">2:36 PM</span>
+            </div>
+            <div class="msg-bubble">
+              Can you show me how to add JWT authentication middleware?
+            </div>
+          </div>
+        </div>
+
+        <!-- AI message with longer code -->
+        <div class="message-group ai">
+          <div class="msg-avatar ai" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <div class="msg-body">
+            <div class="msg-meta">
+              <span class="msg-sender">Morpheme AI</span>
+              <span class="msg-time">2:36 PM</span>
+            </div>
+            <div class="msg-bubble">
+              Here's a complete JWT middleware implementation:
+            </div>
+            <div class="msg-code" aria-label="Code: javascript">
+              <div class="code-header">
+                <span class="code-lang">javascript</span>
+                <button class="btn-copy" aria-label="Copy code">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                  Copy
+                </button>
+              </div>
+              <pre class="code-body">const express = require('express');
+const jwt = require('jsonwebtoken');
+
+const app = express();
+app.use(express.json());
+
+// Auth middleware
+const authenticate = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({
+      error: 'Access denied. No token provided.'
+    });
+  }
+
+  try {
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    next();
+  } catch {
+    res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+};
+
+// Public route
+app.post('/auth/login', (req, res) => {
+  const { email, password } = req.body;
+  // Validate credentials…
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: '7d'
+  });
+  res.json({ token });
+});
+
+// Protected route
+app.get('/api/profile', authenticate, (req, res) => {
+  res.json({ user: req.user });
+});
+
+app.listen(3000, () => console.log('Server running on :3000'));</pre>
+            </div>
+            <div class="msg-actions" aria-label="Message actions">
+              <button class="btn-msg-action" aria-label="Copy message">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+              <button class="btn-msg-action" aria-label="Thumbs up">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+              </button>
+              <button class="btn-msg-action" aria-label="Thumbs down">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+              </button>
+              <button class="btn-msg-action" aria-label="Regenerate">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typing indicator -->
+        <div class="typing-indicator message-group" id="typingIndicator" role="status" aria-label="AI is typing">
+          <div class="msg-avatar ai" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          </div>
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Input area -->
+    <div class="chat-input-area" role="region" aria-label="Message input">
+      <div class="input-wrapper">
+        <div class="input-box">
+          <div class="input-top">
+            <label for="chatInput" class="sr-only">Type your message</label>
+            <textarea
+              id="chatInput"
+              class="chat-textarea"
+              placeholder="Ask anything…"
+              rows="1"
+              aria-multiline="true"
+            ></textarea>
+          </div>
+          <div class="input-bottom">
+            <div class="input-tools">
+              <button class="btn-tool" aria-label="Attach file">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+                </svg>
+              </button>
+              <button class="btn-tool" aria-label="Search the web">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </button>
+              <button class="btn-tool" aria-label="Add image">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </button>
+            </div>
+            <div class="input-right">
+              <button class="btn-send" id="sendBtn" aria-label="Send message" disabled>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="input-hint">
+          Press <kbd>Enter</kbd> to send &nbsp;·&nbsp; <kbd>Shift</kbd>+<kbd>Enter</kbd> for new line
+        </p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const textarea     = document.getElementById('chatInput');
+  const sendBtn      = document.getElementById('sendBtn');
+  const chatMessages = document.getElementById('chatMessages');
+  const messagesInner = document.getElementById('messagesInner');
+  const welcome      = document.getElementById('welcome');
+  const typingEl     = document.getElementById('typingIndicator');
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const sidebar      = document.getElementById('sidebar');
+  const overlay      = document.getElementById('overlay');
+
+  // ---- Textarea auto-resize ----
+  textarea.addEventListener('input', () => {
+    textarea.style.height = 'auto';
+    textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+    sendBtn.disabled = textarea.value.trim().length === 0;
+  });
+
+  // ---- Enter to send ----
+  textarea.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!sendBtn.disabled) sendMessage();
+    }
+  });
+
+  sendBtn.addEventListener('click', sendMessage);
+
+  // ---- Suggestion cards: clear pre-loaded demo, then send ----
+  document.querySelectorAll('.suggestion-card').forEach(card => {
+    card.addEventListener('click', () => {
+      // Clear example messages, keep typingEl
+      clearMessages();
+      welcome.style.display = 'none';
+      messagesInner.style.display = 'flex';
+      const prompt = card.querySelector('.suggestion-title').textContent;
+      textarea.value = prompt;
+      textarea.dispatchEvent(new Event('input'));
+      sendMessage();
+    });
+  });
+
+  // ---- Conversation list activate ----
+  document.querySelectorAll('.conv-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.conv-item').forEach(i => {
+        i.classList.remove('active');
+        i.removeAttribute('aria-current');
+      });
+      item.classList.add('active');
+      item.setAttribute('aria-current', 'page');
+      // On mobile: close sidebar
+      closeSidebar();
+    });
+  });
+
+  // ---- New chat ----
+  document.getElementById('newChatBtn').addEventListener('click', () => {
+    document.querySelectorAll('.conv-item').forEach(i => {
+      i.classList.remove('active');
+      i.removeAttribute('aria-current');
+    });
+    clearMessages();
+    welcome.style.display = 'flex';
+    messagesInner.style.display = 'none';
+    closeSidebar();
+  });
+
+  // Remove all message groups but keep typingEl
+  function clearMessages() {
+    Array.from(messagesInner.children).forEach(child => {
+      if (child !== typingEl) child.remove();
+    });
+    typingEl.classList.remove('visible');
+  }
+
+  // ---- Send ----
+  function sendMessage() {
+    const text = textarea.value.trim();
+    if (!text) return;
+
+    // Ensure messages panel is visible and welcome is hidden
+    if (welcome.style.display !== 'none') {
+      welcome.style.display = 'none';
+      clearMessages();
+      messagesInner.style.display = 'flex';
+    }
+
+    appendMessage('user', text);
+
+    textarea.value = '';
+    textarea.style.height = 'auto';
+    sendBtn.disabled = true;
+
+    // Show typing
+    typingEl.classList.add('visible');
+    scrollToBottom();
+
+    // Simulate AI response (1.2–2s)
+    const delay = 1200 + Math.random() * 800;
+    setTimeout(() => {
+      typingEl.classList.remove('visible');
+      appendMessage('ai', 'That\'s a great question. Here\'s what I found:\n\nLet me give you a detailed and helpful answer based on your input. Feel free to ask follow-up questions or request clarifications at any time.');
+    }, delay);
+  }
+
+  function appendMessage(role, text) {
+    const time = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+    const group = document.createElement('div');
+    group.className = `message-group ${role}`;
+
+    if (role === 'ai') {
+      group.innerHTML = `
+        <div class="msg-avatar ai" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <div class="msg-body">
+          <div class="msg-meta">
+            <span class="msg-sender">Morpheme AI</span>
+            <span class="msg-time">${time}</span>
+          </div>
+          <div class="msg-bubble">${escapeHtml(text).replace(/\n/g, '<br>')}</div>
+          <div class="msg-actions" aria-label="Message actions">
+            ${actionBtns()}
+          </div>
+        </div>`;
+    } else {
+      group.innerHTML = `
+        <div class="msg-avatar user" aria-hidden="true">W</div>
+        <div class="msg-body">
+          <div class="msg-meta">
+            <span class="msg-sender">You</span>
+            <span class="msg-time">${time}</span>
+          </div>
+          <div class="msg-bubble">${escapeHtml(text).replace(/\n/g, '<br>')}</div>
+        </div>`;
+    }
+
+    // Insert before typing indicator
+    messagesInner.insertBefore(group, typingEl);
+    scrollToBottom();
+  }
+
+  function actionBtns() {
+    return `
+      <button class="btn-msg-action" aria-label="Copy message">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+      <button class="btn-msg-action" aria-label="Thumbs up">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+      </button>
+      <button class="btn-msg-action" aria-label="Thumbs down">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+      </button>
+      <button class="btn-msg-action" aria-label="Regenerate">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+      </button>`;
+  }
+
+  function appendTypingIndicator() {
+    messagesInner.appendChild(typingEl);
+  }
+
+  function scrollToBottom() {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.appendChild(document.createTextNode(str));
+    return d.innerHTML;
+  }
+
+  // ---- Copy code ----
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-copy');
+    if (!btn) return;
+    const code = btn.closest('.msg-code').querySelector('.code-body').textContent;
+    navigator.clipboard?.writeText(code).then(() => {
+      const orig = btn.innerHTML;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    });
+  });
+
+  // ---- Mobile sidebar ----
+  hamburgerBtn.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('open');
+    overlay.classList.toggle('visible', isOpen);
+    hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  overlay.addEventListener('click', closeSidebar);
+
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('visible');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  // Trap focus in open sidebar on mobile (basic)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('open')) closeSidebar();
+  });
+</script>
+
+</body>
+</html>
