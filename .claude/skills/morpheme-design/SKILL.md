@@ -166,41 +166,140 @@ Use the shadow scale for depth hierarchy:
 
 ## Output structure
 
-**Always detect the framework from the project context before generating code.**
+**Always auto-detect the framework before generating any code.** Check `package.json` dependencies and config files to determine the framework, then follow the matching rules below. Never default to plain HTML when a framework is present.
 
-### Next.js / React (TSX)
+### Detection signals
 
-When working in a Next.js or React project, generate `.tsx` components — never plain HTML files:
+| Framework | Signal files / deps |
+|-----------|-------------------|
+| Next.js | `next` in deps, `next.config.*` |
+| React (Vite/CRA) | `react` in deps, `vite.config.*`, no `next` |
+| TanStack Start | `@tanstack/start` or `@tanstack/react-router` + `app/routes/` |
+| Vue / Nuxt | `vue` in deps, `nuxt.config.*`, `.vue` files |
+| Svelte / SvelteKit | `svelte` in deps, `svelte.config.*`, `.svelte` files |
+| Analog.js | `@analogjs/platform` in deps, `vite.config.ts` with analog plugin |
+| Solid.js | `solid-js` in deps, `.tsx` with `solid` imports |
+| Plain HTML | No framework detected |
 
-```tsx
-// Use CSS Modules or Tailwind if already in use in the project.
-// Otherwise inline styles or a <style> tag via a global CSS file.
+---
 
-// For CSS variables, add to globals.css or a dedicated tokens.css:
-// :root { --color-primary: #1D6EEB; ... }
+### Next.js (App Router)
 
-export default function ComponentName() {
-  return (
-    <main>
-      {/* Semantic JSX structure */}
-    </main>
-  )
-}
-```
+Generate `.tsx` components in `app/` or `components/`:
 
-- Use `className` not `class`
-- Use `htmlFor` not `for` on labels
-- Load Poppins via `next/font/google`, not a `<link>` tag:
+- `className` not `class`; `htmlFor` not `for`
+- Load Poppins via `next/font/google`:
   ```tsx
   import { Poppins } from 'next/font/google'
   const poppins = Poppins({ subsets: ['latin'], weight: ['400','500','600','700'] })
   ```
-- CSS variables go in `globals.css` (or a shared tokens file), not inline `<style>` tags
-- Client interactivity requires `'use client'` directive
+- CSS variables go in `app/globals.css`, not inline `<style>` tags
+- Add `'use client'` only when hooks or browser APIs are needed
+- Prefer Server Components by default
+
+### React (Vite / CRA)
+
+Generate `.tsx` components:
+
+- `className` not `class`; `htmlFor` not `for`
+- Load Poppins via `<link>` in `index.html` or via a CSS `@import` in `index.css`
+- CSS variables go in `index.css` or a dedicated `tokens.css`
+
+### TanStack Start
+
+Generate `.tsx` route components in `app/routes/` or shared components in `app/components/`:
+
+- Same JSX rules as React (`className`, `htmlFor`)
+- Use `createFileRoute` for route files
+- CSS variables in `app/styles/globals.css` or equivalent
+- Load Poppins via `<link>` in root layout or CSS `@import`
 
 ### Vue / Nuxt
 
-Generate `.vue` single-file components with `<template>`, `<script setup lang="ts">`, and `<style scoped>`.
+Generate `.vue` single-file components:
+
+```vue
+<template>
+  <!-- semantic HTML -->
+</template>
+
+<script setup lang="ts">
+// component logic
+</script>
+
+<style scoped>
+/* component styles using var() tokens */
+</style>
+```
+
+- CSS variables go in `assets/css/tokens.css` (Nuxt) or `src/assets/main.css` (Vue)
+- Load Poppins via `@import url(...)` in global CSS
+
+### SvelteKit / Svelte
+
+Generate `.svelte` components:
+
+```svelte
+<script lang="ts">
+  // component logic
+</script>
+
+<main>
+  <!-- semantic HTML -->
+</main>
+
+<style>
+  /* component styles using var() tokens */
+</style>
+```
+
+- CSS variables go in `src/app.css` or `src/lib/styles/tokens.css`
+- Load Poppins via `@import url(...)` in `app.css`
+- Use `on:click` not `onClick`
+
+### Analog.js (Angular)
+
+Generate Angular components (`.component.ts` + `.component.html` + `.component.css`):
+
+- Use `@Component` decorator with `standalone: true`
+- Bindings: `[class]`, `(click)`, `*ngIf` / `@if` (Angular 17+)
+- CSS variables go in `src/styles.css`
+- Load Poppins via `@import url(...)` in `styles.css`
+
+```ts
+import { Component } from '@angular/core'
+
+@Component({
+  selector: 'app-component-name',
+  standalone: true,
+  templateUrl: './component-name.component.html',
+  styleUrl: './component-name.component.css',
+})
+export class ComponentNameComponent {}
+```
+
+### Solid.js
+
+Generate `.tsx` components using Solid primitives:
+
+- Use `createSignal`, `createEffect` — not React hooks
+- `class` not `className` (Solid uses `class`)
+- CSS variables go in `src/index.css`
+- Load Poppins via `@import url(...)` in global CSS
+
+```tsx
+import { Component } from 'solid-js'
+
+const ComponentName: Component = () => {
+  return (
+    <main>
+      {/* semantic JSX */}
+    </main>
+  )
+}
+
+export default ComponentName
+```
 
 ### Plain HTML (no framework detected)
 
