@@ -166,7 +166,13 @@ Use the shadow scale for depth hierarchy:
 
 ## Output structure
 
-**Always auto-detect the framework before generating any code.** Check `package.json` dependencies and config files to determine the framework, then follow the matching rules below. Never default to plain HTML when a framework is present.
+**Follow this priority order when determining output format:**
+
+1. **Explicit user request** — if the user specifies a framework or format (e.g. "build in HTML", "make a Vue component", "use plain CSS"), always follow that instruction regardless of what the project uses.
+2. **Auto-detect from project** — if no explicit request, check `package.json` dependencies and config files to determine the framework.
+3. **Plain HTML fallback** — only if no framework is detected and the user hasn't specified otherwise.
+
+Never default to plain HTML when a framework is present in the project and the user hasn't explicitly asked for HTML.
 
 ### Detection signals
 
