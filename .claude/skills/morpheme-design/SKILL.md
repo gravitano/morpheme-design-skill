@@ -199,7 +199,8 @@ Never default to plain HTML when a framework is present in the project and the u
 
 | Tooling | Signal | How to apply Morpheme tokens |
 |---------|--------|------------------------------|
-| Tailwind CSS | `tailwindcss` in deps, `tailwind.config.*` | Extend the Tailwind config with Morpheme tokens. Use utility classes — no separate `:root` block needed |
+| Tailwind CSS v4 | `tailwindcss@^4` in deps, `@import "tailwindcss"` in CSS, no `tailwind.config.*` | Define Morpheme tokens in `@theme` block in CSS |
+| Tailwind CSS v3 | `tailwindcss@^3` in deps, `tailwind.config.*` present | Extend config with Morpheme tokens via `theme.extend` |
 | CSS Modules | `*.module.css` files in project | Write CSS vars in a shared `tokens.module.css`, import per component |
 | styled-components / Emotion | `styled-components` or `@emotion/react` in deps | Use a `ThemeProvider` with Morpheme tokens as theme values |
 | Plain CSS | No tooling detected | Add `:root` CSS variables block to global stylesheet |
@@ -223,7 +224,77 @@ Never default to plain HTML when a framework is present in the project and the u
 
 ### Tailwind CSS (any framework)
 
-When Tailwind is detected, **extend `tailwind.config.*` with Morpheme tokens** instead of adding a `:root` CSS block. Map every Morpheme token to a Tailwind key:
+Detect Tailwind version before writing any token config.
+
+#### Tailwind v4
+
+No `tailwind.config.*` — tokens are defined in CSS using `@theme`:
+
+```css
+/* globals.css / app.css */
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-primary:           #1D6EEB;
+  --color-primary-25:        #F5F8FF;
+  --color-primary-50:        #EBF3FF;
+  --color-primary-100:       #BFDBFE;
+  --color-primary-500:       #1D6EEB;
+  --color-primary-600:       #1B69C2;
+  --color-primary-700:       #1554A1;
+  --color-primary-900:       #072D60;
+  --color-secondary:         #E55B05;
+  --color-secondary-500:     #E55B05;
+  --color-error:             #F04438;
+  --color-success:           #12B76A;
+  --color-warning:           #F79009;
+  --color-info:              #28A0F8;
+  --color-gray-25:           #FCFCFD;
+  --color-gray-50:           #F9FAFB;
+  --color-gray-100:          #F2F4F7;
+  --color-gray-200:          #EAECF0;
+  --color-gray-300:          #D0D5DD;
+  --color-gray-400:          #98A2B3;
+  --color-gray-500:          #667085;
+  --color-gray-600:          #475467;
+  --color-gray-700:          #344054;
+  --color-gray-800:          #1D2939;
+  --color-gray-900:          #101828;
+
+  /* Typography */
+  --font-sans: "Poppins", system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   8px;
+  --radius-xl:   12px;
+  --radius-2xl:  16px;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 2px rgba(16,24,40,0.05);
+  --shadow:     0 1px 3px rgba(16,24,40,0.10), 0 1px 2px rgba(16,24,40,0.06);
+  --shadow-md:  0 4px 8px -2px rgba(16,24,40,0.10), 0 2px 4px -2px rgba(16,24,40,0.06);
+  --shadow-lg:  0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03);
+  --shadow-xl:  0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03);
+  --shadow-2xl: 0 24px 48px -12px rgba(16,24,40,0.18);
+
+  /* Motion */
+  --duration-fast:   100ms;
+  --duration-base:   150ms;
+  --duration-slow:   200ms;
+  --duration-slower: 300ms;
+  --ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+```
+
+Use utility classes: `bg-primary`, `text-gray-700`, `rounded-lg`, `shadow-md`, `p-6`, etc.
+
+#### Tailwind v3
+
+Extend `tailwind.config.ts` — do NOT add a separate `:root` block:
 
 ```ts
 // tailwind.config.ts
@@ -252,12 +323,12 @@ export default {
         sm: '4px', md: '6px', lg: '8px', xl: '12px', '2xl': '16px',
       },
       boxShadow: {
-        sm:   '0 1px 2px rgba(16,24,40,0.05)',
+        sm:      '0 1px 2px rgba(16,24,40,0.05)',
         DEFAULT: '0 1px 3px rgba(16,24,40,0.10), 0 1px 2px rgba(16,24,40,0.06)',
-        md:   '0 4px 8px -2px rgba(16,24,40,0.10), 0 2px 4px -2px rgba(16,24,40,0.06)',
-        lg:   '0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03)',
-        xl:   '0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03)',
-        '2xl':'0 24px 48px -12px rgba(16,24,40,0.18)',
+        md:      '0 4px 8px -2px rgba(16,24,40,0.10), 0 2px 4px -2px rgba(16,24,40,0.06)',
+        lg:      '0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03)',
+        xl:      '0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03)',
+        '2xl':   '0 24px 48px -12px rgba(16,24,40,0.18)',
       },
       spacing: {
         1: '4px', 2: '8px', 3: '12px', 4: '16px', 5: '20px', 6: '24px',
@@ -275,7 +346,7 @@ export default {
 }
 ```
 
-Then use utility classes: `bg-primary`, `text-gray-700`, `rounded-lg`, `shadow-md`, `p-6`, etc.
+Use utility classes: `bg-primary`, `text-gray-700`, `rounded-lg`, `shadow-md`, `p-6`, etc.
 
 ---
 
@@ -330,9 +401,10 @@ Detect Nuxt version before placing files:
 
 | Signal | Version | Structure |
 |--------|---------|-----------|
-| `app/` directory exists with `components/`, `pages/` inside | Nuxt 4 | Source root is `app/` |
+| `nuxt@^4` in `package.json` | Nuxt 4 | Source root is `app/` |
 | `compatibilityVersion: 4` in `nuxt.config.ts` | Nuxt 4 | Source root is `app/` |
-| No `app/` source directory | Nuxt 3 | Source root is project root |
+| `app/` directory exists with `components/`/`pages/` inside | Nuxt 4 | Source root is `app/` |
+| `nuxt@^3` in `package.json`, no signals above | Nuxt 3 | Source root is project root |
 
 **Nuxt 4** file placement:
 - Components: `app/components/ComponentName.vue`
