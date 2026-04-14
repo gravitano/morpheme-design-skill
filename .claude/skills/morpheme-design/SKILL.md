@@ -46,7 +46,7 @@ font-family: var(--font-family);    /* NOT "Poppins" directly */
 - **Secondary**: `--color-secondary: #E55B05` — sparingly for accents, pills, badges.
 - **Semantic states**: `--color-info`, `--color-warning`, `--color-success`, `--color-error`.
 - **Neutrals**: Use `--color-gray-{25..900}` scale for text, borders, backgrounds.
-- Include the full primary scale (`colorPrimary25`–`colorPrimary900`) and secondary scale as CSS variables when hover/active states are needed.
+- Include the full primary scale (`--color-primary-25`–`--color-primary-900`) and secondary scale as CSS variables when hover/active states are needed.
 
 ## Typography rules
 
@@ -101,8 +101,11 @@ When building these components, follow the specs below exactly:
 - Error: `background: var(--color-error-bg, #FEF3F2); color: var(--color-error-text, #B42318)`
 
 ### Alerts
-- 16px padding, `--radius-lg`, `border-left: 4px solid {semantic-color}`
-- Background uses the lightest tint of the semantic color
+- 16px padding, `--radius-lg`
+- Info: `background: var(--color-info-bg, #EFF8FF); border-left: 4px solid var(--color-info, #28A0F8)`
+- Success: `background: var(--color-success-bg, #ECFDF3); border-left: 4px solid var(--color-success, #12B76A)`
+- Warning: `background: var(--color-warning-bg, #FFFAEB); border-left: 4px solid var(--color-warning, #F79009)`
+- Error: `background: var(--color-error-bg, #FEF3F2); border-left: 4px solid var(--color-error, #F04438)`
 
 ### Modals
 - `--radius-2xl` (16px), `--shadow-2xl`, max-width 560px
@@ -187,8 +190,8 @@ Never default to plain HTML when a framework is present in the project and the u
 | Next.js | `next` in deps, `next.config.*` |
 | React (Vite/CRA) | `react` in deps, `vite.config.*`, no `next` |
 | TanStack Start | `@tanstack/start` or `@tanstack/react-router` + `app/routes/` |
-| Nuxt 4 | `nuxt` in deps, `nuxt.config.*`, `app/` dir with `components/`/`pages/` inside |
-| Nuxt 3 | `nuxt` in deps, `nuxt.config.*`, no `app/` source dir |
+| Nuxt 4 | `nuxt@^4` in `package.json`, or `compatibilityVersion: 4` in `nuxt.config.*`, or `app/` dir with `components/`/`pages/` inside |
+| Nuxt 3 | `nuxt@^3` in `package.json`, no signals above |
 | Vue (Vite) | `vue` in deps, `vite.config.*`, no `nuxt.config.*` |
 | Svelte / SvelteKit | `svelte` in deps, `svelte.config.*`, `.svelte` files |
 | Analog.js | `@analogjs/platform` in deps, `vite.config.ts` with analog plugin |
@@ -216,9 +219,10 @@ Never default to plain HTML when a framework is present in the project and the u
 
 | Signal | Behavior |
 |--------|----------|
-| `darkMode` in `tailwind.config.*` | Follow the existing dark mode strategy (`class` or `media`) |
+| Tailwind v3: `darkMode` in `tailwind.config.*` | Follow existing strategy (`class` or `media`) — add `dark:` variants to utility classes |
+| Tailwind v4: `@variant dark` or `@custom-variant dark` in CSS | Follow existing dark mode variant — add `dark:` variants to utility classes |
 | `prefers-color-scheme` used in existing CSS | Add `@media (prefers-color-scheme: dark)` overrides |
-| No dark mode detected | Light mode only — do not add dark mode unless asked |
+| No dark mode detected | Light mode only — do not add dark mode unless explicitly asked |
 
 ---
 
@@ -279,6 +283,20 @@ No `tailwind.config.*` — tokens are defined in CSS using `@theme`:
   --shadow-lg:  0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03);
   --shadow-xl:  0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03);
   --shadow-2xl: 0 24px 48px -12px rgba(16,24,40,0.18);
+
+  /* Spacing — Tailwind v4 uses --spacing-* scale */
+  --spacing-1:  4px;
+  --spacing-2:  8px;
+  --spacing-3:  12px;
+  --spacing-4:  16px;
+  --spacing-5:  20px;
+  --spacing-6:  24px;
+  --spacing-8:  32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
 
   /* Motion */
   --duration-fast:   100ms;
@@ -372,12 +390,11 @@ Use utility classes: `bg-primary`, `text-gray-700`, `rounded-lg`, `shadow-md`, `
 
 ### TanStack Start
 
-Generate `.tsx` route components in `app/routes/` or shared components in `app/components/`:
-
 - Same JSX rules as React (`className`, `htmlFor`)
 - Use `createFileRoute` for route files
 - CSS variables in `app/styles/globals.css` or equivalent
 - Load Poppins via `<link>` in root layout or CSS `@import`
+- File placement: `app/routes/route-name.tsx` (routes) or `app/components/ComponentName.tsx` (shared)
 
 ### Vue / Nuxt
 
@@ -568,4 +585,5 @@ Before presenting the final code, verify:
 - [ ] Next.js: no React hooks in Server Components; `'use client'` added where needed
 - [ ] Vue/Svelte: styles are scoped
 - [ ] TypeScript: no untyped props or `any`
-- [ ] Tailwind: tokens mapped in config, not inlined as arbitrary values like `bg-[#1D6EEB]`
+- [ ] Tailwind v3: tokens mapped in `tailwind.config.ts`, not inlined as arbitrary values like `bg-[#1D6EEB]`
+- [ ] Tailwind v4: tokens defined in `@theme` block, not as raw CSS variables outside `@theme`
