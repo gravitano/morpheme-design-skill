@@ -1,6 +1,6 @@
 # Morpheme Design Skill
 
-A Claude Code skill that enforces the **Morpheme UI Design System** by [gits.id](https://gits.id) when building web pages, apps, or UI components. Includes the full design system specification and 11 example implementations.
+A Claude Code skill that enforces the **Morpheme UI Design System** by [gits.id](https://gits.id) when building web pages, apps, or UI components. Includes the full design system specification and 12 example implementations.
 
 ![Design System Documentation](assets/screenshot-docs.png)
 
@@ -21,6 +21,7 @@ examples/
   crm/                       # CRM admin with contacts table + detail panel
   dashboard/                 # E-commerce admin dashboard
   e-commerce/                # Multi-page storefront (5 pages)
+  ai-chat/                   # Claude.ai/ChatGPT-style AI chat interface
   email/                     # 3-panel email/inbox client
   errors/                    # 404, 500, maintenance pages
   pricing/                   # Pricing plans + feature comparison + FAQ
@@ -138,6 +139,7 @@ open examples/e-commerce/index.html      # Multi-page storefront
 open examples/dashboard/index.html       # Admin dashboard
 open examples/crm/index.html             # CRM contacts manager
 open examples/email/index.html           # Email inbox client
+open examples/ai-chat/index.html         # AI chat interface
 
 # Page examples
 open examples/auth/login.html            # Auth flow (login/register/otp)
