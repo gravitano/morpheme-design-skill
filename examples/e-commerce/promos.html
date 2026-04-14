@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promo — Morpheme Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/e-commerce/styles.css">
+  <style>
+    /* ================================================
+       Promos — Page-specific styles
+       ================================================ */
+
+    /* Hero promo banner */
+    .promo-hero {
+      padding: var(--space-12) 0;
+      background: linear-gradient(135deg, var(--color-secondary-50) 0%, var(--color-secondary-100) 100%);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+
+    .promo-hero-content {
+      padding: var(--space-8);
+    }
+
+    .promo-hero-badge {
+      margin-bottom: var(--space-4);
+    }
+
+    .promo-hero-title {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-4);
+    }
+
+    .promo-hero-subtitle {
+      font-size: var(--text-lg);
+      line-height: 1.6;
+      color: var(--color-gray-700);
+      margin-bottom: var(--space-8);
+      max-width: 480px;
+    }
+
+    .promo-hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-secondary);
+      opacity: 0.2;
+    }
+
+    .promo-hero-visual svg {
+      width: 200px;
+      height: 200px;
+    }
+
+    /* Promo cards */
+    .promo-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      border-left: 4px solid;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-5);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--duration-base) var(--ease-out);
+    }
+
+    .promo-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .promo-card-info {
+      flex: 1;
+      margin-right: var(--space-4);
+    }
+
+    .promo-card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-2);
+    }
+
+    .promo-card-title {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .promo-card-desc {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      margin-bottom: var(--space-2);
+      line-height: 1.5;
+    }
+
+    .promo-card-validity {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+    }
+
+    .promo-card-validity svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    /* Flash sale section */
+    .flash-sale-section {
+      background: var(--color-gray-900);
+      color: var(--color-white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      margin-bottom: var(--space-12);
+    }
+
+    .flash-sale-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .flash-sale-header svg {
+      width: 28px;
+      height: 28px;
+      color: var(--color-warning);
+    }
+
+    .flash-sale-title {
+      font-size: var(--text-2xl);
+      font-weight: 700;
+      color: var(--color-white);
+    }
+
+    .countdown {
+      display: flex;
+      gap: var(--space-3);
+      margin: var(--space-6) 0;
+    }
+
+    .countdown-box {
+      background: var(--color-gray-800);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-5);
+      text-align: center;
+      min-width: 72px;
+    }
+
+    .countdown-value {
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--color-white);
+      line-height: 1.2;
+    }
+
+    .countdown-label {
+      font-size: var(--text-xs);
+      color: var(--color-gray-400);
+      margin-top: var(--space-1);
+    }
+
+    .countdown-separator {
+      display: flex;
+      align-items: center;
+      font-size: var(--text-3xl);
+      font-weight: 700;
+      color: var(--color-gray-400);
+    }
+
+    .flash-products {
+      display: flex;
+      gap: var(--space-4);
+      overflow-x: auto;
+      padding-bottom: var(--space-2);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .flash-products::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .flash-products::-webkit-scrollbar-track {
+      background: var(--color-gray-800);
+      border-radius: var(--radius-full);
+    }
+
+    .flash-products::-webkit-scrollbar-thumb {
+      background: var(--color-gray-600);
+      border-radius: var(--radius-full);
+    }
+
+    .flash-products .product-card {
+      min-width: 220px;
+      flex-shrink: 0;
+    }
+
+    /* Price styles */
+    .price-sale {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-error);
+    }
+
+    .price-original {
+      font-size: var(--text-sm);
+      color: var(--color-gray-400);
+      text-decoration: line-through;
+    }
+
+    /* Section title with count badge */
+    .section-title-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .section-count {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 2px var(--space-3);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      border-radius: var(--radius-full);
+    }
+
+    /* Footer logo (same override as index) */
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+      color: var(--color-white);
+      margin-bottom: var(--space-2);
+    }
+
+    .footer-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--color-primary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+    }
+
+    .footer-logo-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .footer-logo-text {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    /* Responsive */
+    @media (max-width: 1023px) {
+      .promo-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .promo-hero-visual {
+        display: none;
+      }
+
+      .grid-2.promo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .promo-hero {
+        padding: var(--space-6) 0;
+      }
+
+      .promo-hero-content {
+        padding: var(--space-6);
+      }
+
+      .promo-hero-title {
+        font-size: var(--text-2xl);
+      }
+
+      .promo-hero-subtitle {
+        font-size: var(--text-md);
+      }
+
+      .flash-sale-section {
+        padding: var(--space-6);
+        border-radius: var(--radius-lg);
+      }
+
+      .countdown {
+        gap: var(--space-2);
+      }
+
+      .countdown-box {
+        padding: var(--space-3) var(--space-4);
+        min-width: 60px;
+      }
+
+      .countdown-value {
+        font-size: var(--text-2xl);
+      }
+
+      .promo-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-4);
+      }
+
+      .promo-card-info {
+        margin-right: 0;
+      }
+
+      .flash-products .product-card {
+        min-width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================
+       Header
+       ================================================ -->
+  <header class="header">
+    <div class="header-inner container">
+      <a href="/e-commerce/" class="header-logo">
+        <span class="header-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+          </svg>
+        </span>
+        <span class="header-logo-text">Morpheme Store</span>
+      </a>
+
+      <nav class="header-nav">
+        <a href="/e-commerce/">Beranda</a>
+        <a href="/e-commerce/products">Produk</a>
+        <a href="/e-commerce/categories">Kategori</a>
+        <a href="/e-commerce/promos" class="active">Promo</a>
+      </nav>
+
+      <div class="header-search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+        </svg>
+        <label for="header-search-input" class="sr-only">Cari produk</label>
+        <input type="text" id="header-search-input" placeholder="Cari produk...">
+      </div>
+
+      <div class="header-actions">
+        <button class="header-icon-btn" aria-label="Wishlist">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+          </svg>
+        </button>
+        <a href="/e-commerce/cart" class="header-icon-btn" aria-label="Keranjang belanja">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121 0 2.09-.773 2.21-1.886L21.83 7.33A1.125 1.125 0 0 0 20.72 6H5.958M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+          </svg>
+          <span class="cart-count">3</span>
+        </a>
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Buka menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================================================
+       Breadcrumb
+       ================================================ -->
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/e-commerce/">Beranda</a>
+      <span class="breadcrumb-separator" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+        </svg>
+      </span>
+      <span class="breadcrumb-current" aria-current="page">Promo</span>
+    </nav>
+  </div>
+
+  <!-- ================================================
+       Hero Promo Banner
+       ================================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="promo-hero">
+        <div class="promo-hero-content">
+          <div class="promo-hero-badge">
+            <span class="badge badge-sale">Promo Ramadan</span>
+          </div>
+          <h1 class="promo-hero-title">Diskon hingga 50%</h1>
+          <p class="promo-hero-subtitle">Nikmati penawaran terbaik selama bulan Ramadan. Berlaku hingga 20 April 2026.</p>
+          <a href="/e-commerce/products" class="btn btn-primary btn-lg">Belanja sekarang</a>
+        </div>
+        <div class="promo-hero-visual" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/>
+            <path d="M6 6h.008v.008H6V6Z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Active Promos
+       ================================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <div class="section-title-group">
+            <h2 class="section-title">Promo aktif</h2>
+            <span class="section-count">4 promo</span>
+          </div>
+          <p class="section-subtitle">Manfaatkan promo terbaik untuk belanja lebih hemat</p>
+        </div>
+      </div>
+
+      <div class="grid grid-2 promo-grid">
+        <!-- Promo 1: Ramadan sale -->
+        <div class="promo-card" style="border-left-color: var(--color-secondary);">
+          <div class="promo-card-info">
+            <div class="promo-card-header">
+              <h3 class="promo-card-title">Ramadan sale</h3>
+              <span class="badge badge-sale">-50%</span>
+            </div>
+            <p class="promo-card-desc">Diskon hingga 50% untuk semua produk fashion</p>
+            <div class="promo-card-validity">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
+              </svg>
+              <span>Berlaku hingga 20 April 2026</span>
+            </div>
+          </div>
+          <a href="/e-commerce/products" class="btn btn-sm btn-outline-primary">Lihat produk</a>
+        </div>
+
+        <!-- Promo 2: Gratis ongkir -->
+        <div class="promo-card" style="border-left-color: var(--color-success);">
+          <div class="promo-card-info">
+            <div class="promo-card-header">
+              <h3 class="promo-card-title">Gratis ongkir</h3>
+              <span class="badge badge-success">Gratis</span>
+            </div>
+            <p class="promo-card-desc">Gratis ongkir untuk pembelian di atas Rp 500.000</p>
+            <div class="promo-card-validity">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
+              </svg>
+              <span>Berlaku hingga 30 April 2026</span>
+            </div>
+          </div>
+          <a href="/e-commerce/products" class="btn btn-sm btn-outline-primary">Lihat produk</a>
+        </div>
+
+        <!-- Promo 3: Flash sale elektronik -->
+        <div class="promo-card" style="border-left-color: var(--color-error);">
+          <div class="promo-card-info">
+            <div class="promo-card-header">
+              <h3 class="promo-card-title">Flash sale elektronik</h3>
+              <span class="badge badge-error">-30%</span>
+            </div>
+            <p class="promo-card-desc">Diskon 30% untuk kategori elektronik setiap hari Jumat</p>
+            <div class="promo-card-validity">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+              </svg>
+              <span>Setiap Jumat, 12:00 - 14:00 WIB</span>
+            </div>
+          </div>
+          <a href="/e-commerce/products" class="btn btn-sm btn-outline-primary">Lihat produk</a>
+        </div>
+
+        <!-- Promo 4: Cashback member baru -->
+        <div class="promo-card" style="border-left-color: var(--color-info);">
+          <div class="promo-card-info">
+            <div class="promo-card-header">
+              <h3 class="promo-card-title">Cashback member baru</h3>
+              <span class="badge badge-info">20%</span>
+            </div>
+            <p class="promo-card-desc">Cashback 20% untuk pelanggan baru, maksimal Rp 100.000</p>
+            <div class="promo-card-validity">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+              </svg>
+              <span>Berlaku untuk pembelian pertama</span>
+            </div>
+          </div>
+          <a href="/e-commerce/products" class="btn btn-sm btn-outline-primary">Lihat produk</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Flash Sale Countdown
+       ================================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="flash-sale-section">
+        <div class="flash-sale-header">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
+          </svg>
+          <h2 class="flash-sale-title">Flash sale hari ini</h2>
+        </div>
+
+        <div class="countdown" aria-label="Waktu tersisa: 3 jam 24 menit 57 detik">
+          <div class="countdown-box">
+            <div class="countdown-value">03</div>
+            <div class="countdown-label">Jam</div>
+          </div>
+          <span class="countdown-separator" aria-hidden="true">:</span>
+          <div class="countdown-box">
+            <div class="countdown-value">24</div>
+            <div class="countdown-label">Menit</div>
+          </div>
+          <span class="countdown-separator" aria-hidden="true">:</span>
+          <div class="countdown-box">
+            <div class="countdown-value">57</div>
+            <div class="countdown-label">Detik</div>
+          </div>
+        </div>
+
+        <div class="flash-products">
+          <!-- Flash product 1 -->
+          <a href="/e-commerce/product-detail" class="card card-interactive product-card" style="text-decoration: none;">
+            <div class="product-card-badge">
+              <span class="badge badge-sale">-40%</span>
+            </div>
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-category">Elektronik</div>
+              <div class="product-card-name">Samsung Galaxy A54 5G 128GB</div>
+              <div class="product-card-price">
+                <span class="price-sale">Rp 3.599.000</span>
+                <span class="price-original">Rp 5.999.000</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Flash product 2 -->
+          <a href="/e-commerce/product-detail" class="card card-interactive product-card" style="text-decoration: none;">
+            <div class="product-card-badge">
+              <span class="badge badge-sale">-35%</span>
+            </div>
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-category">Audio</div>
+              <div class="product-card-name">Sony WH-1000XM5 headphone</div>
+              <div class="product-card-price">
+                <span class="price-sale">Rp 3.249.000</span>
+                <span class="price-original">Rp 4.999.000</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Flash product 3 -->
+          <a href="/e-commerce/product-detail" class="card card-interactive product-card" style="text-decoration: none;">
+            <div class="product-card-badge">
+              <span class="badge badge-sale">-25%</span>
+            </div>
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25Z"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-category">Komputer</div>
+              <div class="product-card-name">LG UltraWide Monitor 29" IPS</div>
+              <div class="product-card-price">
+                <span class="price-sale">Rp 3.374.000</span>
+                <span class="price-original">Rp 4.499.000</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Flash product 4 -->
+          <a href="/e-commerce/product-detail" class="card card-interactive product-card" style="text-decoration: none;">
+            <div class="product-card-badge">
+              <span class="badge badge-sale">-30%</span>
+            </div>
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"/>
+                <path d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-category">Kamera</div>
+              <div class="product-card-name">Canon EOS M50 Mark II mirrorless</div>
+              <div class="product-card-price">
+                <span class="price-sale">Rp 8.399.000</span>
+                <span class="price-original">Rp 11.999.000</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Promo Products Grid
+       ================================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Produk dengan diskon</h2>
+          <p class="section-subtitle">Koleksi produk pilihan dengan potongan harga spesial</p>
+        </div>
+        <a href="/e-commerce/products" class="btn btn-ghost">Lihat semua</a>
+      </div>
+
+      <div class="grid grid-4">
+        <!-- Product 1 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-20%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+            </svg>
+          </button>
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+            </svg>
+          </div>
+          <div class="card-body-sm">
+            <div class="product-card-category">Fashion pria</div>
+            <div class="product-card-name"><a href="/e-commerce/product-detail">Kemeja flanel pria lengan panjang</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 199.000</span>
+              <span class="product-card-price-original">Rp 249.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" opacity="0.3"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+              </div>
+              <span>4.5 (128)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-15%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+            </svg>
+          </button>
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/>
+            </svg>
+          </div>
+          <div class="card-body-sm">
+            <div class="product-card-category">Elektronik</div>
+            <div class="product-card-name"><a href="/e-commerce/product-detail">Xiaomi Redmi Note 13 Pro 256GB</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 3.399.000</span>
+              <span class="product-card-price-original">Rp 3.999.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+              </div>
+              <span>4.8 (256)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-30%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+            </svg>
+          </button>
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/>
+            </svg>
+          </div>
+          <div class="card-body-sm">
+            <div class="product-card-category">Audio</div>
+            <div class="product-card-name"><a href="/e-commerce/product-detail">JBL Tune 520BT wireless headphone</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 489.000</span>
+              <span class="product-card-price-original">Rp 699.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" opacity="0.3"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+              </div>
+              <span>4.3 (89)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-25%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+            </svg>
+          </button>
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+            </svg>
+          </div>
+          <div class="card-body-sm">
+            <div class="product-card-category">Rumah tangga</div>
+            <div class="product-card-name"><a href="/e-commerce/product-detail">Philips Air Fryer HD9200 hitam</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 1.124.000</span>
+              <span class="product-card-price-original">Rp 1.499.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+              </div>
+              <span>4.7 (312)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-10%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+            </svg>
+          </button>
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25Z"/>
+            </svg>
+          </div>
+          <div class="card-body-sm">
+            <div class="product-card-category">Komputer</div>
+            <div class="product-card-name"><a href="/e-commerce/product-detail">Logitech MX Master 3S wireless mouse</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 1.349.000</span>
+              <span class="product-card-price-original">Rp 1.499.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+              </div>
+              <span>4.9 (543)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-40%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+            </svg>
+          </button>
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+            </svg>
+          </div>
+          <div class="card-body-sm">
+            <div class="product-card-category">Fashion wanita</div>
+            <div class="product-card-name"><a href="/e-commerce/product-detail">Tas selempang kulit sintetis premium</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 179.000</span>
+              <span class="product-card-price-original">Rp 299.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" opacity="0.3"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+              </div>
+              <span>4.2 (67)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 7 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-20%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+            </svg>
+          </button>
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/>
+            </svg>
+          </div>
+          <div class="card-body-sm">
+            <div class="product-card-category">Buku</div>
+            <div class="product-card-name"><a href="/e-commerce/product-detail">Atomic Habits edisi bahasa Indonesia</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 79.000</span>
+              <span class="product-card-price-original">Rp 99.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+              </div>
+              <span>4.9 (1.2K)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 8 -->
+        <div class="card card-interactive product-card">
+          <div class="product-card-badge">
+            <span class="badge badge-sale">-35%</span>
+          </div>
+          <button class="product-card-wishlist" aria-label="Tambah ke wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+            </svg>
+          </button>
+          <div class="product-card-img">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"/>
+              <path d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"/>
+            </svg>
+          </div>
+          <div class="card-body-sm">
+            <div class="product-card-category">Olahraga</div>
+            <div class="product-card-name"><a href="/e-commerce/product-detail">Nike Air Zoom Pegasus 40 running</a></div>
+            <div class="product-card-price">
+              <span class="product-card-price-current">Rp 1.169.000</span>
+              <span class="product-card-price-original">Rp 1.799.000</span>
+            </div>
+            <div class="product-card-rating">
+              <div class="product-card-stars">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" opacity="0.3"><path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"/></svg>
+              </div>
+              <span>4.6 (198)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <nav class="pagination" aria-label="Halaman produk diskon">
+        <button class="page-btn active" aria-current="page" aria-label="Halaman 1">1</button>
+        <button class="page-btn" aria-label="Halaman 2">2</button>
+        <button class="page-btn" aria-label="Halaman 3">3</button>
+        <button class="page-btn" aria-label="Halaman berikutnya">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Promo Terms Alert
+       ================================================ -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="alert alert-info" role="alert">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
+        </svg>
+        <p>Syarat dan ketentuan berlaku. Promo tidak dapat digabung dengan promo lainnya. Stok terbatas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Footer
+       ================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand column -->
+        <div>
+          <a href="/e-commerce/" class="footer-logo">
+            <span class="footer-logo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+              </svg>
+            </span>
+            <span class="footer-logo-text">Morpheme Store</span>
+          </a>
+          <p class="footer-brand-text">Platform belanja online terpercaya dengan ribuan produk berkualitas dari brand ternama. Pengiriman cepat ke seluruh Indonesia.</p>
+        </div>
+
+        <!-- Belanja -->
+        <div>
+          <h4 class="footer-heading">Belanja</h4>
+          <ul class="footer-links">
+            <li><a href="/e-commerce/products">Semua produk</a></li>
+            <li><a href="/e-commerce/categories">Kategori</a></li>
+            <li><a href="/e-commerce/promos">Promo</a></li>
+            <li><a href="#">Brand</a></li>
+            <li><a href="#">Produk baru</a></li>
+          </ul>
+        </div>
+
+        <!-- Bantuan -->
+        <div>
+          <h4 class="footer-heading">Bantuan</h4>
+          <ul class="footer-links">
+            <li><a href="#">Pusat bantuan</a></li>
+            <li><a href="#">Cara belanja</a></li>
+            <li><a href="#">Pengembalian</a></li>
+            <li><a href="#">Kontak kami</a></li>
+            <li><a href="#">Kebijakan privasi</a></li>
+          </ul>
+        </div>
+
+        <!-- Ikuti kami -->
+        <div>
+          <h4 class="footer-heading">Ikuti kami</h4>
+          <div class="footer-socials">
+            <a href="#" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="5"/>
+                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2Z"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3Z"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17Z"/>
+                <path d="m10 15 5-3-5-3Z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Morpheme Store. Semua hak dilindungi.</span>
+        <span>Visa &bull; Mastercard &bull; BCA &bull; Mandiri &bull; GoPay &bull; OVO</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

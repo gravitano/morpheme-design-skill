@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kategori — Morpheme Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/e-commerce/styles.css">
+  <style>
+    /* ================================================
+       Categories — Page-specific styles
+       ================================================ */
+
+    /* Hero banner */
+    .categories-hero {
+      padding: var(--space-12) 0;
+      background: linear-gradient(135deg, var(--color-primary-25) 0%, var(--color-primary-50) 100%);
+      text-align: center;
+    }
+
+    .categories-hero-title {
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      line-height: 1.3;
+      margin-bottom: var(--space-2);
+    }
+
+    .categories-hero-subtitle {
+      font-size: var(--text-md);
+      color: var(--color-gray-500);
+      line-height: 1.5;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Category cards (large grid) */
+    .category-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-card-icon {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+
+    .category-card-icon svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .category-card-body {
+      padding: var(--space-5);
+    }
+
+    .category-card-name {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-1);
+    }
+
+    .category-card-count {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-gray-400);
+      margin-bottom: var(--space-2);
+    }
+
+    .category-card-desc {
+      font-size: var(--text-sm);
+      color: var(--color-gray-500);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .category-card-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-primary);
+      margin-top: var(--space-3);
+      transition: color var(--duration-fast) var(--ease-out);
+    }
+
+    .category-card-link:hover {
+      color: var(--color-primary-700);
+    }
+
+    .category-card-link svg {
+      width: 16px;
+      height: 16px;
+      transition: transform var(--duration-fast) var(--ease-out);
+    }
+
+    .card-interactive:hover .category-card-link svg {
+      transform: translateX(4px);
+    }
+
+    /* Popular category rows */
+    .category-row {
+      margin-bottom: var(--space-10);
+    }
+
+    .category-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .category-row-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-4);
+    }
+
+    .category-row-title {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      color: var(--color-gray-900);
+    }
+
+    .category-row-scroll {
+      display: flex;
+      gap: var(--space-4);
+      overflow-x: auto;
+      padding-bottom: var(--space-2);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .category-row-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .category-row-scroll::-webkit-scrollbar-track {
+      background: var(--color-gray-100);
+      border-radius: var(--radius-full);
+    }
+
+    .category-row-scroll::-webkit-scrollbar-thumb {
+      background: var(--color-gray-300);
+      border-radius: var(--radius-full);
+    }
+
+    .category-row-scroll .product-card {
+      min-width: 240px;
+      flex-shrink: 0;
+    }
+
+    /* Footer logo (same as index) */
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+      color: var(--color-white);
+      margin-bottom: var(--space-2);
+    }
+
+    .footer-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--color-primary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+    }
+
+    .footer-logo-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .footer-logo-text {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    /* Responsive — page-specific */
+    @media (max-width: 1023px) {
+      .grid-3.categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 767px) {
+      .categories-hero {
+        padding: var(--space-8) 0;
+      }
+
+      .grid-3.categories-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-row-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+      }
+
+      .category-row-scroll .product-card {
+        min-width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================
+       Header
+       ================================================ -->
+  <header class="header">
+    <div class="header-inner container">
+      <a href="/e-commerce/" class="header-logo">
+        <span class="header-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+          </svg>
+        </span>
+        <span class="header-logo-text">Morpheme Store</span>
+      </a>
+
+      <nav class="header-nav">
+        <a href="/e-commerce/">Beranda</a>
+        <a href="/e-commerce/products">Produk</a>
+        <a href="/e-commerce/categories" class="active">Kategori</a>
+        <a href="/e-commerce/promos">Promo</a>
+      </nav>
+
+      <div class="header-search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+        </svg>
+        <label for="header-search-input" class="sr-only">Cari produk</label>
+        <input type="text" id="header-search-input" placeholder="Cari produk...">
+      </div>
+
+      <div class="header-actions">
+        <button class="header-icon-btn" aria-label="Wishlist">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+          </svg>
+        </button>
+        <a href="/e-commerce/cart" class="header-icon-btn" aria-label="Keranjang belanja">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121 0 2.09-.773 2.21-1.886L21.83 7.33A1.125 1.125 0 0 0 20.72 6H5.958M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+          </svg>
+          <span class="cart-count">3</span>
+        </a>
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Buka menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================================================
+       Breadcrumb
+       ================================================ -->
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/e-commerce/">Beranda</a>
+      <span class="breadcrumb-separator" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+        </svg>
+      </span>
+      <span class="breadcrumb-current" aria-current="page">Kategori</span>
+    </nav>
+  </div>
+
+  <!-- ================================================
+       Hero Banner
+       ================================================ -->
+  <section class="categories-hero">
+    <div class="container">
+      <h1 class="categories-hero-title">Jelajahi kategori</h1>
+      <p class="categories-hero-subtitle">Temukan produk yang kamu cari dari berbagai kategori pilihan</p>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Main Categories Grid
+       ================================================ -->
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3 categories-grid">
+
+        <!-- Elektronik -->
+        <a href="/e-commerce/products" class="card card-interactive category-card">
+          <div class="category-card-icon" style="background: var(--color-primary-light); color: var(--color-primary);">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25Z"/>
+            </svg>
+          </div>
+          <div class="category-card-body">
+            <div class="category-card-name">Elektronik</div>
+            <div class="category-card-count">86 produk</div>
+            <p class="category-card-desc">Smartphone, laptop, tablet, audio, dan aksesoris elektronik lainnya</p>
+            <span class="category-card-link">
+              Lihat produk
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Fashion -->
+        <a href="/e-commerce/products" class="card card-interactive category-card">
+          <div class="category-card-icon" style="background: var(--color-secondary-light); color: var(--color-secondary);">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"/>
+              <path d="M6 6h.008v.008H6V6Z"/>
+            </svg>
+          </div>
+          <div class="category-card-body">
+            <div class="category-card-name">Fashion</div>
+            <div class="category-card-count">64 produk</div>
+            <p class="category-card-desc">Pakaian pria & wanita, sepatu, tas, dan aksesoris fashion</p>
+            <span class="category-card-link">
+              Lihat produk
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Rumah tangga -->
+        <a href="/e-commerce/products" class="card card-interactive category-card">
+          <div class="category-card-icon" style="background: #ECFDF3; color: var(--color-success);">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+            </svg>
+          </div>
+          <div class="category-card-body">
+            <div class="category-card-name">Rumah tangga</div>
+            <div class="category-card-count">52 produk</div>
+            <p class="category-card-desc">Perabot, dekorasi, perlengkapan dapur, dan kebutuhan rumah</p>
+            <span class="category-card-link">
+              Lihat produk
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Olahraga -->
+        <a href="/e-commerce/products" class="card card-interactive category-card">
+          <div class="category-card-icon" style="background: #FFFAEB; color: var(--color-warning);">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/>
+              <path d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"/>
+            </svg>
+          </div>
+          <div class="category-card-body">
+            <div class="category-card-name">Olahraga</div>
+            <div class="category-card-count">28 produk</div>
+            <p class="category-card-desc">Sepatu olahraga, pakaian sport, dan peralatan fitness</p>
+            <span class="category-card-link">
+              Lihat produk
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Kesehatan -->
+        <a href="/e-commerce/products" class="card card-interactive category-card">
+          <div class="category-card-icon" style="background: #EFF8FF; color: var(--color-info);">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"/>
+            </svg>
+          </div>
+          <div class="category-card-body">
+            <div class="category-card-name">Kesehatan</div>
+            <div class="category-card-count">18 produk</div>
+            <p class="category-card-desc">Suplemen, alat kesehatan, perawatan tubuh, dan wellness</p>
+            <span class="category-card-link">
+              Lihat produk
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Buku & media -->
+        <a href="/e-commerce/products" class="card card-interactive category-card">
+          <div class="category-card-icon" style="background: #F0EAFF; color: #7C3AED;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"/>
+            </svg>
+          </div>
+          <div class="category-card-body">
+            <div class="category-card-name">Buku & media</div>
+            <div class="category-card-count">34 produk</div>
+            <p class="category-card-desc">Buku, e-book, majalah, dan media digital</p>
+            <span class="category-card-link">
+              Lihat produk
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================
+       Popular in Each Category
+       ================================================ -->
+  <section class="section" style="background: var(--color-gray-50); padding-top: var(--space-16); padding-bottom: var(--space-16);">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Populer di setiap kategori</h2>
+          <p class="section-subtitle">Produk terlaris dari kategori favorit</p>
+        </div>
+      </div>
+
+      <!-- Elektronik row -->
+      <div class="category-row">
+        <div class="category-row-header">
+          <h3 class="category-row-title">Elektronik</h3>
+          <a href="/e-commerce/products" class="btn btn-ghost btn-sm">
+            Lihat semua
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+        </div>
+        <div class="category-row-scroll">
+
+          <!-- Product 1 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Samsung Galaxy S24 Ultra 256GB</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 18.999.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">MacBook Air M3 13 inci 8/256GB</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 17.499.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Sony WH-1000XM5 headphone wireless</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 4.299.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">iPad Air M2 11 inci Wi-Fi 128GB</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 9.799.000</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Fashion row -->
+      <div class="category-row">
+        <div class="category-row-header">
+          <h3 class="category-row-title">Fashion</h3>
+          <a href="/e-commerce/products" class="btn btn-ghost btn-sm">
+            Lihat semua
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+        </div>
+        <div class="category-row-scroll">
+
+          <!-- Product 1 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Jaket bomber premium unisex</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 389.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Tas ransel laptop anti air 15.6 inci</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 245.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Sneakers casual kulit sintetis pria</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 459.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Kemeja linen oversize wanita</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 279.000</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Olahraga row -->
+      <div class="category-row">
+        <div class="category-row-header">
+          <h3 class="category-row-title">Olahraga</h3>
+          <a href="/e-commerce/products" class="btn btn-ghost btn-sm">
+            Lihat semua
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+            </svg>
+          </a>
+        </div>
+        <div class="category-row-scroll">
+
+          <!-- Product 1 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Sepatu lari ultra boost breathable</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 699.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Matras yoga TPE anti slip 6mm</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 189.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Dumbbell set karet 20kg adjustable</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 549.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="product-card card card-interactive">
+            <div class="product-card-img">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+              </svg>
+            </div>
+            <div class="card-body-sm">
+              <div class="product-card-name"><a href="/e-commerce/product-detail">Jersey running dry-fit lengan panjang</a></div>
+              <div class="product-card-price">
+                <span class="product-card-price-current">Rp 175.000</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================
+       Footer
+       ================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand column -->
+        <div>
+          <a href="/e-commerce/" class="footer-logo">
+            <span class="footer-logo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+              </svg>
+            </span>
+            <span class="footer-logo-text">Morpheme Store</span>
+          </a>
+          <p class="footer-brand-text">Platform belanja online terpercaya dengan ribuan produk berkualitas dari brand ternama. Pengiriman cepat ke seluruh Indonesia.</p>
+        </div>
+
+        <!-- Belanja -->
+        <div>
+          <h4 class="footer-heading">Belanja</h4>
+          <ul class="footer-links">
+            <li><a href="/e-commerce/products">Semua produk</a></li>
+            <li><a href="/e-commerce/categories">Kategori</a></li>
+            <li><a href="/e-commerce/promos">Promo</a></li>
+            <li><a href="#">Brand</a></li>
+            <li><a href="#">Produk baru</a></li>
+          </ul>
+        </div>
+
+        <!-- Bantuan -->
+        <div>
+          <h4 class="footer-heading">Bantuan</h4>
+          <ul class="footer-links">
+            <li><a href="#">Pusat bantuan</a></li>
+            <li><a href="#">Cara belanja</a></li>
+            <li><a href="#">Pengembalian</a></li>
+            <li><a href="#">Kontak kami</a></li>
+            <li><a href="#">Kebijakan privasi</a></li>
+          </ul>
+        </div>
+
+        <!-- Ikuti kami -->
+        <div>
+          <h4 class="footer-heading">Ikuti kami</h4>
+          <div class="footer-socials">
+            <a href="#" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="5"/>
+                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2Z"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3Z"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17Z"/>
+                <path d="m10 15 5-3-5-3Z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Morpheme Store. Semua hak dilindungi.</span>
+        <span>Visa &bull; Mastercard &bull; BCA &bull; Mandiri &bull; GoPay &bull; OVO</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
