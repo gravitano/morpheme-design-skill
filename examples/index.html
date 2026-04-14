@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morpheme UI — Design System Examples</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-primary: #1D6EEB;
+      --color-primary-25: #F5F8FF;
+      --color-primary-50: #EBF3FF;
+      --color-primary-100: #BFDBFE;
+      --color-primary-600: #1B69C2;
+      --color-primary-700: #1554A1;
+      --color-primary-900: #072D60;
+      --color-secondary: #E55B05;
+      --color-secondary-50: #FFF3EB;
+      --color-white: #FFFFFF;
+      --color-gray-25: #FCFCFD;
+      --color-gray-50: #F9FAFB;
+      --color-gray-100: #F2F4F7;
+      --color-gray-200: #EAECF0;
+      --color-gray-300: #D0D5DD;
+      --color-gray-400: #98A2B3;
+      --color-gray-500: #667085;
+      --color-gray-600: #475467;
+      --color-gray-700: #344054;
+      --color-gray-800: #1D2939;
+      --color-gray-900: #101828;
+      --font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow-md: 0 4px 8px -2px rgba(16,24,40,0.10), 0 2px 4px -2px rgba(16,24,40,0.06);
+      --shadow-lg: 0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03);
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --radius-2xl: 16px;
+      --radius-full: 9999px;
+      --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+      --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+      --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+    }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--color-gray-900);
+      background: var(--color-gray-50);
+      line-height: 1.5;
+    }
+
+    a { color: var(--color-primary); text-decoration: none; }
+    a:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+    .hero {
+      background: linear-gradient(135deg, var(--color-primary-25) 0%, var(--color-primary-50) 50%, var(--color-white) 100%);
+      padding: var(--space-24) var(--space-10) var(--space-16);
+      text-align: center;
+    }
+
+    .hero-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+
+    .hero-logo-icon {
+      width: 48px; height: 48px;
+      background: var(--color-primary);
+      border-radius: var(--radius-xl);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-white);
+    }
+
+    .hero-logo-icon svg { width: 28px; height: 28px; }
+
+    .hero-logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-gray-900);
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-4);
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--color-gray-500);
+      max-width: 560px;
+      margin: 0 auto var(--space-8);
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      height: 44px;
+      padding: 0 var(--space-5);
+      font-family: var(--font-family);
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: var(--radius-lg);
+      border: none;
+      cursor: pointer;
+      transition: background 100ms ease, box-shadow 100ms ease;
+    }
+
+    .btn svg { width: 20px; height: 20px; }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .btn-primary:hover { background: var(--color-primary-600); }
+
+    .btn-secondary {
+      background: var(--color-white);
+      border: 1.5px solid var(--color-gray-300);
+      color: var(--color-gray-700);
+    }
+
+    .btn-secondary:hover { background: var(--color-gray-50); }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-10);
+    }
+
+    .section {
+      padding: var(--space-16) 0;
+    }
+
+    .section-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-2);
+    }
+
+    .section-title {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-3);
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--color-gray-500);
+      margin-bottom: var(--space-10);
+      max-width: 600px;
+    }
+
+    .grid {
+      display: grid;
+      gap: var(--space-6);
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .card {
+      background: var(--color-white);
+      border: 1px solid var(--color-gray-200);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: box-shadow 150ms ease, transform 150ms ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--color-gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gray-300);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-img svg { width: 48px; height: 48px; }
+
+    .card-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.03) 100%);
+    }
+
+    .card-body {
+      padding: var(--space-5);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 2px var(--space-2);
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-2);
+      width: fit-content;
+    }
+
+    .badge-app { background: #EFF8FF; color: #175CD3; }
+    .badge-pages { background: #ECFDF3; color: #027A48; }
+    .badge-docs { background: #F5F8FF; color: var(--color-primary-700); }
+    .badge-error { background: #FEF3F2; color: #B42318; }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-gray-900);
+      margin-bottom: var(--space-1);
+    }
+
+    .card-title a {
+      color: inherit;
+      transition: color 100ms ease;
+    }
+
+    .card-title a:hover { color: var(--color-primary); }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--color-gray-500);
+      line-height: 1.5;
+      margin-bottom: var(--space-4);
+      flex: 1;
+    }
+
+    .card-pages {
+      font-size: 12px;
+      color: var(--color-gray-400);
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .card-pages svg { width: 14px; height: 14px; }
+
+    .divider {
+      height: 1px;
+      background: var(--color-gray-200);
+    }
+
+    .footer {
+      padding: var(--space-12) 0;
+      text-align: center;
+      color: var(--color-gray-400);
+      font-size: 14px;
+    }
+
+    .footer a { color: var(--color-gray-500); transition: color 100ms ease; }
+    .footer a:hover { color: var(--color-primary); }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-6);
+      margin-bottom: var(--space-4);
+    }
+
+    @media (max-width: 1023px) {
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .hero h1 { font-size: 36px; }
+    }
+
+    @media (max-width: 767px) {
+      .hero { padding: var(--space-16) var(--space-4) var(--space-12); }
+      .container { padding: 0 var(--space-4); }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 30px; }
+      .hero p { font-size: 16px; }
+      .section-title { font-size: 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-logo">
+      <div class="hero-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      </div>
+      <span class="hero-logo-text">Morpheme UI</span>
+    </div>
+    <h1>Design system examples</h1>
+    <p>Interactive UI examples built with the Morpheme design system. All static HTML — browse the source or use them as starting points.</p>
+    <div class="hero-actions">
+      <a href="docs" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        View documentation
+      </a>
+      <a href="https://github.com/gravitano/morpheme-design-skill" class="btn btn-secondary" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+        GitHub
+      </a>
+    </div>
+  </section>
+
+  <div class="container">
+
+    <!-- Documentation -->
+    <section class="section">
+      <div class="section-label">Documentation</div>
+      <h2 class="section-title">Design system reference</h2>
+      <p class="section-subtitle">Interactive documentation showcasing all design tokens, color palettes, typography, and components.</p>
+      <div class="grid grid-2">
+        <a href="docs" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, var(--color-primary-25), var(--color-primary-50));">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-docs">Documentation</span>
+            <div class="card-title">Design system docs & showcase</div>
+            <div class="card-desc">Colors, typography, spacing, shadows, buttons (full variant matrix), form inputs, cards, badges, alerts, and modal — all live-rendered.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              13 sections
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- App Examples -->
+    <section class="section">
+      <div class="section-label">App examples</div>
+      <h2 class="section-title">Full application UIs</h2>
+      <p class="section-subtitle">Multi-page and complex layout examples demonstrating real-world application patterns.</p>
+      <div class="grid grid-3">
+
+        <a href="e-commerce" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, var(--color-primary-25), var(--color-primary-100));">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-app">App</span>
+            <div class="card-title">E-commerce storefront</div>
+            <div class="card-desc">Homepage, product listing with filters, product detail with variants, shopping cart, and checkout flow.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              5 pages
+            </div>
+          </div>
+        </a>
+
+        <a href="dashboard" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, #ECFDF3, #D1FADF);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-app">App</span>
+            <div class="card-title">Admin dashboard</div>
+            <div class="card-desc">Revenue stats, charts, orders table, top products, activity feed, and sidebar navigation.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              1 page
+            </div>
+          </div>
+        </a>
+
+        <a href="crm" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, #FFFAEB, #FEF0C7);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-app">App</span>
+            <div class="card-title">CRM admin</div>
+            <div class="card-desc">Contacts data table, stat cards, slide-over detail panel, bulk actions, and pagination.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              1 page
+            </div>
+          </div>
+        </a>
+
+        <a href="email" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, var(--color-primary-25), #EFF8FF);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-app">App</span>
+            <div class="card-title">Email inbox</div>
+            <div class="card-desc">3-panel layout with sidebar, mail list, message detail, attachments, and reply composer.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              1 page
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Page Examples -->
+    <section class="section">
+      <div class="section-label">Page examples</div>
+      <h2 class="section-title">Individual pages</h2>
+      <p class="section-subtitle">Standalone pages and multi-page flows covering common UI patterns.</p>
+      <div class="grid grid-3">
+
+        <a href="auth/login" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, var(--color-gray-50), var(--color-gray-100));">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-pages">Pages</span>
+            <div class="card-title">Auth pages</div>
+            <div class="card-desc">Login, register, forgot password, and OTP verification with social login and form validation.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              4 pages
+            </div>
+          </div>
+        </a>
+
+        <a href="blog" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, var(--color-primary-25), var(--color-primary-50));">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-pages">Pages</span>
+            <div class="card-title">Blog</div>
+            <div class="card-desc">Article listing with featured post, and article detail with prose typography, code blocks, and related posts.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              2 pages
+            </div>
+          </div>
+        </a>
+
+        <a href="pricing" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, #ECFDF3, #D1FADF);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-pages">Pages</span>
+            <div class="card-title">Pricing</div>
+            <div class="card-desc">3-tier pricing cards with billing toggle, feature comparison table, and FAQ accordion.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              1 page
+            </div>
+          </div>
+        </a>
+
+        <a href="settings" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, var(--color-gray-50), var(--color-gray-100));">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-pages">Pages</span>
+            <div class="card-title">Settings</div>
+            <div class="card-desc">Profile form, account settings, notification toggles, and danger zone with tabbed sections.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              1 page
+            </div>
+          </div>
+        </a>
+
+        <a href="saas-landing-page" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, var(--color-secondary-50), #FFE0C2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-pages">Pages</span>
+            <div class="card-title">SaaS landing page</div>
+            <div class="card-desc">Hero section, features, testimonials, and call-to-action sections for a SaaS product.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              1 page
+            </div>
+          </div>
+        </a>
+
+        <a href="errors/404" class="card">
+          <div class="card-img" style="background: linear-gradient(135deg, #FEF3F2, #FEE4E2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#F04438" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            <div class="card-img-overlay"></div>
+          </div>
+          <div class="card-body">
+            <span class="card-badge badge-error">Error</span>
+            <div class="card-title">Error pages</div>
+            <div class="card-desc">404 not found, 500 server error, and scheduled maintenance page with progress indicator.</div>
+            <div class="card-pages">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              3 pages
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/gravitano/morpheme-design-skill" target="_blank" rel="noopener">GitHub</a>
+        <a href="docs">Documentation</a>
+        <a href="https://gits.id" target="_blank" rel="noopener">gits.id</a>
+      </div>
+      <p>Built with the Morpheme UI design system by gits.id</p>
+    </div>
+  </footer>
+
+</body>
+</html>
