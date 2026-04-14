@@ -17,10 +17,10 @@ You are building UI that **must** follow the Morpheme UI Design System. Read `@D
 
 Before generating any UI code:
 
-1. **Read `@DESIGN.md`** fully — it contains all tokens, component specs, and rules.
-2. Identify which components from DESIGN.md sections 8.1–8.7 are needed.
-3. Plan the layout using the 12-column grid system (§11).
-4. Choose the correct typography tokens (§3) and spacing tokens (§4).
+1. Review all specifications in this skill document — tokens, component specs, and rules are defined below.
+2. Identify which components are needed (see Component specifications section).
+3. Plan the layout using the 12-column grid system (see Layout & grid section).
+4. Choose the correct typography and spacing tokens (see Typography and Spacing sections below).
 
 ## Mandatory CSS variables
 
@@ -64,7 +64,7 @@ font-family: var(--font-family);    /* NOT "Poppins" directly */
 
 ## Component specifications
 
-When building these components, follow DESIGN.md §8 exactly:
+When building these components, follow the specs below exactly:
 
 ### Buttons
 - **Sizes**: `lg` 52px, `md` 44px (default), `sm` 36px, `xs` 28px — font/icon scale proportionally
