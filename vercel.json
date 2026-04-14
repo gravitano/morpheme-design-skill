@@ -1,7 +1,7 @@
 {
   "outputDirectory": "examples",
   "cleanUrls": true,
-  "trailingSlash": false,
+  "trailingSlash": true,
   "headers": [
     {
       "source": "/(.*)",
