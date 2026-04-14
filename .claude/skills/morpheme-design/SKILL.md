@@ -67,12 +67,15 @@ font-family: var(--font-family);    /* NOT "Poppins" directly */
 When building these components, follow DESIGN.md §8 exactly:
 
 ### Buttons
-- Height: 44px default, 36px sm, 52px lg
-- Primary: `--color-primary` bg, white text, `--radius-lg`, Poppins Medium 16px
-- Secondary: transparent bg, primary border 1.5px, primary text
-- Destructive: `--color-error` bg, white text
-- Ghost: no border/bg, primary text
-- Disabled: `opacity: 0.4`
+- **Sizes**: `lg` 52px, `md` 44px (default), `sm` 36px, `xs` 28px — font/icon scale proportionally
+- **Color groups**: Primary (`--color-primary`) and Destructive (`--color-error`)
+- **4 style variants per color**:
+  - **Filled**: solid bg, white text/icon
+  - **Outlined**: transparent bg, 1.5px border in brand color, brand-colored text/icon
+  - **Text (ghost)**: no border/bg, brand-colored text/icon
+  - **Icon-only**: square (`--radius-lg`) or rounded (`--radius-full`), width = height
+- **Icon layouts**: text-only, icon-left, icon-right, icon-both (gap 8px)
+- **States**: default → hover (1 shade darker / tint bg) → active (2 shades) → focus (outline 2px) → disabled (`opacity: 0.4`) → loading (3-dot indicator)
 - Hover transitions: 100ms ease-out minimum
 
 ### Form inputs

@@ -1,6 +1,6 @@
-# Morpheme Design System Reference
+# Morpheme Design Skill
 
-Design token reference and example implementations for the **Morpheme UI Design System** by [gits.id](https://gits.id).
+A Claude Code skill that enforces the **Morpheme UI Design System** by [gits.id](https://gits.id) when building web pages, apps, or UI components. Includes the full design system specification and 10 example implementations.
 
 ## What's inside
 
@@ -60,8 +60,8 @@ Foundation Colors  →  Brand Colors  →  Semantic Colors
 Clone the repo into your project or a shared location — the skill is ready to use:
 
 ```bash
-git clone https://github.com/gravitano/morpheme-design-md.git
-cd morpheme-design-md
+git clone https://github.com/gravitano/morpheme-design-skill.git
+cd morpheme-design-skill
 claude  # start Claude Code — the skill is auto-discovered
 ```
 
@@ -74,18 +74,18 @@ Copy the `.claude/skills/morpheme-design/` directory and `DESIGN.md` into your p
 mkdir -p .claude/skills/morpheme-design
 
 # Copy the skill and design reference
-cp /path/to/morpheme-design-md/.claude/skills/morpheme-design/SKILL.md .claude/skills/morpheme-design/
-cp /path/to/morpheme-design-md/DESIGN.md .
+cp /path/to/morpheme-design-skill/.claude/skills/morpheme-design/SKILL.md .claude/skills/morpheme-design/
+cp /path/to/morpheme-design-skill/DESIGN.md .
 
 # Optionally copy the CLAUDE.md for project-level instructions
-cp /path/to/morpheme-design-md/CLAUDE.md .
+cp /path/to/morpheme-design-skill/CLAUDE.md .
 ```
 
 ### Option 3: Install via Claude Code `/install-skill`
 
 ```bash
 # Inside Claude Code
-/install-skill https://github.com/gravitano/morpheme-design-md
+/install-skill https://github.com/gravitano/morpheme-design-skill
 ```
 
 ### Verify installation

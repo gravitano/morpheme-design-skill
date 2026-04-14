@@ -255,33 +255,141 @@ Light variants use a white base, dark variants use a dark navy base.
 
 ### 8.1 Buttons
 
+Buttons are available in **two color groups** (Primary, Destructive) × **four style variants** (Filled, Outlined, Text, Icon-only) × **four sizes** × **five states**.
+
+#### Sizes
+
+| Size | Height | Padding (h) | Font size | Icon size | Icon-only width |
+|------|--------|-------------|-----------|-----------|-----------------|
+| `lg` | 52px   | 0 24px      | 18px      | 24px      | 52px            |
+| `md` | 44px   | 0 18px      | 16px      | 20px      | 44px            |
+| `sm` | 36px   | 0 14px      | 14px      | 16px      | 36px            |
+| `xs` | 28px   | 0 10px      | 12px      | 14px      | 28px            |
+
+- Font weight: Medium (500) for all sizes.
+- Default size is `md` (44px).
+
+#### Icon placement
+
+Every non-icon-only button supports these content layouts:
+
+| Layout | Description |
+|--------|-------------|
+| Text only | Label centered, no icon |
+| Icon left | Icon before label, gap 8px |
+| Icon right | Icon after label, gap 8px |
+| Icon both | Icons on both sides of label, gap 8px |
+
+Icon-only buttons come in two shapes:
+- **Square** — `border-radius: 8px` (radius-lg)
+- **Rounded** — `border-radius: 9999px` (radius-full)
+
+#### Style variants
+
+##### Filled
+
 ```
-Primary Button:
-  Background: #1D6EEB (colorPrimary500)
+Primary Filled:
+  Background: colorPrimary500 (#1D6EEB)
   Text: #FFFFFF
-  Height: 44px (default), 36px (sm), 52px (lg)
-  Padding: 0 18px
-  Font: Poppins Medium 16px
+  Icon: #FFFFFF
+  Border: none
+  Border-radius: 8px (radius-lg)
+  Hover: colorPrimary600 (#1B69C2)
+  Focus: outline 2px solid colorPrimary500, offset 2px
+  Active: colorPrimary700 (#1554A1)
+  Disabled: opacity 0.4, cursor not-allowed
+
+Destructive Filled:
+  Background: error500 (#F04438)
+  Text: #FFFFFF
+  Icon: #FFFFFF
+  Hover: #D92D20
+  Active: #B42318
+  Disabled: opacity 0.4
+```
+
+##### Outlined
+
+```
+Primary Outlined:
+  Background: transparent
+  Border: 1.5px solid colorPrimary500 (#1D6EEB)
+  Text: colorPrimary500
+  Icon: colorPrimary500
   Border-radius: 8px
-  Hover: colorPrimary600
+  Hover: background colorPrimary25 (#F5F8FF)
+  Active: background colorPrimary50 (#EBF3FF)
   Disabled: opacity 0.4
 
-Secondary Button:
+Destructive Outlined:
   Background: transparent
-  Border: 1.5px solid #1D6EEB
-  Text: #1D6EEB
-  Hover: colorPrimary25 background
-
-Destructive Button:
-  Background: #F04438
-  Text: #FFFFFF
-  Hover: darker error shade
-
-Ghost / Link Button:
-  No border, no background
-  Text: #1D6EEB
-  Hover: underline or colorPrimary25 bg
+  Border: 1.5px solid error500 (#F04438)
+  Text: #F04438
+  Icon: #F04438
+  Hover: background #FEF3F2
+  Active: background #FEE4E2
+  Disabled: opacity 0.4
 ```
+
+##### Text (Ghost)
+
+```
+Primary Text:
+  Background: transparent
+  Border: none
+  Text: colorPrimary500 (#1D6EEB)
+  Icon: colorPrimary500
+  Hover: background colorPrimary25 (#F5F8FF)
+  Active: background colorPrimary50 (#EBF3FF)
+  Disabled: opacity 0.4
+
+Destructive Text:
+  Background: transparent
+  Border: none
+  Text: #F04438
+  Icon: #F04438
+  Hover: background #FEF3F2
+  Active: background #FEE4E2
+  Disabled: opacity 0.4
+```
+
+##### Icon-only
+
+Same color/state rules as the corresponding style (filled, outlined, or text).
+Width equals height (square aspect ratio). Two shapes available:
+
+```
+Icon-only (square):  border-radius: 8px (radius-lg)
+Icon-only (rounded): border-radius: 9999px (radius-full)
+```
+
+#### Loading state
+
+When loading, the button label and icon are replaced by a **3-dot animated indicator** (centered). The button retains its size, variant, and color. `pointer-events: none` during loading.
+
+```css
+.btn-loading {
+  pointer-events: none;
+  position: relative;
+}
+/* 3 dots: 6px circles, gap 4px, opacity pulse animation */
+```
+
+#### States summary
+
+| State | Change |
+|-------|--------|
+| Default | Base appearance |
+| Hover | Background shifts one shade darker (filled) or adds tint bg (outlined/text) |
+| Focus | `outline: 2px solid currentColor; outline-offset: 2px` |
+| Active | Background shifts two shades darker (filled) or deeper tint (outlined/text) |
+| Disabled | `opacity: 0.4; cursor: not-allowed; pointer-events: none` |
+| Loading | Content replaced by 3-dot indicator, pointer-events none |
+
+#### Transition
+
+All state changes: `100ms ease-out` minimum. Only animate `background`, `opacity`, `box-shadow` — no layout-triggering properties.
 
 ### 8.2 Form Inputs
 
