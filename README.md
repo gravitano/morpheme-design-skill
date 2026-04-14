@@ -62,6 +62,14 @@ Foundation Colors  →  Brand Colors  →  Semantic Colors
 
 ## Installing the skill
 
+### Recommended: one command
+
+```bash
+npx skills add https://github.com/gravitano/morpheme-design-skill --skill morpheme-design
+```
+
+This installs the skill directly into your current project's `.claude/skills/` directory.
+
 ### Option 1: Clone this repo
 
 Clone the repo into your project or a shared location — the skill is ready to use:
