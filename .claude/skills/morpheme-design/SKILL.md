@@ -26,7 +26,9 @@ Before generating any UI code:
 
 ## Mandatory CSS variables
 
-Every page/component MUST include the full `:root` CSS variables block from DESIGN.md §14. Never hardcode values — always reference variables:
+**Skip this section if Tailwind CSS is detected** — use the Tailwind config approach instead (see Output structure → Tailwind CSS).
+
+For all other setups, every page/component MUST include the full `:root` CSS variables block in the global stylesheet. Never hardcode values — always reference variables:
 
 ```css
 /* Always use semantic tokens */
@@ -48,7 +50,7 @@ font-family: var(--font-family);    /* NOT "Poppins" directly */
 
 ## Typography rules
 
-- **Font**: `"Poppins"` with system fallback stack. Load from Google Fonts:
+- **Font**: `"Poppins"` with system fallback stack. Load method depends on framework — see Output structure section for the correct approach per framework. For plain HTML only:
   ```html
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   ```
@@ -93,10 +95,10 @@ When building these components, follow the specs below exactly:
 
 ### Badges/Chips
 - Pill shape (`--radius-full`), Poppins Medium 12px, 22px height
-- Info: `bg #EFF8FF, text #175CD3`
-- Success: `bg #ECFDF3, text #027A48`
-- Warning: `bg #FFFAEB, text #B54708`
-- Error: `bg #FEF3F2, text #B42318`
+- Info: `background: var(--color-info-bg, #EFF8FF); color: var(--color-info-text, #175CD3)`
+- Success: `background: var(--color-success-bg, #ECFDF3); color: var(--color-success-text, #027A48)`
+- Warning: `background: var(--color-warning-bg, #FFFAEB); color: var(--color-warning-text, #B54708)`
+- Error: `background: var(--color-error-bg, #FEF3F2); color: var(--color-error-text, #B42318)`
 
 ### Alerts
 - 16px padding, `--radius-lg`, `border-left: 4px solid {semantic-color}`
@@ -259,6 +261,13 @@ export default {
         1: '4px', 2: '8px', 3: '12px', 4: '16px', 5: '20px', 6: '24px',
         8: '32px', 10: '40px', 12: '48px', 16: '64px', 20: '80px', 24: '96px',
       },
+      transitionDuration: {
+        fast: '100ms', base: '150ms', slow: '200ms', slower: '300ms',
+      },
+      transitionTimingFunction: {
+        'ease-out':    'cubic-bezier(0.0, 0.0, 0.2, 1)',
+        'ease-in-out': 'cubic-bezier(0.4, 0.0, 0.2, 1)',
+      },
     },
   },
 }
@@ -270,8 +279,6 @@ Then use utility classes: `bg-primary`, `text-gray-700`, `rounded-lg`, `shadow-m
 
 ### Next.js (App Router)
 
-Generate `.tsx` components in `app/` or `components/`:
-
 - `className` not `class`; `htmlFor` not `for`
 - Load Poppins via `next/font/google`:
   ```tsx
@@ -281,14 +288,14 @@ Generate `.tsx` components in `app/` or `components/`:
 - CSS variables go in `app/globals.css`, not inline `<style>` tags
 - Add `'use client'` only when hooks or browser APIs are needed
 - Prefer Server Components by default
+- File placement: `components/ComponentName.tsx` (shared) or `app/(route)/components/ComponentName.tsx` (route-scoped)
 
 ### React (Vite / CRA)
-
-Generate `.tsx` components:
 
 - `className` not `class`; `htmlFor` not `for`
 - Load Poppins via `<link>` in `index.html` or via a CSS `@import` in `index.css`
 - CSS variables go in `index.css` or a dedicated `tokens.css`
+- File placement: `src/components/ComponentName.tsx`
 
 ### TanStack Start
 
@@ -319,14 +326,21 @@ Generate `.vue` single-file components:
 
 - CSS variables go in `assets/css/tokens.css` (Nuxt) or `src/assets/main.css` (Vue)
 - Load Poppins via `@import url(...)` in global CSS
+- File placement: `components/ComponentName.vue` (Nuxt auto-import) or `src/components/ComponentName.vue` (Vue)
 
 ### SvelteKit / Svelte
 
-Generate `.svelte` components:
+Generate `.svelte` components. Check which Svelte version is in use:
+
+| Version | Signal | Event syntax |
+|---------|--------|--------------|
+| Svelte 5 (runes) | `svelte@^5`, uses `$state`, `$props` | `onclick={handler}` |
+| Svelte 4 | `svelte@^4` | `on:click={handler}` |
 
 ```svelte
 <script lang="ts">
-  // component logic
+  // Svelte 5: let { label } = $props()
+  // Svelte 4: export let label: string
 </script>
 
 <main>
@@ -340,19 +354,22 @@ Generate `.svelte` components:
 
 - CSS variables go in `src/app.css` or `src/lib/styles/tokens.css`
 - Load Poppins via `@import url(...)` in `app.css`
-- Use `on:click` not `onClick`
+- File placement: `src/lib/components/ComponentName.svelte`
 
 ### Analog.js (Angular)
 
 Generate Angular components (`.component.ts` + `.component.html` + `.component.css`):
 
 - Use `@Component` decorator with `standalone: true`
-- Bindings: `[class]`, `(click)`, `*ngIf` / `@if` (Angular 17+)
+- Angular 17+: prefer `@if`, `@for` control flow over `*ngIf`, `*ngFor`
+- Angular 16+: use Signals for reactive state (`signal()`, `computed()`, `effect()`) — not RxJS `BehaviorSubject` for simple local state
+- Bindings: `[class]`, `(click)`
 - CSS variables go in `src/styles.css`
 - Load Poppins via `@import url(...)` in `styles.css`
+- File placement: `src/app/components/component-name/component-name.component.ts`
 
 ```ts
-import { Component } from '@angular/core'
+import { Component, signal, computed } from '@angular/core'
 
 @Component({
   selector: 'app-component-name',
@@ -360,7 +377,11 @@ import { Component } from '@angular/core'
   templateUrl: './component-name.component.html',
   styleUrl: './component-name.component.css',
 })
-export class ComponentNameComponent {}
+export class ComponentNameComponent {
+  // Use signals for reactive state
+  count = signal(0)
+  doubled = computed(() => this.count() * 2)
+}
 ```
 
 ### Solid.js
@@ -371,6 +392,7 @@ Generate `.tsx` components using Solid primitives:
 - `class` not `className` (Solid uses `class`)
 - CSS variables go in `src/index.css`
 - Load Poppins via `@import url(...)` in global CSS
+- File placement: `src/components/ComponentName.tsx`
 
 ```tsx
 import { Component } from 'solid-js'
