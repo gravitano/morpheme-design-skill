@@ -707,6 +707,10 @@ ul, ol { list-style: none; }
   gap: var(--space-3);
 }
 
+.article-card-body .badge {
+  align-self: flex-start;
+}
+
 .article-card-title {
   font-size: var(--text-md);
   font-weight: 600;
