@@ -166,7 +166,45 @@ Use the shadow scale for depth hierarchy:
 
 ## Output structure
 
-When generating a complete page, structure the HTML as:
+**Always detect the framework from the project context before generating code.**
+
+### Next.js / React (TSX)
+
+When working in a Next.js or React project, generate `.tsx` components — never plain HTML files:
+
+```tsx
+// Use CSS Modules or Tailwind if already in use in the project.
+// Otherwise inline styles or a <style> tag via a global CSS file.
+
+// For CSS variables, add to globals.css or a dedicated tokens.css:
+// :root { --color-primary: #1D6EEB; ... }
+
+export default function ComponentName() {
+  return (
+    <main>
+      {/* Semantic JSX structure */}
+    </main>
+  )
+}
+```
+
+- Use `className` not `class`
+- Use `htmlFor` not `for` on labels
+- Load Poppins via `next/font/google`, not a `<link>` tag:
+  ```tsx
+  import { Poppins } from 'next/font/google'
+  const poppins = Poppins({ subsets: ['latin'], weight: ['400','500','600','700'] })
+  ```
+- CSS variables go in `globals.css` (or a shared tokens file), not inline `<style>` tags
+- Client interactivity requires `'use client'` directive
+
+### Vue / Nuxt
+
+Generate `.vue` single-file components with `<template>`, `<script setup lang="ts">`, and `<style scoped>`.
+
+### Plain HTML (no framework detected)
+
+Only fall back to full HTML when there is no framework in the project:
 
 ```html
 <!DOCTYPE html>
@@ -178,7 +216,7 @@ When generating a complete page, structure the HTML as:
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* 1. CSS Reset / Normalize */
-    /* 2. :root variables from DESIGN.md §14 */
+    /* 2. :root variables (§14) */
     /* 3. Base styles */
     /* 4. Component styles using var() tokens */
     /* 5. Layout styles */
