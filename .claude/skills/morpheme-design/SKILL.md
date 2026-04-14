@@ -61,10 +61,12 @@ font-family: var(--font-family);    /* NOT "Poppins" directly */
 
 ## Spacing rules
 
-- All spacing is **multiples of 4px**. Use `--space-{1..24}` tokens.
-- Default component padding: `--space-4` (16px).
-- Card inner padding: `--space-6` (24px).
-- Section gaps: `--space-8` (32px) small, `--space-12` (48px) medium, `--space-24` (96px) large.
+- All spacing is **multiples of 4px**.
+- **Plain CSS / CSS Modules**: use `--space-{1..24}` tokens (e.g. `var(--space-6)` for 24px).
+- **Tailwind (v3 or v4)**: use utility classes (`p-6`, `gap-4`, `mt-8`) — do NOT mix with `var(--space-*)`.
+- Default component padding: 16px (`--space-4` / `p-4`).
+- Card inner padding: 24px (`--space-6` / `p-6`).
+- Section gaps: 32px small, 48px medium, 96px large.
 
 ## Component specifications
 
@@ -84,8 +86,8 @@ When building these components, follow the specs below exactly:
 
 ### Form inputs
 - Height: 44px, border `1.5px solid var(--color-gray-300)`, `--radius-lg`
-- Focus: primary border + `box-shadow: 0 0 0 4px rgba(29,110,235,0.12)`
-- Error: error border + `box-shadow: 0 0 0 4px rgba(240,68,56,0.12)`
+- Focus: primary border + `box-shadow: 0 0 0 4px var(--color-primary-focus-ring, rgba(29,110,235,0.12))`
+- Error: error border + `box-shadow: 0 0 0 4px var(--color-error-focus-ring, rgba(240,68,56,0.12))`
 - Labels: Poppins Medium 14px, `--color-gray-700`
 - All inputs MUST have associated `<label>` via `for`/`id`
 
@@ -189,7 +191,7 @@ Never default to plain HTML when a framework is present in the project and the u
 |-----------|-------------------|
 | Next.js | `next` in deps, `next.config.*` |
 | React (Vite/CRA) | `react` in deps, `vite.config.*`, no `next` |
-| TanStack Start | `@tanstack/start` or `@tanstack/react-router` + `app/routes/` |
+| TanStack Start | `@tanstack/react-start` or `@tanstack/start` (legacy) in deps, `app/routes/` directory |
 | Nuxt 4 | `nuxt@^4` in `package.json`, or `compatibilityVersion: 4` in `nuxt.config.*`, or `app/` dir with `components/`/`pages/` inside |
 | Nuxt 3 | `nuxt@^3` in `package.json`, no signals above |
 | Vue (Vite) | `vue` in deps, `vite.config.*`, no `nuxt.config.*` |
@@ -284,19 +286,8 @@ No `tailwind.config.*` — tokens are defined in CSS using `@theme`:
   --shadow-xl:  0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03);
   --shadow-2xl: 0 24px 48px -12px rgba(16,24,40,0.18);
 
-  /* Spacing — Tailwind v4 uses --spacing-* scale */
-  --spacing-1:  4px;
-  --spacing-2:  8px;
-  --spacing-3:  12px;
-  --spacing-4:  16px;
-  --spacing-5:  20px;
-  --spacing-6:  24px;
-  --spacing-8:  32px;
-  --spacing-10: 40px;
-  --spacing-12: 48px;
-  --spacing-16: 64px;
-  --spacing-20: 80px;
-  --spacing-24: 96px;
+  /* Spacing — no override needed. Tailwind v4 default spacing unit is 0.25rem (4px),
+     so p-4=16px, p-6=24px, p-8=32px etc. already match the Morpheme 4px grid exactly. */
 
   /* Motion */
   --duration-fast:   100ms;
