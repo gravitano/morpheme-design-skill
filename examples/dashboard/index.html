@@ -623,12 +623,12 @@
     }
 
     .stat-icon-success {
-      background: #ECFDF3;
+      background: var(--color-success-bg, #ECFDF3);
       color: var(--color-success);
     }
 
     .stat-icon-warning {
-      background: #FFFAEB;
+      background: var(--color-warning-bg, #FFFAEB);
       color: var(--color-warning);
     }
 
@@ -747,23 +747,23 @@
     }
 
     .badge-info {
-      background: #EFF8FF;
-      color: #175CD3;
+      background: var(--color-info-bg, #EFF8FF);
+      color: var(--color-info-text, #175CD3);
     }
 
     .badge-success {
-      background: #ECFDF3;
-      color: #027A48;
+      background: var(--color-success-bg, #ECFDF3);
+      color: var(--color-success-text, #027A48);
     }
 
     .badge-warning {
-      background: #FFFAEB;
-      color: #B54708;
+      background: var(--color-warning-bg, #FFFAEB);
+      color: var(--color-warning-text, #B54708);
     }
 
     .badge-error {
-      background: #FEF3F2;
-      color: #B42318;
+      background: var(--color-error-bg, #FEF3F2);
+      color: var(--color-error-text, #B42318);
     }
 
     /* --- Table --- */
@@ -944,22 +944,22 @@
     }
 
     .activity-dot-success {
-      background: #ECFDF3;
+      background: var(--color-success-bg, #ECFDF3);
       color: var(--color-success);
     }
 
     .activity-dot-info {
-      background: #EFF8FF;
+      background: var(--color-info-bg, #EFF8FF);
       color: var(--color-info);
     }
 
     .activity-dot-warning {
-      background: #FFFAEB;
+      background: var(--color-warning-bg, #FFFAEB);
       color: var(--color-warning);
     }
 
     .activity-dot-error {
-      background: #FEF3F2;
+      background: var(--color-error-bg, #FEF3F2);
       color: var(--color-error);
     }
 
@@ -1005,7 +1005,7 @@
     }
 
     .alert-info {
-      background: #EFF8FF;
+      background: var(--color-info-bg, #EFF8FF);
       border-color: var(--color-primary);
       color: var(--color-gray-700);
     }
@@ -1015,7 +1015,7 @@
     }
 
     .alert-warning {
-      background: #FFFAEB;
+      background: var(--color-warning-bg, #FFFAEB);
       border-color: var(--color-warning);
       color: var(--color-gray-700);
     }
