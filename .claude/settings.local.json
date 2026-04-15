@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p .claude/skills/morpheme-design/references)",
+      "Bash(git mv *)"
+    ]
+  }
+}
